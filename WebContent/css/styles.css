@@ -1,0 +1,14 @@
+header {
+	background-color: #D1D1D1;
+	font-size: 30px;
+}
+
+#content {
+	font-size: 15px;
+}
+
+footer {
+	background-color: red;
+	text-align: center;
+	font-size: 12px;
+}
