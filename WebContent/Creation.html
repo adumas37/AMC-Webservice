@@ -16,14 +16,18 @@
 
 	<div id="content">Creation d'un nouveau questionnaire:
 		<form id='creationForm' method='post' action='rest/creation' >
-			<p id="question">
-				Question: <input type='text' name='q1' id="questionInput"/>
-			</p>
-			<p id="reponse">
-				Reponse: <input type="text" name="r1.1" id="reponseInput"/>
-				<span id="checkbox">Bonne reponse?<input type="checkbox" name="c1"/></span>
-				<span id="add"><input type="button" name="addQ" value="Ajouter reponse" onclick="AjoutQuestion(this)" /></span>
-			</p>
+			<question>
+				<p id="question">
+					Question: <input type='text' name='q1' id="questionInput"/>
+				</p>
+				<reponses>
+					<p id="reponse">
+						Reponse: <input type="text" name="r1.1" id="reponseInput"/>
+						<span id="checkbox">Bonne reponse?<input type="checkbox" name="c1"/></span>
+						<span id="add"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
+					</p>
+				</reponses>
+			</question>
 			<p id="submit">
 				<input type="submit" name="submit" value="Creer questionnaire">
 			</p>
