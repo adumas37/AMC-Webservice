@@ -15,12 +15,17 @@
 	<hr>
 
 	<div id="content">Creation d'un nouveau questionnaire:
-		<form>
+		<form id='creationForm' method='post' action='rest/creation' >
 			<p id="question">
 				Question: <input type='text' name='q1' id="questionInput"/>
 			</p>
 			<p id="reponse">
-				Reponse: <input type="text" name="r1" id="reponseInput"/><span id="checkbox">Bonne reponse?<input type="checkbox" name="c1"/></span><span id="add"></span>
+				Reponse: <input type="text" name="r1.1" id="reponseInput"/>
+				<span id="checkbox">Bonne reponse?<input type="checkbox" name="c1"/></span>
+				<span id="add"><input type="button" name="addQ" value="Ajouter reponse" onclick="AjoutQuestion(this)" /></span>
+			</p>
+			<p id="submit">
+				<input type="submit" name="submit" value="Creer questionnaire">
 			</p>
 		</form>
 			
