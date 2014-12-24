@@ -2,13 +2,33 @@ header {
 	background-color: #D1D1D1;
 	font-size: 30px;
 }
-
-#content {
-	font-size: 15px;
-}
-
 footer {
 	background-color: red;
 	text-align: center;
 	font-size: 12px;
 }
+
+#content {
+	font-size: 15px;
+}
+
+
+input {
+	margin-left: 3px;
+}
+#questionInput{
+	width: 90%;
+}
+#question {
+	margin-left: 10px;
+}
+#reponse {
+	margin-left: 50px;
+}
+#reponseInput {
+	width: 50%;
+}
+#checkbox{
+	margin-left: 20px;
+}
+
