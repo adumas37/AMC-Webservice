@@ -25,7 +25,10 @@ function ajoutReponse(elmnt){
 	elmnt.parentNode.parentNode.parentNode.appendChild(reponse2);
 };
 
-
+function suprReponse(elmnt){
+	var element = elmnt.parentNode.parentNode;
+	element.parentNode.removeChild(element);
+}
 
 
 /*
