@@ -16,22 +16,22 @@ footer {
 input {
 	margin-left: 3px;
 }
-#questionInput{
+.questionInput{
 	width: 70%;
 }
-#question {
+.question {
 	margin-left: 10px;
 }
-#reponse {
+.reponse {
 	margin-left: 50px;
 }
-#reponseInput {
+.reponseInput {
 	width: 50%;
 }
-#checkbox{
+.checkbox{
 	margin-left: 20px;
 }
-#add {
+.add {
 	margin-left: 20px;
 }
 
