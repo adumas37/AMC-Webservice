@@ -4,7 +4,7 @@
 
 function ajoutReponse(elmnt){
 	
-	var reponse = document.getElementById("reponse");
+	var reponse = document.getElementsByClassName("reponse")[0];
 	var reponse2 = reponse.cloneNode(true);
 	//reponse2.firstChildNode.getElementById("reponseInput").setAttribute("text","");
 	//TODO reset du texte affiche dans la reponse
@@ -13,7 +13,7 @@ function ajoutReponse(elmnt){
 
 function ajoutQuestion(elmnt){
 	
-	var question1 = document.getElementById("blocQR");
+	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
 	//TODO reset des textes de question/Reponses et ne garder qu'un reponse
 	elmnt.parentNode.parentNode.parentNode.parentNode.appendChild(question);
