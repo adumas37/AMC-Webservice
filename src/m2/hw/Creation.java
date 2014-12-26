@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -38,6 +40,7 @@ public class Creation {
 	      fw.write(formerImports());
 	      fw.write("\\begin{document}\n\n");
 	      fw.write(formerEntete("maths","12/12/12"));
+	      fw.write(formerQuestionnaire(data));
 	      fw.write("\\end{document}");
 	      fw.close();
 
@@ -73,7 +76,7 @@ public class Creation {
 	private String formerEntete(String matiere, String date){
 		String entete= new String();
 		
-		entete = "\t%%% En-tête des copies \n" 
+		entete = "\t%%% En-tête des copies \n\n" 
 				+"\t\\noindent{\\bf QCM  \\hfill TEST}\n\n"
 			
 				+"\t\\vspace*{.5cm}\n"
@@ -101,7 +104,8 @@ public class Creation {
 				+"\tDes points négatifs pourront être affectés à de \\emph{très\n"
 				+"\tmauvaises} réponses.\n"
 				+"\t\\end{center}\n"
-				+"\t\\vspace{1ex}\n";
+				+"\t\\vspace{1ex}\n\n"
+				+"\t%%% fin de l'en-tête des copies\n\n\n";
 		
 		
 		return entete;
@@ -112,8 +116,69 @@ public class Creation {
 	 * @param data
 	 * @return
 	 */
-	private String formerQuestionnaire(String data){
-		String questionnaire = new String();
+	private String formerQuestionnaire(String data){	
+		String questionnaire = "\t%%% Debut du questionnaire\n\n";
+		String[] chaines = null;
+		String[] questions = null;
+		String[] questionsReponses = null;
+		String typeQuestion = null;
+		
+		if (data.contains("&submit=")){
+			chaines = data.split("&submit=");
+			//chaines[0] contient les questions/reponse et donnees sur la matiere, date et nb de copies
+			//chaines[1] contient l'information sur le submit
+			
+			if (data.contains("&question=")){
+				
+				questions = chaines[0].split("&question=");
+				//chaque questions[i] contient la question et ses reponses
+				//questions[0] contient les donnees sur la matière, la date et le nombre de copies
+				
+				for (int i=1 ; i<questions.length ; i++){//pour chaque question et ses reponses
+					//System.out.println("question "+i+": "+questions[i]);
+					
+					String[] testMulti = questions[i].split("&bonne=");
+					if (testMulti.length > 2 ){//s'il y a plusieurs bonnes reponses
+						typeQuestion = "questionmult";
+					}
+					else {
+						typeQuestion = "question";
+					}
+							
+							
+					questionsReponses = questions[i].split("&reponse=");
+					
+					questionnaire += "\t\\begin{"+typeQuestion+"}{Q"+i+"}\n";
+					questionnaire += "\t\t"+questionsReponses[0]+"\n";
+					questionnaire += "\t\t\\begin{reponses}\n";
+					
+					for (int j=1 ; j<questionsReponses.length ; j++){
+						if (questionsReponses[j].contains("&bonne=")){//si la reponse est bonne
+							questionnaire += "\t\t\t\\bonne{"+questionsReponses[j].split("&bonne=")[0]
+									+"}\n";
+						}
+						else {
+							questionnaire += "\t\t\t\\mauvaise{"+questionsReponses[j]+"}\n";
+						}
+						
+						
+					}
+					questionnaire +="\t\t\\end{reponses}\n";
+					questionnaire += "\t\\end{"+typeQuestion+"}\n\n";
+					
+					
+					
+				}
+				
+			}
+			else {//ne contient pas "&question="
+				return null;
+			}
+		}
+		else {//ne contient pas "&submit="
+			return null;
+		}
+		questionnaire += "\t%%% Fin du questionnaire\n\n";
 		
 		return questionnaire;
 	}
