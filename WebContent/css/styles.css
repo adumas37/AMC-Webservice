@@ -22,8 +22,20 @@ input {
 #matiere {
 	margin-left: 10px;
 }
+.matiereInput {
+	width: 100px;
+}
 #date {
 	margin-left: 50px;
+}
+.dateInput {
+	width: 100px;
+}
+#nbCopies {
+	margin-left: 50px;
+}
+.nbCopiesImput {
+	width: 30px;
 }
 .questionInput{
 	width: 70%;

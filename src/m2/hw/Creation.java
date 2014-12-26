@@ -108,7 +108,7 @@ public class Creation {
 	}
 	
 	/**
-	 * Permet de fromer le questionnaire en latex a partir des données recue depuis le webservice
+	 * Permet de former le questionnaire en latex a partir des donnees recue depuis le webservice
 	 * @param data
 	 * @return
 	 */
