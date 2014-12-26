@@ -34,12 +34,14 @@ public class Creation {
 	private void ecrireFichier(String data){
 		File file = new File("MATHS.txt");
 	    FileWriter fw;
+	    int nbCopies = 1;
 			
 	    try {
 	      fw = new FileWriter(file);
 	      fw.write(formerImports());
 	      fw.write("\\begin{document}\n\n");
-	      fw.write(formerEntete("maths","12/12/12"));
+	      fw.write("\\exemplaire{"+nbCopies+"}{\n\n");
+	      fw.write(formerEntete(data));
 	      fw.write(formerQuestionnaire(data));
 	      fw.write("\\end{document}");
 	      fw.close();
@@ -68,13 +70,25 @@ public class Creation {
 		return imports;
 	}
 	/**
-	 * Permet de creer et renvoyer l'entete du fichier latex, a partir de la date du DS et la matiere
-	 * @param matiere
-	 * @param date
+	 * Permet de creer et renvoyer l'entete du fichier latex, a partir des donnes recues
+	 * @param data
 	 * @return
 	 */
-	private String formerEntete(String matiere, String date){
+	private String formerEntete(String data){
 		String entete= new String();
+		String donnees = null;
+		String matiere = "VVVVVVV";
+		String date = "JJ/MM/AAAA";
+		
+		//matiere=sd%3Cf&matiere=sqdf&nbCopies=1&question=que
+		
+		if (data.contains("&nbCopies=")){
+			donnees = data.split("&nbCopies=")[0];
+			matiere = donnees.split("&date=")[0];
+			matiere = matiere.split("=")[1];
+			date = donnees.split("&date=")[1];
+		}
+		
 		
 		entete = "\t%%% En-tête des copies \n\n" 
 				+"\t\\noindent{\\bf QCM  \\hfill TEST}\n\n"
