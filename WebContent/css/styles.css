@@ -16,6 +16,15 @@ footer {
 input {
 	margin-left: 3px;
 }
+#entete {
+	background-color: lavender;
+}
+#matiere {
+	margin-left: 10px;
+}
+#date {
+	margin-left: 50px;
+}
 .questionInput{
 	width: 70%;
 }

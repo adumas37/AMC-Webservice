@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html >
 <html lang="fr">
 <head>
 	<title>AMC - Creation de questionnaire</title>
@@ -15,11 +15,15 @@
 	<hr>
 
 	<div id="content">Creation d'un nouveau questionnaire:
-		<form id='creationForm' method='post' action='rest/creation' >
+		<form id="creationForm" method="post" action="rest/creation" >
 			<questionnaire id="questionnaire">
+				<p id="entete">
+					<span id="matiere">Matiere:<input class="matiereInput" name="matiere" type="text"/></span>
+					<span id="date">Date (jj/mm/aaaa):<input class="matiereInput" name="matiere" type="text"/></span>
+				</p>
 				<blocQR class="blocQR">
 					<p class="question">
-						Question: <input type='text' name='question' class="questionInput"/>
+						Question: <input type="text" name="question" class="questionInput"/>
 						<span class="add"><input type="button" name="addQ" value="Ajouter question" onclick="ajoutQuestion(this)" /></span>
 						<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" /></span>
 					</p>

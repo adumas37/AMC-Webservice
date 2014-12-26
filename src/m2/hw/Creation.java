@@ -13,7 +13,7 @@ public class Creation {
 	public void creation(String data){
 		System.out.println(data);
 		/* Exemple de data pour un questionnaire à 2question, 2 rep pour la première et une pour la deuxieme question:
-		 * q1=LA+question+1&r1.1=LA+reponse+1.1&c1=on&r1.1=LA+reponse+1.2&c1=on&q1=LA%2Bquestion+2&r1.1=LA+reponse+2.1&c1=on&submit=Creer+questionnaire
+		 * question=LA+question+1&reponse=rep1.1&bonne=on&reponse=rep1.2&question=LA+question+2&reponse=rep2.1&bonne=on&submit=Creer+questionnaire
 		 */
 	}
 }
