@@ -1,5 +1,13 @@
 package m2.hw;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,12 +23,24 @@ public class Creation {
 		/* Exemple de data pour un questionnaire à 2question, 2 rep pour la première et une pour la deuxieme question:
 		 * matiere=maths&date=26%2F12%2F2014&question=1%2B1%3D&reponse=1&reponse=2&bonne=on&question=La+question+facile&reponse=oui&bonne=on&submit=Creer+questionnaire
 		 */
-		System.out.println(formerEntete("maths","12/12/12"));
-		ecrireFichier();
+		ecrireFichier(data);
 	}
 	
-	private void ecrireFichier(){
-		
+	private void ecrireFichier(String data){
+		File file = new File("MATHS.txt");
+	    FileWriter fw;
+	    FileReader fr;
+			
+	    try {
+	      fw = new FileWriter(file);
+	      fw.write(formerEntete("maths","12/12/12"));
+	      fw.close();
+
+	    } catch (FileNotFoundException e) {
+	      e.printStackTrace();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
 	}
 	
 	
