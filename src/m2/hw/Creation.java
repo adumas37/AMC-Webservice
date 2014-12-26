@@ -35,7 +35,10 @@ public class Creation {
 			
 	    try {
 	      fw = new FileWriter(file);
+	      fw.write(formerImports());
+	      fw.write("\\begin{document}\n\n");
 	      fw.write(formerEntete("maths","12/12/12"));
+	      fw.write("\\end{document}");
 	      fw.close();
 
 	    } catch (FileNotFoundException e) {
@@ -45,6 +48,22 @@ public class Creation {
 	    }
 	}
 	
+	/**
+	 * Permet de former la liste des imports pour le fichier latex
+	 * @return
+	 */
+	private String formerImports(){
+		String imports = new String();
+		
+		imports= "\\documentclass[a4paper]{article}\n\n"
+				
+				+"\\usepackage[utf8x]{inputenc}\n"
+				+"\\usepackage{fontenc}\n"
+				+"\\usepackage{multicol}\n"
+				+"\\usepackage[francais,bloc,completemulti]{automultiplechoice}\n\n";
+		
+		return imports;
+	}
 	/**
 	 * Permet de creer et renvoyer l'entete du fichier latex, a partir de la date du DS et la matiere
 	 * @param matiere
@@ -86,5 +105,16 @@ public class Creation {
 		
 		
 		return entete;
+	}
+	
+	/**
+	 * Permet de fromer le questionnaire en latex a partir des données recue depuis le webservice
+	 * @param data
+	 * @return
+	 */
+	private String formerQuestionnaire(String data){
+		String questionnaire = new String();
+		
+		return questionnaire;
 	}
 }
