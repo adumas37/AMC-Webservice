@@ -3,31 +3,40 @@
  */
 
 function ajoutReponse(elmnt){
-	//elmnt.parentNode.parentNode.parentNode.style.backgroundColor="red";
-	
-	/*var question = document.createElement('p');
-	question.id = "reponse";
-	var texte = document.createTextNode("Reponse: ");
-	
-	var question = document.createElement('p');
-	question.id = "reponse";
-	var texte = document.createTextNode("Reponse: ");
-	var inputText = document.createElement('input');
-	inputText.type="text";
-	inputText.name="testName";
-	inputText.id="reponseInput";
-	texte.appendChild(inputText);
-	question.appendChild(texte);*/
 	
 	var reponse = document.getElementById("reponse");
 	var reponse2 = reponse.cloneNode(true);
+	//reponse2.firstChildNode.getElementById("reponseInput").setAttribute("text","");
 	
 	elmnt.parentNode.parentNode.parentNode.appendChild(reponse2);
 };
 
-function suprReponse(elmnt){
+function ajoutQuestion(elmnt){
+	
+	var question1 = document.getElementById("blocQR");
+	var question = question1.cloneNode(true);
+	
+	elmnt.parentNode.parentNode.parentNode.parentNode.appendChild(question);
+};
+
+function supprReponse(elmnt){
+	
 	var element = elmnt.parentNode.parentNode;
-	element.parentNode.removeChild(element);
+	var nbChild = elmnt.parentNode.parentNode.parentNode.childElementCount;
+	if (nbChild>1){
+		element.parentNode.removeChild(element);
+	}
+	
+}
+
+function supprQuestion(elmnt){
+	
+	var element = elmnt.parentNode.parentNode.parentNode;
+	var nbChild = elmnt.parentNode.parentNode.parentNode.parentNode.childElementCount;
+	if (nbChild>1){
+		element.parentNode.removeChild(element);
+	}
+	
 }
 
 

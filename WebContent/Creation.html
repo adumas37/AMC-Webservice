@@ -16,19 +16,24 @@
 
 	<div id="content">Creation d'un nouveau questionnaire:
 		<form id='creationForm' method='post' action='rest/creation' >
-			<question>
-				<p id="question">
-					Question: <input type='text' name='q1' id="questionInput"/>
-				</p>
-				<reponses>
-					<p id="reponse">
-						Reponse: <input type="text" name="r1.1" id="reponseInput"/>
-						<span id="checkbox">Bonne reponse?<input type="checkbox" name="c1"/></span>
-						<span id="add"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
-						<span id="del"><input type="button" name="delQ" value="Supprimer reponse" onclick="suprReponse(this)" /></span>
+			<questionnaire id="questionnaire">
+				<blocQR id="blocQR">
+					<p id="question">
+						Question: <input type='text' name='q1' id="questionInput"/>
+						<span id="add"><input type="button" name="addQ" value="Ajouter Question" onclick="ajoutQuestion(this)" /></span>
+						<span id="del"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprQuestion(this)" /></span>
 					</p>
-				</reponses>
-			</question>
+					
+					<reponses>
+						<p id="reponse">
+							Reponse: <input type="text" name="r1.1" id="reponseInput"/>
+							<span id="checkbox">Bonne reponse?<input type="checkbox" name="c1"/></span>
+							<span id="add"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
+							<span id="del"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" /></span>
+						</p>
+					</reponses>
+				</blocQR>
+			</questionnaire>
 			<p id="submit">
 				<input type="submit" name="submit" value="Creer questionnaire">
 			</p>
