@@ -1,22 +1,21 @@
 package m2.hw;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 @Path("creation")
 public class Creation {
 
+	/**
+	 * Fonction appellee par le serveur lors de la creation d'un questionnaire
+	 * Permet de creer un fichier latex sur le serveur.
+	 * @param data
+	 */
 	@POST
 	public void creation(String data){
 		System.out.println(data);
@@ -26,10 +25,13 @@ public class Creation {
 		ecrireFichier(data);
 	}
 	
+	/**
+	 * Permet d'ecrire le fichier latex a partir des donnees recues
+	 * @param data
+	 */
 	private void ecrireFichier(String data){
 		File file = new File("MATHS.txt");
 	    FileWriter fw;
-	    FileReader fr;
 			
 	    try {
 	      fw = new FileWriter(file);
@@ -43,39 +45,44 @@ public class Creation {
 	    }
 	}
 	
-	
+	/**
+	 * Permet de creer et renvoyer l'entete du fichier latex, a partir de la date du DS et la matiere
+	 * @param matiere
+	 * @param date
+	 * @return
+	 */
 	private String formerEntete(String matiere, String date){
 		String entete= new String();
 		
-		entete = "%%% En-tête des copies \n" 
-				+"\\noindent{\\bf QCM  \\hfill TEST}\n\n"
+		entete = "\t%%% En-tête des copies \n" 
+				+"\t\\noindent{\\bf QCM  \\hfill TEST}\n\n"
 			
-				+"\\vspace*{.5cm}\n"
-				+"\\begin{minipage}{.4\\linewidth}\n"
-				+"\\centering\\large\\bf "+ matiere +"\\ Examen du " +date +"\\end{minipage}\n"
-				+"\\champnom{\\fbox{\n"
-					            +"\t\\begin{minipage}{.5\\linewidth}\n"
-					            +"\tNom et prénom :\n\n"
+				+"\t\\vspace*{.5cm}\n"
+				+"\t\\begin{minipage}{.4\\linewidth}\n"
+				+"\t\\centering\\large\\bf "+ matiere +"\\ Examen du " +date +"\\end{minipage}\n"
+				+"\t\\champnom{\\fbox{\n"
+					            +"\t\t\\begin{minipage}{.5\\linewidth}\n"
+					            +"\t\tNom et prénom :\n\n"
 			
-					            +"\t\\vspace*{.5cm}\\dotfill\n"
-					            +"\t\\vspace*{1mm}\n"
-					            +"\t\\end{minipage}\n"
-					            +"}}\n\n"
+					            +"\t\t\\vspace*{.5cm}\\dotfill\n"
+					            +"\t\t\\vspace*{1mm}\n"
+					            +"\t\t\\end{minipage}\n"
+				+"\t}}\n\n"
 			
-				+"\\begin{center}\\em\n"
-				+"Durée : 10 minutes.\n\n"
+				+"\t\\begin{center}\\em\n"
+				+"\tDurée : 10 minutes.\n\n"
 			
-				  +"Aucun document n'est autorisé.\n"
-				  +"L'usage de la calculatrice est interdit.\n\n"
+				+"\tAucun document n'est autorisé.\n"
+				+"\tL'usage de la calculatrice est interdit.\n\n"
 			
-				  +"Les questions faisant apparaître le symbole \\multiSymbole{} peuvent\n"
-				  +"présenter zéro, une ou plusieurs bonnes réponses. Les autres ont\n"
-				  +"une unique bonne réponse.\n\n"
+				+"\tLes questions faisant apparaître le symbole \\multiSymbole{} peuvent\n"
+				+"\tprésenter zéro, une ou plusieurs bonnes réponses. Les autres ont\n"
+				+"\tune unique bonne réponse.\n\n"
 			
-				  +"Des points négatifs pourront être affectés à de \\emph{très\n"
-					+"mauvaises} réponses.\n"
-				+"\\end{center}\n"
-				+"\\vspace{1ex}\n";
+				+"\tDes points négatifs pourront être affectés à de \\emph{très\n"
+				+"\tmauvaises} réponses.\n"
+				+"\t\\end{center}\n"
+				+"\t\\vspace{1ex}\n";
 		
 		
 		return entete;
