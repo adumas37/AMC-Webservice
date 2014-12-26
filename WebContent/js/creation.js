@@ -7,7 +7,7 @@ function ajoutReponse(elmnt){
 	var reponse = document.getElementById("reponse");
 	var reponse2 = reponse.cloneNode(true);
 	//reponse2.firstChildNode.getElementById("reponseInput").setAttribute("text","");
-	
+	//TODO reset du texte affiche dans la reponse
 	elmnt.parentNode.parentNode.parentNode.appendChild(reponse2);
 };
 
@@ -15,7 +15,7 @@ function ajoutQuestion(elmnt){
 	
 	var question1 = document.getElementById("blocQR");
 	var question = question1.cloneNode(true);
-	
+	//TODO reset des textes de question/Reponses et ne garder qu'un reponse
 	elmnt.parentNode.parentNode.parentNode.parentNode.appendChild(question);
 };
 
