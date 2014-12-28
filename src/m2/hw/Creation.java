@@ -196,9 +196,19 @@ public class Creation {
 		questionnaire += "\t\\clearpage\n\n";
 		questionnaire += "\t%%% Fin du questionnaire\n\n";
 		
-		return questionnaire;
+		return decode(questionnaire);
 	}
 
+	private String decode(String s){
+		String decoded = new String(s);
+		
+		if (decoded.contains("%21")){
+			decoded = replace(decoded,"%21","!");
+		}
+		
+		
+		return decoded;
+	}
 	
 	public static String replace(String text, String substring, String replaceWith){
 		
@@ -212,7 +222,7 @@ public class Creation {
 			newText.append(replaceWith);
 			s = e + substring.length();
 		}
-		
+		newText.append(text.substring(s));
 		
 		return newText.toString();
 	}
