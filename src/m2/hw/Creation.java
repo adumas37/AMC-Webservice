@@ -81,13 +81,13 @@ public class Creation {
 		String matiere = "VVVVVVV";
 		String date = "JJ/MM/AAAA";
 		
-		//matiere=sd%3Cf&matiere=sqdf&nbCopies=1&question=que
+		//matiere=mdbit&date=12&nbCopies=1&question=
 		
-		if (data.contains("&nbCopies=")){
-			donnees = data.split("&nbCopies=")[0];
-			matiere = donnees.split("&date=")[0];
-			matiere = decode(matiere.split("=")[1]);
-			date = decode(donnees.split("&date=")[1]);
+		if (data.contains("date=")){
+			date = decode(data.split("date=")[1].split("&")[0]);
+		}
+		if (data.contains("matiere=")){
+			matiere = decode(data.split("matiere=")[1].split("&")[0]);
 		}
 		
 		
