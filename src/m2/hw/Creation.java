@@ -74,12 +74,9 @@ public class Creation {
 	 */
 	private String formerEntete(String data){
 		String entete= new String();
-		String donnees = null;
 		String matiere = "VVVVVVV";
 		String date = "JJ/MM/AAAA";
-		
-		//matiere=mdbit&date=12&nbCopies=1&question=
-		
+				
 		if (data.contains("date=")){
 			date = decode(data.split("date=")[1].split("&")[0]);
 		}
