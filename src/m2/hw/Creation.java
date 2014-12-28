@@ -36,6 +36,10 @@ public class Creation {
 		File file = new File("MATHS.txt");
 	    FileWriter fw;
 	    int nbCopies = 1;
+	    
+	    if (data.contains("nbCopies=")){
+			nbCopies = Integer.parseInt(decode(data.split("nbCopies=")[1].split("&")[0]));
+		}
 			
 	    try {
 	      fw = new FileWriter(file);
@@ -207,8 +211,8 @@ public class Creation {
 	private String decode(String s){
 		String decoded = new String(s);
 		
-		if (decoded.contains("%20")){
-			decoded = replace(decoded,"%20"," ");
+		if (decoded.contains("+")){
+			decoded = replace(decoded,"+"," ");
 		}
 		if (decoded.contains("%21")){
 			decoded = replace(decoded,"%21","!");
@@ -223,7 +227,7 @@ public class Creation {
 			decoded = replace(decoded,"%24","$");
 		}
 		if (decoded.contains("%25")){
-			decoded = replace(decoded,"%25","%");
+			decoded = replace(decoded,"%25","\\%");
 		}
 		if (decoded.contains("%26")){
 			decoded = replace(decoded,"%26","&");
@@ -311,6 +315,24 @@ public class Creation {
 		}
 		if (decoded.contains("%E2%82%AC")){
 			decoded = replace(decoded,"%E2%82%AC","€");
+		}
+		if (decoded.contains("%C2%A7")){
+			decoded = replace(decoded,"%C2%A7","§");
+		}
+		if (decoded.contains("%C3%A0")){
+			decoded = replace(decoded,"%C3%A0","à");
+		}
+		if (decoded.contains("%C3%A7")){
+			decoded = replace(decoded,"%C3%A7","ç");
+		}
+		if (decoded.contains("%C3%A9")){
+			decoded = replace(decoded,"%C3%A9","é");
+		}
+		if (decoded.contains("%C3%A8")){
+			decoded = replace(decoded,"%C3%A8","è");
+		}
+		if (decoded.contains("%C3%B9")){
+			decoded = replace(decoded,"%C3%B9","ù");
 		}
 			
 		return decoded;
