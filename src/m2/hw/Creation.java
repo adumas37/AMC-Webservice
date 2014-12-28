@@ -199,4 +199,21 @@ public class Creation {
 		return questionnaire;
 	}
 
+	
+	public static String replace(String text, String substring, String replaceWith){
+		
+		int s = 0;
+		int e = 0;
+		
+		StringBuffer newText = new StringBuffer();
+		
+		while ((e = text.indexOf(substring, s))>=0){
+			newText.append(text.substring(s,e));
+			newText.append(replaceWith);
+			s = e + substring.length();
+		}
+		
+		
+		return newText.toString();
+	}
 }
