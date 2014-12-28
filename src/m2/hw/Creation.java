@@ -86,8 +86,8 @@ public class Creation {
 		if (data.contains("&nbCopies=")){
 			donnees = data.split("&nbCopies=")[0];
 			matiere = donnees.split("&date=")[0];
-			matiere = matiere.split("=")[1];
-			date = donnees.split("&date=")[1];
+			matiere = decode(matiere.split("=")[1]);
+			date = decode(donnees.split("&date=")[1]);
 		}
 		
 		
@@ -232,24 +232,84 @@ public class Creation {
 		if (decoded.contains("%29")){
 			decoded = replace(decoded,"%29",")");
 		}
-		if (decoded.contains("%2a")){
-			decoded = replace(decoded,"%2a","*");
+		if (decoded.contains("%2A")){
+			decoded = replace(decoded,"%2A","*");
 		}
-		if (decoded.contains("%2b")){
-			decoded = replace(decoded,"%2b","+");
+		if (decoded.contains("%2B")){
+			decoded = replace(decoded,"%2B","+");
 		}
-		if (decoded.contains("%2c")){
-			decoded = replace(decoded,"%2c",",");
+		if (decoded.contains("%2C")){
+			decoded = replace(decoded,"%2C",",");
 		}
-		if (decoded.contains("%2d")){
-			decoded = replace(decoded,"%2d","-");
+		if (decoded.contains("%2D")){
+			decoded = replace(decoded,"%2D","-");
 		}
-		if (decoded.contains("%2e")){
-			decoded = replace(decoded,"%2e",".");
+		if (decoded.contains("%2E")){
+			decoded = replace(decoded,"%2E",".");
 		}
-		if (decoded.contains("%2f")){
-			decoded = replace(decoded,"%2f","/");
+		if (decoded.contains("%2F")){
+			decoded = replace(decoded,"%2F","/");
 		}
+		if (decoded.contains("%3A")){
+			decoded = replace(decoded,"%3A",":");
+		}
+		if (decoded.contains("%3B")){
+			decoded = replace(decoded,"%3B",";");
+		}
+		if (decoded.contains("%3C")){
+			decoded = replace(decoded,"%3C","<");
+		}
+		if (decoded.contains("%3D")){
+			decoded = replace(decoded,"%3D","=");
+		}
+		if (decoded.contains("%3E")){
+			decoded = replace(decoded,"%3E",">");
+		}
+		if (decoded.contains("%3F")){
+			decoded = replace(decoded,"%3F","?");
+		}
+		if (decoded.contains("%40")){
+			decoded = replace(decoded,"%40","@");
+		}
+		if (decoded.contains("%5B")){
+			decoded = replace(decoded,"%5B","[");
+		}
+		if (decoded.contains("%5C")){
+			decoded = replace(decoded,"%5C","\\");
+		}
+		if (decoded.contains("%5D")){
+			decoded = replace(decoded,"%5D","]");
+		}
+		if (decoded.contains("%5E")){
+			decoded = replace(decoded,"%5E","^");
+		}
+		if (decoded.contains("%5F")){
+			decoded = replace(decoded,"%5F","_");
+		}
+		if (decoded.contains("%60")){
+			decoded = replace(decoded,"%60","`");
+		}
+		if (decoded.contains("%7B")){
+			decoded = replace(decoded,"%7B","{");
+		}
+		if (decoded.contains("%7C")){
+			decoded = replace(decoded,"%7C","|");
+		}
+		if (decoded.contains("%7D")){
+			decoded = replace(decoded,"%7D","}");
+		}
+		if (decoded.contains("%7E")){
+			decoded = replace(decoded,"%7E","~");
+		}
+		if (decoded.contains("%7F")){
+			decoded = replace(decoded,"%7F","");
+		}
+		if (decoded.contains("%E2%82%AC")){
+			decoded = replace(decoded,"%E2%82%AC","€");
+		}
+		
+		
+		
 		
 		
 		return decoded;
