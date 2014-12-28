@@ -202,8 +202,53 @@ public class Creation {
 	private String decode(String s){
 		String decoded = new String(s);
 		
+		if (decoded.contains("%20")){
+			decoded = replace(decoded,"%20"," ");
+		}
 		if (decoded.contains("%21")){
 			decoded = replace(decoded,"%21","!");
+		}
+		if (decoded.contains("%22")){
+			decoded = replace(decoded,"%22","\"");
+		}
+		if (decoded.contains("%23")){
+			decoded = replace(decoded,"%23","#");
+		}
+		if (decoded.contains("%24")){
+			decoded = replace(decoded,"%24","$");
+		}
+		if (decoded.contains("%25")){
+			decoded = replace(decoded,"%25","%");
+		}
+		if (decoded.contains("%26")){
+			decoded = replace(decoded,"%26","&");
+		}
+		if (decoded.contains("%27")){
+			decoded = replace(decoded,"%27","'");
+		}
+		if (decoded.contains("%28")){
+			decoded = replace(decoded,"%28","(");
+		}
+		if (decoded.contains("%29")){
+			decoded = replace(decoded,"%29",")");
+		}
+		if (decoded.contains("%2a")){
+			decoded = replace(decoded,"%2a","*");
+		}
+		if (decoded.contains("%2b")){
+			decoded = replace(decoded,"%2b","+");
+		}
+		if (decoded.contains("%2c")){
+			decoded = replace(decoded,"%2c",",");
+		}
+		if (decoded.contains("%2d")){
+			decoded = replace(decoded,"%2d","-");
+		}
+		if (decoded.contains("%2e")){
+			decoded = replace(decoded,"%2e",".");
+		}
+		if (decoded.contains("%2f")){
+			decoded = replace(decoded,"%2f","/");
 		}
 		
 		
