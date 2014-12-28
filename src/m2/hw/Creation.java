@@ -98,12 +98,12 @@ public class Creation {
 				+"\t\\begin{minipage}{.4\\linewidth}\n"
 				+"\t\\centering\\large\\bf "+ matiere +"\\ Examen du " +date +"\\end{minipage}\n"
 				+"\t\\champnom{\\fbox{\n"
-					            +"\t\t\\begin{minipage}{.5\\linewidth}\n"
-					            +"\t\tNom et prénom :\n\n"
+					            +"\t\t\t\\begin{minipage}{.5\\linewidth}\n"
+					            +"\t\t\tNom et prénom :\n\n"
 			
-					            +"\t\t\\vspace*{.5cm}\\dotfill\n"
-					            +"\t\t\\vspace*{1mm}\n"
-					            +"\t\t\\end{minipage}\n"
+					            +"\t\t\t\\vspace*{.5cm}\\dotfill\n"
+					            +"\t\t\t\\vspace*{1mm}\n"
+					            +"\t\t\t\\end{minipage}\n"
 				+"\t}}\n\n"
 			
 				+"\t\\begin{center}\\em\n"
@@ -199,6 +199,11 @@ public class Creation {
 		return decode(questionnaire);
 	}
 
+	/**
+	 * Renvois une chaine en ayant remplacé les caracteres pseciaux par ceux attendus par l'utilisateur
+	 * @param s
+	 * @return
+	 */
 	private String decode(String s){
 		String decoded = new String(s);
 		
@@ -307,14 +312,17 @@ public class Creation {
 		if (decoded.contains("%E2%82%AC")){
 			decoded = replace(decoded,"%E2%82%AC","€");
 		}
-		
-		
-		
-		
-		
+			
 		return decoded;
 	}
 	
+	/**
+	 * Renvois une Chaine copie de text dans laquelle on a remplacé substring par replaceWith
+	 * @param text
+	 * @param substring
+	 * @param replaceWith
+	 * @return
+	 */
 	public static String replace(String text, String substring, String replaceWith){
 		
 		int s = 0;
