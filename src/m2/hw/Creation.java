@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,10 +18,6 @@ public class Creation {
 	 */
 	@POST
 	public void creation(String data){
-		System.out.println(data);
-		/* Exemple de data pour un questionnaire à 2question, 2 rep pour la première et une pour la deuxieme question:
-		 * matiere=maths&date=26%2F12%2F2014&question=1%2B1%3D&reponse=1&reponse=2&bonne=on&question=La+question+facile&reponse=oui&bonne=on&submit=Creer+questionnaire
-		 */
 		ecrireFichier(data);
 	}
 	
