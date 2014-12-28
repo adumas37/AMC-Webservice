@@ -8,6 +8,13 @@ import java.io.IOException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
+/*TODO
+ *		- Ajout de photos dans les question
+ *		- Ajout d'autres types de questions
+ *		- Ammeliorer la robustesse
+ *		- Mieux prendre en charge les caracteres speciaux
+ */
+
 @Path("creation")
 public class Creation {
 
