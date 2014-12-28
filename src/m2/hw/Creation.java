@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -43,7 +44,7 @@ public class Creation {
 	      fw.write("\\exemplaire{"+nbCopies+"}{\n\n");
 	      fw.write(formerEntete(data));
 	      fw.write(formerQuestionnaire(data));
-	      fw.write("\\end{document}");
+	      fw.write("}\n\n\\end{document}");
 	      fw.close();
 
 	    } catch (FileNotFoundException e) {
@@ -192,8 +193,10 @@ public class Creation {
 		else {//ne contient pas "&submit="
 			return null;
 		}
+		questionnaire += "\t\\clearpage\n\n";
 		questionnaire += "\t%%% Fin du questionnaire\n\n";
 		
 		return questionnaire;
 	}
+
 }
