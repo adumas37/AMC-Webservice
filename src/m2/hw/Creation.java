@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
  *		- Ajout d'autres types de questions
  *		- Ammeliorer la robustesse
  *		- Mieux prendre en charge les caracteres speciaux
+ *		- Ajout des coefficient des questions
  */
 
 @Path("creation")
