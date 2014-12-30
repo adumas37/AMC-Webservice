@@ -5,8 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 /*TODO
  *		- Ajout de photos dans les question
@@ -18,6 +22,7 @@ import javax.ws.rs.Path;
 @Path("creation")
 public class Creation {
 
+	private File file;
 	/**
 	 * Fonction appellee par le serveur lors de la creation d'un questionnaire
 	 * Permet de creer un fichier latex sur le serveur.
@@ -28,12 +33,24 @@ public class Creation {
 		ecrireFichier(data);
 	}
 	
+	@GET
+    @Path("/txt")
+    @Produces("text/plain")
+    public Response getTextFile() {
+		if (file != null){
+			ResponseBuilder response = Response.ok((Object) file);
+	        response.header("Content-Disposition", "attachment; filename=\"test_text_file.txt\"");
+	        return response.build();
+		}
+        return null;
+    }
+	
 	/**
 	 * Permet d'ecrire le fichier latex a partir des donnees recues
 	 * @param data
 	 */
 	private void ecrireFichier(String data){
-		File file = new File("MATHS.txt");
+		file = new File("MATHS.txt");
 	    FileWriter fw;
 	    int nbCopies = 1;
 	    
