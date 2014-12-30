@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @Path("creation")
 public class Creation {
 
-	private File file;
+	private static String filePath = "questionnaire.tex";
 	/**
 	 * Fonction appellee par le serveur lors de la creation d'un questionnaire
 	 * Permet de creer un fichier latex sur le serveur.
@@ -33,16 +33,25 @@ public class Creation {
 		ecrireFichier(data);
 	}
 	
+	/**
+	 * Permet de telecharger le questionnaire créé. Si le questionnaire n'a pas été créé auparavant,
+	 * on ne renvois rien.
+	 * @return
+	 */
 	@GET
-    @Path("/txt")
     @Produces("text/plain")
     public Response getTextFile() {
-		if (file != null){
+
+		File file = new File(filePath);
+		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
-	        response.header("Content-Disposition", "attachment; filename=\"test_text_file.txt\"");
+	        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
 	        return response.build();
 		}
-        return null;
+		else {
+			return null;
+		}
+
     }
 	
 	/**
@@ -50,7 +59,7 @@ public class Creation {
 	 * @param data
 	 */
 	private void ecrireFichier(String data){
-		file = new File("MATHS.txt");
+		File file = new File(filePath);
 	    FileWriter fw;
 	    int nbCopies = 1;
 	    
