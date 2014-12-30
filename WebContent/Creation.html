@@ -15,7 +15,7 @@
 	<hr>
 
 	<div id="content">Creation d'un nouveau questionnaire:
-		<form id="creationForm" method="post" action="rest/creation" >
+		<form id="creationForm" method="post" action="rest/creationQuestionnaire" >
 			<questionnaire id="questionnaire">
 				<p id="entete">
 					<span id="matiere">Matiere:<input class="matiereInput" name="matiere" type="text"/></span>
@@ -43,7 +43,7 @@
 				<input type="submit" name="submit" value="Creer questionnaire">
 			</p>
 		</form>
-		<form id="DownloadForm" method="get" action="rest/creation">
+		<form id="DownloadForm" method="get" action="rest/creationQuestionnaire">
 			<input type="submit" name="download" value="Telecharger questionnaire"/>
 		</form>	
 	</div> <!-- /content -->

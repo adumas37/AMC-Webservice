@@ -20,8 +20,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
  *		- Ajout des coefficient des questions
  */
 
-@Path("creation")
-public class Creation {
+@Path("creationQuestionnaire")
+public class CreationQuestionnaire {
 
 	private static String filePath = "questionnaire.tex";
 	/**
