@@ -1,15 +1,26 @@
-<!DOCTYPE html>
-<html>
 <head>
-<meta charset="UTF-8">
-<title>Creation de projet</title>
+	<title>AMC - Creation de questionnaire</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="description" content="Creation de QCM">
+    <meta name="author" content="Alexis DUMAS">
+	
+    <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
 
-	<form id="creationProjet" method="get" action="rest/CreationProjet">
-		<p id="nomProjet">Nom du projet: <input id="nomProjetInput" type="text"/></p>
-		<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" type="file"></p>
+	<header>AMC Webservice - Creation</header>
+	
+	<hr>
+
+	<form id="creationProjet" method="post" action="rest/creationProjet">
+		<p id="nomProjet">Nom du projet: <input id="nomProjetInput" name="nom" type="text"/></p>
+		<!-- <p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" type="file"></p> -->
 		<input id="submit" type="submit" value="Creer Projet"/>
 	</form>
+	
+	<hr>
+	
+	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
+	
 </body>
 </html>
