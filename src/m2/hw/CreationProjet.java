@@ -62,7 +62,6 @@ public class CreationProjet {
 	        while ((s = stdInput.readLine()) != null) {
 	            System.out.println(s);
 	
-	
 	        }
 	        output = "";
 	
