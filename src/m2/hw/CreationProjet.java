@@ -1,32 +1,25 @@
 package m2.hw;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.logging.Level;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.sun.istack.internal.logging.Logger;
 import com.sun.jersey.core.header.FormDataContentDisposition;
-//import com.sun.jersey.multipart.*;
-import com.sun.jersey.*;
+import com.sun.jersey.multipart.FormDataParam;
 
 
 @Path("creationProjet")
 public class CreationProjet {
 
+	/*
 	@POST
 	public void creationRepertoire(String data){
 		try{
+			System.out.println(data);
 			String nom = data.split("nom=")[1];
 			
 			ProcessBuilder pb = null;
@@ -48,7 +41,7 @@ public class CreationProjet {
 	        try {
 	            p = pb.start();
 	        } catch (IOException ex) {
-	            //Logger.getLogger(Process.class.getName()).log(Level.SEVERE, null, ex);
+	            Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
 	        }
 	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 	
@@ -71,26 +64,26 @@ public class CreationProjet {
 	            System.out.println(s);
 	        }
 	    } catch (IOException ex) {
-	        //Logger.getLogger(Process.class.getName()).log(Level.SEVERE, null, ex);
+	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
 	    }
-	}
+	}//*/
 	
-	/*@POST
-	@Path("/upload")
+	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFile(
+		@FormDataParam("nom") String nom,
 		@FormDataParam("file") InputStream uploadedInputStream,
 		@FormDataParam("file") FormDataContentDisposition fileDetail) {
- 
-		String uploadedFileLocation = "d://uploaded/" + fileDetail.getFileName();
- 
+		
+		System.out.println("ouverture");
+		String fileName = fileDetail.getFileName();
 		// save it
-		writeToFile(uploadedInputStream, uploadedFileLocation);
- 
-		String output = "File uploaded to : " + uploadedFileLocation;
- 
+		//writeToFile(uploadedInputStream, uploadedFileLocation);
+		System.out.println("coucou");
+		String output = "File name : " + fileName;
+		System.out.println("filename: "+fileName + " , nom du projet: "+nom);
 		return Response.status(200).entity(output).build();
  
-	}*/
+	}
 	
 }
