@@ -32,62 +32,11 @@ import com.sun.jersey.multipart.FormDataParam;
 public class CreationProjet {
 
 	private static final String UPLOAD_PATH = "upload/";
-	
-	/*
-	@POST
-	public void creationRepertoire(String data){
-		try{
-			System.out.println(data);
-			String nom = data.split("nom=")[1];
-			
-			ProcessBuilder pb = null;
-	        Process p;
-	        String cmd2 = "";
-	        String workingDir = System.getProperty("user.dir");
-	        System.out.println(""+workingDir);
-	        String scriptloc=workingDir+"/createProject.sh";
-	        String cmd[] = {"/bin/bash",scriptloc ,nom};
-	
-	        for (int i = 0; i <= cmd.length-1; i++) {
-	            cmd2 += " "+cmd[i];
-	        }
-	        System.out.println("" + cmd2);
-	        pb = new ProcessBuilder(cmd);
-	        pb.directory(new File(workingDir));
-	
-	        p = null;
-	        try {
-	            p = pb.start();
-	        } catch (IOException ex) {
-	            Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
-	        }
-	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-	
-	        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-	
-	        // read the output from the command
-	        System.out.println("Here is the standard output of the command:\n");
-	
-	        String s = null;
-	        String output = "";
-	        while ((s = stdInput.readLine()) != null) {
-	            System.out.println(s);
-	
-	        }
-	        output = "";
-	
-	        // read any errors from the attempted command
-	        System.out.println("Here is the standard error of the command (if any):\n");
-	        while ((s = stdError.readLine()) != null) {
-	            System.out.println(s);
-	        }
-	    } catch (IOException ex) {
-	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
-	    }
-	}//*/
+	private static final String PROJECTS_PATH = "Projet-QCM";
 
 	/**
-	 * Fonction permettant de recuperer le nom du projet a creer ainsi que le fichier latex
+	 * Fonction permettant de recuperer le nom du projet a creer les dossiers ainsi que le fichier 
+	 * latex.
 	 * @param nom
 	 * @param uploadedInputStream
 	 * @param fileDetail
@@ -103,11 +52,31 @@ public class CreationProjet {
 		String fileName = fileDetail.getFileName();
 		
 		// save it
-		String uploadedFileLocation = UPLOAD_PATH + fileName;System.out.println(uploadedFileLocation);
-		saveFile(uploadedInputStream, uploadedFileLocation);
-
-		String output = "File \"" + fileName +"\" uploaded to " + uploadedFileLocation;
-		return Response.status(200).entity(output).build();
+		if (!fileName.equals("") && !nom.equals("")){
+			String uploadedFileLocation = UPLOAD_PATH + fileName;
+			saveFile(uploadedInputStream, uploadedFileLocation);
+			creationRepertoire(nom);
+			
+			String output = "File \"" + fileName +"\" uploaded to " + uploadedFileLocation;
+			
+			return Response.status(200).entity(output).build();
+		}
+		else {
+			if (fileName.equals("") && nom.equals("")){
+				return Response.status(204).entity("Aucun fichier selectionne ou nom donne. " +
+						"La creation d'un projet requiert un nom et un questionnaire").build();
+			}
+			else if (nom.equals("")) {
+				return Response.status(204).entity("Aucun nom specifie. " +
+						"La creation d'un projet requiert un nom").build();
+			}
+			else if (fileName.equals("")){
+				return Response.status(204).entity("Aucun fichier selectionne. " +
+						"La creation d'un projet requiert un nom").build();
+			}
+		}
+		
+		return Response.status(406).entity("Not reacheable").build();
  
 	}
 	
@@ -136,4 +105,59 @@ public class CreationProjet {
         }
  
     }
+	
+	/**
+	 * Fonction permettant de creer les dossiers pour le nouveau projet
+	 * @param data
+	 */
+	private void creationRepertoire(String nom){
+		try{
+			
+			ProcessBuilder pb = null;
+	        Process p;
+	        String cmd2 = "";
+	        String workingDir = System.getProperty("user.dir");
+	        System.out.println(""+workingDir);
+	        String scriptloc=workingDir+"/createProject.sh";
+	        String cmd[] = {"/bin/bash",scriptloc ,nom};
+	
+	        for (int i = 0; i <= cmd.length-1; i++) {
+	            cmd2 += " "+cmd[i];
+	        }
+	        System.out.println("" + cmd2);
+	        pb = new ProcessBuilder(cmd);
+	        pb.directory(new File(workingDir));
+	
+	        p = null;
+	        try {
+	            p = pb.start();
+	        } catch (IOException ex) {
+	            Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
+	        }
+	        
+	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+	        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+	
+	        // read the output from the command
+	        System.out.println("Here is the standard output of the command:\n");
+	
+	        String s = null;
+	        String output = "";
+	        while ((s = stdInput.readLine()) != null) {
+	            System.out.println(s);
+	
+	        }
+	        output = "";
+	
+	        // read any errors from the attempted command
+	        System.out.println("Here is the standard error of the command (if any):\n");
+	        while ((s = stdError.readLine()) != null) {
+	            System.out.println(s);
+	        }
+	    } catch (IOException ex) {
+	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
+	    }
+	}
+	
+	
 }
