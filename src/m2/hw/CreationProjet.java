@@ -126,7 +126,6 @@ public class CreationProjet {
 	        pb = new ProcessBuilder(cmd);
 	        pb.directory(new File(workingDir));
 	
-	        p = null;
 	        try {
 	            p = pb.start();
 	        } catch (IOException ex) {

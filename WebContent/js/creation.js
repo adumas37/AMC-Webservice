@@ -6,8 +6,8 @@ function ajoutReponse(elmnt){
 	
 	var reponse = document.getElementsByClassName("reponse")[0];
 	var reponse2 = reponse.cloneNode(true);
-	//reponse2.firstChildNode.getElementById("reponseInput").setAttribute("text","");
-	//TODO reset du texte affiche dans la reponse
+	reponse2.getElementsByClassName("reponseInput")[0].value="";
+	reponse2.getElementsByTagName("span")[0].getElementsByTagName("input")[0].checked=false;
 	elmnt.parentNode.parentNode.parentNode.appendChild(reponse2);
 };
 
