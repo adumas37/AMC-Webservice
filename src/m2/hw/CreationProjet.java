@@ -117,14 +117,14 @@ public class CreationProjet {
 	        Process p;
 	        String cmd2 = "";
 	        String workingDir = System.getProperty("user.dir");
-	        System.out.println(""+workingDir);
+	        
 	        String scriptloc=workingDir+"/createProject.sh";
-	        String cmd[] = {"/bin/bash",scriptloc ,nom};
+	        String cmd[] = {"/bin/bash",scriptloc ,nom, PROJECTS_PATH};
 	
 	        for (int i = 0; i <= cmd.length-1; i++) {
 	            cmd2 += " "+cmd[i];
 	        }
-	        System.out.println("" + cmd2);
+
 	        pb = new ProcessBuilder(cmd);
 	        pb.directory(new File(workingDir));
 	
@@ -165,7 +165,57 @@ public class CreationProjet {
 	 * @param fileName
 	 */
 	private void prepareProject(String nom, String fileName){
-		
+		try{
+			String filePath = UPLOAD_PATH + fileName;
+			String projectPath = PROJECTS_PATH + nom;
+			
+			ProcessBuilder pb = null;
+	        Process p;
+	        String cmd2 = "";
+	        String workingDir = System.getProperty("user.dir");
+
+	        String scriptloc=workingDir+"/createProject.sh";
+	        
+	        //auto-multiple-choice prepare --mode s --prefix project-dir mcq-source-file
+	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};
+	
+	        for (int i = 0; i <= cmd.length-1; i++) {
+	            cmd2 += " "+cmd[i];
+	        }
+
+	        pb = new ProcessBuilder(cmd);
+	        pb.directory(new File(workingDir));
+	
+	        p = null;
+	        try {
+	            p = pb.start();
+	        } catch (IOException ex) {
+	            Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
+	        }
+	        
+	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+	        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+	
+	        // read the output from the command
+	        System.out.println("Here is the standard output of the command:\n");
+	
+	        String s = null;
+	        String output = "";
+	        while ((s = stdInput.readLine()) != null) {
+	            System.out.println(s);
+	
+	        }
+	        output = "";
+	
+	        // read any errors from the attempted command
+	        System.out.println("Here is the standard error of the command (if any):\n");
+	        while ((s = stdError.readLine()) != null) {
+	            System.out.println(s);
+	        }
+	    } catch (IOException ex) {
+	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
+	    }
+	
 	}
 	
 	
