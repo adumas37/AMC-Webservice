@@ -32,7 +32,7 @@ import com.sun.jersey.multipart.FormDataParam;
 public class CreationProjet {
 
 	private static final String UPLOAD_PATH = "upload/";
-	private static final String PROJECTS_PATH = "Projet-QCM";
+	private static final String PROJECTS_PATH = "Projet-QCM/";
 
 	/**
 	 * Fonction permettant de recuperer le nom du projet a creer les dossiers ainsi que le fichier 
@@ -157,6 +157,15 @@ public class CreationProjet {
 	    } catch (IOException ex) {
 	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
 	    }
+	}
+	
+	/**
+	 * Fonction permettant de lancer la phase de preparation d'AMC pour le projet
+	 * @param nom
+	 * @param fileName
+	 */
+	private void prepareProject(String nom, String fileName){
+		
 	}
 	
 	
