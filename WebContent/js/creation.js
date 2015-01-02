@@ -23,8 +23,8 @@ function ajoutQuestion(elmnt){
 			reponses.removeChild(reponses.firstChild);
 		}
 	}	
-	reponses.firstChild.value="";
-	reponses.firstChild.checked=false;
+	reponses.getElementsByClassName("reponseInput")[0].value="";
+	reponses.getElementsByTagName("input")[0].checked=false;
 
 	document.getElementById("questionnaire").appendChild(question);
 };
