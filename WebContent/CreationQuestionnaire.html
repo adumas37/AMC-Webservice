@@ -25,21 +25,30 @@
 				<blocQR class="blocQR">
 					<p class="question">
 						Question: <input type="text" name="question" class="questionInput"/>
-						<span class="add"><input type="button" name="addQ" value="Ajouter question" onclick="ajoutQuestion(this)" /></span>
-						<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" /></span>
 					</p>
 					
 					<reponses>
 						<p class="reponse">
 							Reponse: <input type="text" name="reponse" class="reponseInput"/>
 							<span class="checkbox">Bonne reponse?<input type="checkbox" name="bonne"/></span>
-							<span class="add"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
-							<span class="del"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" /></span>
+							<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" /></span>
 						</p>
 					</reponses>
+					
+					<options>
+						<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" /></span>
+						<span class="addQ"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
+						<span class="checkbox">Reponses horizontales?<input type="checkbox" name="horizontal"/></span>
+						<span class="bareme">bareme:<input class="baremeImput" name="bareme" type="number" min="1" max="20" value="1"/></span>
+					</options>
 				</blocQR>
-				
+	
 			</questionnaire>
+			
+			<p class="addQ">
+				<input type="button" name="addQ" value="Ajouter question" onclick="ajoutQuestion(this)" />
+			</p>
+				
 			<p id="submit">
 				<input type="submit" name="submit" value="Creer questionnaire">
 			</p>

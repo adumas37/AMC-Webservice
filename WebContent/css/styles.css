@@ -38,7 +38,7 @@ input {
 	width: 30px;
 }
 .questionInput{
-	width: 70%;
+	width: 50%;
 }
 .question {
 	margin-left: 10px;
@@ -54,5 +54,8 @@ input {
 }
 .add {
 	margin-left: 20px;
+}
+options {
+	margin-left: 50px;
 }
 

@@ -8,7 +8,7 @@ function ajoutReponse(elmnt){
 	var reponse2 = reponse.cloneNode(true);
 	reponse2.getElementsByClassName("reponseInput")[0].value="";
 	reponse2.getElementsByTagName("span")[0].getElementsByTagName("input")[0].checked=false;
-	elmnt.parentNode.parentNode.parentNode.appendChild(reponse2);
+	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
 };
 
 function ajoutQuestion(elmnt){
@@ -25,10 +25,8 @@ function ajoutQuestion(elmnt){
 	}	
 	reponses.firstChild.value="";
 	reponses.firstChild.checked=false;
-	//var newReponses = reponses.cloneNode(true);
-	
-	//question.getElementsByTagName("reponses")[0].replaceChild(newReponses,reponses);
-	elmnt.parentNode.parentNode.parentNode.parentNode.appendChild(question);
+
+	document.getElementById("questionnaire").appendChild(question);
 };
 
 function supprReponse(elmnt){

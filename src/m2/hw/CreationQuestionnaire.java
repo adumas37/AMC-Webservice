@@ -165,7 +165,10 @@ public class CreationQuestionnaire {
 		String[] questions = null;
 		String[] questionsReponses = null;
 		String typeQuestion = null;
+		String bareme = null;
 		
+		boolean multicols = false;
+
 		if (data.contains("&submit=")){
 			chaines = data.split("&submit=");
 			//chaines[0] contient les questions/reponse et donnees sur la matiere, date et nb de copies
@@ -187,12 +190,21 @@ public class CreationQuestionnaire {
 					else {
 						typeQuestion = "question";
 					}
-							
-							
-					questionsReponses = questions[i].split("&reponse=");
 					
-					questionnaire += "\t\\begin{"+typeQuestion+"}{Q"+i+"}\n";
+					multicols = questions[i].contains("&horizontal=on");
+							
+					
+					questionsReponses = questions[i].split("&horizontal=on")[0]
+													.split("&bareme=")[0]
+													.split("&reponse=");
+					if (questions[i].split("&bareme=").length > 1){
+						bareme = questions[i].split("&bareme=")[1];
+						bareme = "\\bareme{b" + bareme + "=" + bareme +"}";
+					}
+					
+					questionnaire += "\t\\begin{"+typeQuestion+"}{Q"+i+"}"+bareme+"\n";
 					questionnaire += "\t\t"+questionsReponses[0]+"\n";
+					if (multicols) questionnaire += "\t\t\\begin{multicols}{2}\n";
 					questionnaire += "\t\t\\begin{reponses}\n";
 					
 					for (int j=1 ; j<questionsReponses.length ; j++){
@@ -207,6 +219,7 @@ public class CreationQuestionnaire {
 						
 					}
 					questionnaire +="\t\t\\end{reponses}\n";
+					if (multicols) questionnaire += "\t\t\\end{multicols}\n";
 					questionnaire += "\t\\end{"+typeQuestion+"}\n\n";
 					
 					
