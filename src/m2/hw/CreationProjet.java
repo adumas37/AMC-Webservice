@@ -2,11 +2,13 @@ package m2.hw;
 
 import java.io.BufferedReader;
 import java.io.File;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import java.util.logging.Level;
 
 import javax.ws.rs.Consumes;
@@ -31,8 +33,7 @@ import com.sun.jersey.multipart.FormDataParam;
 @Path("creationProjet")
 public class CreationProjet {
 
-	private static final String UPLOAD_PATH = "upload/";
-	private static final String PROJECTS_PATH = "Projet-QCM/";
+	private static final String PROJECTS_PATH = "Projets-QCM";
 
 	/**
 	 * Fonction permettant de recuperer le nom du projet a creer les dossiers ainsi que le fichier 
@@ -53,11 +54,13 @@ public class CreationProjet {
 		
 		// save it
 		if (!fileName.equals("") && !nom.equals("")){
-			String uploadedFileLocation = UPLOAD_PATH + fileName;
-			saveFile(uploadedInputStream, uploadedFileLocation);
-			creationRepertoire(nom);
 			
-			String output = "File \"" + fileName +"\" uploaded to " + uploadedFileLocation;
+			String uploadedFileLocation = PROJECTS_PATH + "/" + nom + "/" + fileName;
+			creationRepertoire(nom);
+			saveFile(uploadedInputStream, uploadedFileLocation);
+			prepareProject (nom, fileName);
+			
+			String output = "File \"" + fileName +"\" uploaded to \"" + uploadedFileLocation+"\"";
 			
 			return Response.status(200).entity(output).build();
 		}
@@ -166,7 +169,7 @@ public class CreationProjet {
 	 */
 	private void prepareProject(String nom, String fileName){
 		try{
-			String filePath = UPLOAD_PATH + fileName;
+			String filePath = PROJECTS_PATH +"/" + nom + "/" + fileName;
 			String projectPath = PROJECTS_PATH + nom;
 			
 			ProcessBuilder pb = null;
