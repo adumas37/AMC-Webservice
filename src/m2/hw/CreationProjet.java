@@ -21,6 +21,13 @@ import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 
 
+/** TODO
+ * 		- Gestions des erreurs de dossier/fichier (doublons, noms incorrects ou dangereux...)
+ * 		- Envois de données utiles apres creation
+ * 		- 
+ * 
+ */
+
 @Path("creationProjet")
 public class CreationProjet {
 
@@ -79,6 +86,13 @@ public class CreationProjet {
 	    }
 	}//*/
 
+	/**
+	 * Fonction permettant de recuperer le nom du projet a creer ainsi que le fichier latex
+	 * @param nom
+	 * @param uploadedInputStream
+	 * @param fileDetail
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFile(
@@ -98,7 +112,11 @@ public class CreationProjet {
 	}
 	
 	
-	// save uploaded file to a defined location on the server
+	/**
+	 * Fonction de sauvegarde du fichier latex upload par l'utilisateur
+	 * @param uploadedInputStream
+	 * @param serverLocation
+	 */
 	private void saveFile(InputStream uploadedInputStream,
             String serverLocation) {
  
