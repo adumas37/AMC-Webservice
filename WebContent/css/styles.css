@@ -13,13 +13,13 @@ footer {
 	padding-right: 20px;
 	list-style-type: unset;	
 }
-li {
+.homeLi {
 	list-style-type: none;
 	padding: 25px;
 	padding-left: 50px;
 	padding-right: 50px;
 }
-img {
+.homeImg  {
 	height: 200px;
 }
 .homeHref {
