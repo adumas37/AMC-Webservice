@@ -8,8 +8,27 @@ footer {
 	font-size: 12px;
 }
 
+#homeNavList {
+	display: inline-flex;
+	padding-right: 20px;
+	list-style-type: unset;	
+}
+li {
+	list-style-type: none;
+	padding: 25px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+img {
+	height: 200px;
+}
+.homeHref {
+	display: -moz-inline-grid;
+	text-align: center;
+}
 #content {
 	font-size: 15px;
+	text-align: center;
 }
 
 
