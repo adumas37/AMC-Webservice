@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URI;
 
 import java.util.logging.Level;
 
@@ -17,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 import com.sun.istack.internal.logging.Logger;
 import com.sun.jersey.core.header.FormDataContentDisposition;
@@ -58,10 +60,12 @@ public class CreationProjet {
 			creationRepertoire(nom);
 			saveFile(uploadedInputStream, uploadedFileLocation);
 			prepareProject (nom, fileName);
+	
+			URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+					.path("{a}")
+					.build("Projet.html");
 			
-			String output = "File \"" + fileName +"\" uploaded to \"" + uploadedFileLocation+"\"";
-			
-			return Response.status(200).entity(output).build();
+			return Response.seeOther(uri).build();
 		}
 		else {
 			if (!fileName.contains(".tex")){
