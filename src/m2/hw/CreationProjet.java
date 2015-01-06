@@ -61,6 +61,7 @@ public class CreationProjet {
 			saveFile(uploadedInputStream, uploadedFileLocation);
 			prepareProject (nom, fileName);
 	
+			//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
 			URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
 					.path("{a}")
 					.build("Projet.html");
