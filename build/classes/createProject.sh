@@ -1,6 +1,6 @@
 #!/bin/bash
 # file name: createProject.sh
-PROJECT_DIR=$HOME/Projets-QCM
+PROJECT_DIR=$HOME/$2
 
 mkdir $PROJECT_DIR/$1
 mkdir $PROJECT_DIR/$1/cr

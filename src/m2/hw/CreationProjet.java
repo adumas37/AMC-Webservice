@@ -51,9 +51,8 @@ public class CreationProjet {
 		@FormDataParam("file") FormDataContentDisposition fileDetail) {
 
 		String fileName = fileDetail.getFileName();
-		
 		// save it
-		if (!fileName.equals("") && !nom.equals("")){
+		if (!fileName.equals("") && !nom.equals("") && fileName.contains(".tex")){
 			
 			String uploadedFileLocation = PROJECTS_PATH + "/" + nom + "/" + fileName;
 			creationRepertoire(nom);
@@ -65,6 +64,10 @@ public class CreationProjet {
 			return Response.status(200).entity(output).build();
 		}
 		else {
+			if (!fileName.contains(".tex")){
+				return Response.status(204).entity("Erreur d'extension du fichier" +
+						"Le fichier doit etre un fichier Latex (.tex)").build();
+			}
 			if (fileName.equals("") && nom.equals("")){
 				return Response.status(204).entity("Aucun fichier selectionne ou nom donne. " +
 						"La creation d'un projet requiert un nom et un questionnaire").build();
@@ -77,6 +80,7 @@ public class CreationProjet {
 				return Response.status(204).entity("Aucun fichier selectionne. " +
 						"La creation d'un projet requiert un nom").build();
 			}
+			
 		}
 		
 		return Response.status(406).entity("Not reacheable").build();
