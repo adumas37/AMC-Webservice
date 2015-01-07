@@ -3,10 +3,10 @@ package m2.hw;
 import java.io.File;
 import java.io.IOException;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("ouvertureProjet")
 public class OuvertureProjet {
@@ -22,17 +22,18 @@ public class OuvertureProjet {
 	 * @return
 	 */
 	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public static void main(String[] args) throws IOException {
-		File directory = new File(".");
+	public Response getDirectory() throws IOException {
+		File directory = new File(PROJECTS_PATH+"/");
 		File[] subdirs = directory.listFiles();
+		String directoryList = new String();
+		
 		for (File dir : subdirs) {
-			System.out.println("Directory: " + dir.getName());
 			if (dir.isDirectory()){
-				System.out.println("directory");
+				directoryList +=" "+dir.getName();
 			}
 		}
-		 
+		
+		return Response.ok(directoryList, MediaType.TEXT_PLAIN).build();
 	}	
 	
 }
