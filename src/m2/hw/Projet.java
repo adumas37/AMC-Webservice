@@ -37,7 +37,7 @@ public class Projet {
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
-			"attachment; filename=Copies.pdf");
+			"attachment; filename=Catalogue.pdf");
 		return response.build();
  
 	}
@@ -51,7 +51,7 @@ public class Projet {
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
-			"attachment; filename=Copies.pdf");
+			"attachment; filename=Corrige.pdf");
 		return response.build();
  
 	}
