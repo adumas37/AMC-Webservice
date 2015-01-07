@@ -11,6 +11,7 @@ function afficherDossiers(elmnt){
 	
 	directories.forEach( function(directory){
 		var newNode = document.createElement("div");
+		newNode.className="directory";
 		var text = document.createTextNode(directory);
 		newNode.appendChild(text);
 		document.getElementById("explorer").appendChild(newNode);
