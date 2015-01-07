@@ -11,15 +11,19 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @Path("projet")
 public class Projet {
 
-	private static final String PROJECTS_PATH = "Projets-QCM/";
-	private static final String PROJECT = "test4/";
+	//Projets-QCM/projetTestWebservice
+	private static final String PROJECTS_PATH = "Projets-QCM";
+	private static final String PROJECT = "projetTestWebservice";
 	
+	/**
+	 * Permet de renvoyer les copies a imprimer
+	 * @return
+	 */
 	@Path("copies")
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCopies() {
-		 System.out.println("HERE!!");
-		File file = new File(PROJECTS_PATH+PROJECT+"DOC-sujet.pdf");
+		File file = new File(PROJECTS_PATH +"/"+PROJECT+"/"+PROJECTS_PATH +PROJECT+"sujet.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
@@ -28,12 +32,15 @@ public class Projet {
  
 	}
 	
+	/**
+	 * Permet de renvoyer le catalogue des questions
+	 * @return
+	 */
 	@Path("catalog")
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCatalog() {
-		 System.out.println("HERE!!");
-		File file = new File(PROJECTS_PATH+PROJECT+"DOC-catalog.pdf");
+		File file = new File(PROJECTS_PATH +"/"+PROJECT+"/"+PROJECTS_PATH +PROJECT+"catalog.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
@@ -42,12 +49,15 @@ public class Projet {
  
 	}
 	
+	/**
+	 * Permet de renvoyer la correction des questions
+	 * @return
+	 */
 	@Path("corrige")
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCorrige() {
-		 System.out.println("HERE!!");
-		File file = new File(PROJECTS_PATH+PROJECT+"DOC-corrige.pdf");
+		File file = new File(PROJECTS_PATH +"/"+PROJECT+"/"+PROJECTS_PATH +PROJECT+"corrige.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
@@ -55,4 +65,22 @@ public class Projet {
 		return response.build();
  
 	}
+	
+	/**
+	 * Permet de renvoyer la correction des questions
+	 * @return
+	 */
+	@Path("questionnaire")
+	@GET
+    @Produces("text/plain")
+    public Response getTextFile() {
+
+		File file = new File(PROJECTS_PATH+PROJECT+"questionnaire.tex");
+		ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
+        return response.build();
+
+
+    }
+	
 }
