@@ -56,6 +56,11 @@ public class CreationProjet {
 		// save it
 		if (!fileName.equals("") && !nom.equals("") && fileName.contains(".tex")){
 			
+			//TODO gestion des caracteres speciaux: ;/\{"'` etc.
+			if (nom.contains(" ")){
+				nom = CreationQuestionnaire.replace(nom, " ", "_");
+			}
+			
 			String uploadedFileLocation = PROJECTS_PATH + "/" + nom + "/" + fileName;
 			creationRepertoire(nom);
 			saveFile(uploadedInputStream, uploadedFileLocation);

@@ -7,6 +7,8 @@ function afficherDossiers(elmnt){
 	xhr.send();
 
 	var directories = xhr.responseText.split("/");
+	directories.sort();
+	
 	directories.forEach( function(directory){
 		var newNode = document.createElement("div");
 		var text = document.createTextNode(directory);
