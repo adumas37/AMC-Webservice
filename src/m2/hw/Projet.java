@@ -75,7 +75,7 @@ public class Projet {
     @Produces("text/plain")
     public Response getTextFile() {
 
-		File file = new File(PROJECTS_PATH+PROJECT+"questionnaire.tex");
+		File file = new File(PROJECTS_PATH+"/"+PROJECT+"/"+"questionnaire.tex");
 		ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
         return response.build();
