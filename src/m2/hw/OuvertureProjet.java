@@ -29,7 +29,7 @@ public class OuvertureProjet {
 		
 		for (File dir : subdirs) {
 			if (dir.isDirectory()){
-				directoryList +=" "+dir.getName();
+				directoryList +="/"+dir.getName();
 			}
 		}
 		
