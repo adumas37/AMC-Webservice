@@ -8,20 +8,51 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+@Path("projet")
 public class Projet {
 
-	@Path("pdf")
+	private static final String PROJECTS_PATH = "Projets-QCM/";
+	private static final String PROJECT = "test4/";
+	
+	@Path("copies")
 	@GET
 	@Produces({"application/pdf"})
-	public Response getFile() {
-		 
-		File file = new File("/Projets-QCM/test4/DOC-sujet.pdf");
+	public Response getCopies() {
+		 System.out.println("HERE!!");
+		File file = new File(PROJECTS_PATH+PROJECT+"DOC-sujet.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
-			"attachment; filename=new-excel-file.xls");
+			"attachment; filename=Copies.pdf");
 		return response.build();
  
 	}
 	
+	@Path("catalog")
+	@GET
+	@Produces({"application/pdf"})
+	public Response getCatalog() {
+		 System.out.println("HERE!!");
+		File file = new File(PROJECTS_PATH+PROJECT+"DOC-catalog.pdf");
+ 
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition",
+			"attachment; filename=Copies.pdf");
+		return response.build();
+ 
+	}
+	
+	@Path("corrige")
+	@GET
+	@Produces({"application/pdf"})
+	public Response getCorrige() {
+		 System.out.println("HERE!!");
+		File file = new File(PROJECTS_PATH+PROJECT+"DOC-corrige.pdf");
+ 
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition",
+			"attachment; filename=Copies.pdf");
+		return response.build();
+ 
+	}
 }
