@@ -32,6 +32,7 @@ public class OuvertureProjet {
 				directoryList +="/"+dir.getName();
 			}
 		}
+		directoryList=directoryList.replaceFirst("/", "");
 		
 		return Response.ok(directoryList, MediaType.TEXT_PLAIN).build();
 	}	
