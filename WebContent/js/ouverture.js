@@ -1,5 +1,5 @@
 
-function afficherDossiers(elmnt){	
+function afficherDossiers(elmnt){
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST","rest/ouvertureProjet",false);

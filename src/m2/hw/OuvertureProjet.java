@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 @Path("ouvertureProjet")
 public class OuvertureProjet {
-
+	
 	private static final String PROJECTS_PATH = "Projets-QCM";
 
 	/**
@@ -26,6 +26,8 @@ public class OuvertureProjet {
 		File directory = new File(PROJECTS_PATH+"/");
 		File[] subdirs = directory.listFiles();
 		String directoryList = new String();
+
+		System.out.println(Utilisateur.getUserName());
 		
 		for (File dir : subdirs) {
 			if (dir.isDirectory()){
