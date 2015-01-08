@@ -15,6 +15,7 @@ function afficherDossiers(elmnt){
 		var img = document.createElement("img");
 		img.src="src/directory.png";
 		img.alt="directory: ";
+		img.className="directory";
 		newNode.appendChild(img);
 		var text = document.createTextNode(directory);
 		newNode.appendChild(text);
