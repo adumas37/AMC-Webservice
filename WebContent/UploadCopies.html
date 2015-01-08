@@ -17,9 +17,15 @@
 		<p> Veuillez uploader les copies scannées au format PDF </p>
 		
 		<form id=uploadCopies method=post action="rest/uploadCopies" enctype="multipart/form-data">
-		<p id="fichierCopies">Copies (.pdf): <input id="copiesPDFInput" name="file" type="file"></p>
-		<input id="submit" type="submit" value="Correction Copies"/>
-		
+			<p id="fichierCopies">Copies (.pdf): <input id="copiesPDFInput" name="file" type="file"></p>
+			<p id="choixClasse">Classe: <select id="classeInput" name="classe">
+				<option selected="" value="EI3-INFO">EI3-INFO</option>
+				<option value="EI3-PROD">EI3-PROD</option>
+				<option value="EI3-GC">EI3-GC</option>
+				</select>
+			</p>
+				
+			<input id="submit" type="submit" value="Correction Copies"/>
 		</form>
 		
 	</div>
