@@ -67,7 +67,7 @@ public class Projet {
 	}
 	
 	/**
-	 * Permet de renvoyer la correction des questions
+	 * Permet de renvoyer le questionnaire en format Latex
 	 * @return
 	 */
 	@Path("questionnaire")
