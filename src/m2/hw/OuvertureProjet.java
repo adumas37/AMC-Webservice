@@ -27,7 +27,7 @@ public class OuvertureProjet {
 		File[] subdirs = directory.listFiles();
 		String directoryList = new String();
 
-		System.out.println(Utilisateur.getUserName());
+		//System.out.println(Utilisateurs.getUtilisateur("adumas").getUserName());
 		
 		for (File dir : subdirs) {
 			if (dir.isDirectory()){
