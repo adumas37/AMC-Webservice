@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -33,15 +34,10 @@ public class Utilisateurs {
 	@Path("add")
 	@POST
 	//@Consumes(MediaType.TEXT_PLAIN)
-    public Response addUtilisateur(){
-    		//@FormDataParam("username") String username
-    		//@FormDataParam("password") String password
-		String username="adumas";
-		System.out.println(username);
+    public Response addUtilisateur(String username){
+
     	Utilisateur u = new Utilisateur(username);
-    	System.out.println("new user");
     	utilisateurs.put(username,u);
-    	System.out.println("done");//*/
     	
     	URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
 				.path("{a}")
