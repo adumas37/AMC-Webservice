@@ -77,4 +77,8 @@ input {
 options {
 	margin-left: 50px;
 }
-
+.directory {
+	height: 50px;
+	display: -moz-inline-grid;
+	padding: 20px;
+}
