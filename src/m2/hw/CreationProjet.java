@@ -103,7 +103,7 @@ public class CreationProjet {
 	 * @param uploadedInputStream
 	 * @param serverLocation
 	 */
-	private void saveFile(InputStream uploadedInputStream,
+	public void saveFile(InputStream uploadedInputStream,
             String serverLocation) {
  
         try {
