@@ -3,8 +3,8 @@ package m2.hw;
 import java.net.URI;
 import java.util.HashMap;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -18,27 +18,30 @@ import com.sun.jersey.spi.resource.Singleton;
 @Singleton
 public class Utilisateurs {
 
-	private static HashMap<String,Utilisateur> utilisateurs;
+	private static HashMap<String,Utilisateur> utilisateurs = null;
 	
 	
 	@Path("load")
-    @PostConstruct
-    void loadConfiguration() {
-    	utilisateurs = new HashMap<String,Utilisateur>();
+    @POST
+    public void loadConfiguration() {
+    	if (utilisateurs==null){
+    		utilisateurs = new HashMap<String,Utilisateur>();
+    	}
     	System.out.println("loaded");
     }
 
 	@Path("add")
 	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-    public Response addUtilisateur(
-    		@FormDataParam("username") String username){
+	//@Consumes(MediaType.TEXT_PLAIN)
+    public Response addUtilisateur(){
+    		//@FormDataParam("username") String username
     		//@FormDataParam("password") String password
+		String username="adumas";
 		System.out.println(username);
     	Utilisateur u = new Utilisateur(username);
     	System.out.println("new user");
     	utilisateurs.put(username,u);
-    	System.out.println("done");
+    	System.out.println("done");//*/
     	
     	URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
 				.path("{a}")
@@ -54,7 +57,7 @@ public class Utilisateurs {
     /*@Lock(LockType.READ) // To allow multiple threads to invoke this method
                          // simultaneusly
     public String getValue(String key) {
-    }*/
+    }//*/
     
     
     
