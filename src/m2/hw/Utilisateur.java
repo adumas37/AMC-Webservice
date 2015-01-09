@@ -2,8 +2,8 @@ package m2.hw;
 
 public class Utilisateur {
 
-	private static String userName;
-	private static String project;
+	private String userName;
+	private String project;
 
     public Utilisateur(String username) {
     	userName=username;
