@@ -1,7 +1,9 @@
 package m2.hw;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -132,7 +134,7 @@ public class CreationQuestionnaire {
 			
 				+"\t\\vspace*{.5cm}\n"
 				+"\t\\begin{minipage}{.4\\linewidth}\n"
-				+"\t\\centering\\large\\bf "+ matiere +"\\ Examen du " +date +"\\end{minipage}\n"
+				+"\t\\centering\\large\\bf "+ matiere +"\\\\ Examen du " +date +"\\end{minipage}\n"
 				+"\t\\champnom{\\fbox{\n"
 					            +"\t\t\t\\begin{minipage}{.5\\linewidth}\n"
 					            +"\t\t\tNom et prénom :\n\n"
@@ -405,5 +407,45 @@ public class CreationQuestionnaire {
 		newText.append(text.substring(s));
 		
 		return newText.toString();
+	}
+	
+	
+	@POST
+	@Path("modification")
+	public static String modifierQuestionnaire(){
+		String html="";
+				
+		//try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
+		try(BufferedReader br = new BufferedReader(new FileReader("questionnaire.tex"))) {
+			String exemplaire="1";
+	        String date = "";
+	        String matiere = "";
+	        
+			String line = br.readLine();
+	        while (line != null) {
+	        	System.out.println("line:"+line);
+	        	
+	        	if (line.contains("exemplaire{")){
+	        		exemplaire=line.split("exemplaire")[1].substring(1, 2);
+	        		System.out.println("exemplaires:"+exemplaire);
+	        	}
+	        	else if (line.contains("\\\\ Examen du")){
+	        		date=line.split("\\\\\\\\ Examen du ")[1];
+	        		date=date.split("\\\\end")[0];
+	        		System.out.println("date:"+date);
+	        		matiere=line.split("\\\\\\\\ Examen du ")[0].split("\\\\centering\\\\large\\\\bf ")[1];
+	        		System.out.println("matiere:"+matiere);
+	        	}
+	        	
+	        	
+	        	
+	            line = br.readLine();
+	        }
+
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return html;
 	}
 }
