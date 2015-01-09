@@ -49,7 +49,15 @@ function supprQuestion(elmnt){
 	
 }
 
-
+function chargerQuestionnaire(){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/creationQuestionnaire/modification",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send();
+	console.log(xhr);
+	console.log(xhr.responseText);
+	document.getElementById("questionnaire").innerHTML = xhr.responseText;
+}
 /*
 <reponses>
 <p id="reponse">

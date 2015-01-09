@@ -8,7 +8,7 @@
 	
     <link href="css/styles.css" rel="stylesheet">
 </head>
-<body>
+<body onload="chargerQuestionnaire()">
 
 	<header>AMC Webservice - Creation</header>
 	
@@ -16,7 +16,7 @@
 
 	<div id="content">Creation d'un nouveau questionnaire:
 		<form id="creationForm" method="post" action="rest/creationQuestionnaire" >
-			<questionnaire id="questionnaire">
+			<div id="questionnaire">
 				<p id="entete">
 					<span id="matiere">Matiere:<input class="matiereInput" name="matiere" type="text"/></span>
 					<span id="date">Date (jj/mm/aaaa):<input class="matiereInput" name="date" type="text"/></span>
@@ -43,7 +43,7 @@
 					</options>
 				</blocQR>
 	
-			</questionnaire>
+			</div>
 			
 			<p class="addQ">
 				<input type="button" name="addQ" value="Ajouter question" onclick="ajoutQuestion(this)" />

@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -420,27 +422,80 @@ public class CreationQuestionnaire {
 			String exemplaire="1";
 	        String date = "";
 	        String matiere = "";
+	        String bareme = "1";
+	        String question = "";
+	        ArrayList<String> reponses;
+	        ArrayList<Boolean> bmReponses;
 	        
 			String line = br.readLine();
 	        while (line != null) {
-	        	System.out.println("line:"+line);
 	        	
-	        	if (line.contains("exemplaire{")){
+	        	if (line.contains("\\begin{question")){
+	        		
+	        		reponses = new ArrayList<String>();
+	    	        bmReponses = new ArrayList<Boolean>();
+	    	        
+	        		if (line.contains("\\bareme{")){
+	        			bareme=line.split("bareme")[1].split("b")[1].split("=")[0];
+	        		}
+	        		else {
+	        			bareme="1";
+	        		}
+	        		
+	        		question = br.readLine();
+	        		
+	        		while (!line.contains("\\end{reponses}")){
+	        				
+	        			if (line.contains("\\bonne{") || line.contains("\\mauvaise{")){
+	        				reponses.add(line.split("\\{")[1].split("\\}")[0]);
+	        				bmReponses.add(line.contains("\\bonne{"));
+	        			}
+        				
+	        			line = br.readLine();
+	        			
+	        		}
+	        		html += "<blocQR class=\"blocQR\">" +
+        					"<p class=\"question\">" +
+        					"Question: <input type=\"text\" name=\"question\" class=\"questionInput\" value=\""+question+"\"/>" +
+        					"</p><reponses>";
+        			for (int i=0; i< reponses.size();i++){
+        				html += "<p class=\"reponse\">" +
+        						"Reponse: <input type=\"text\" name=\"reponse\" class=\"reponseInput\" value=\""+reponses.get(i)+"\"/>" +
+								"<span class=\"checkbox\">Bonne reponse?<input type=\"checkbox\" name=\"bonne\""+ (bmReponses.get(i).booleanValue()?" checked":" ")+"/></span>" +
+								"<span class=\"delQ\"><input type=\"button\" name=\"delQ\" value=\"Supprimer reponse\" onclick=\"supprReponse(this)\" /></span>" +
+								"</p>";
+        			}
+        			
+        			html += "</reponses>" +
+        					"<options>" +
+        					"<span class=\"del\"><input type=\"button\" name=\"delQ\" value=\"Supprimer question\" onclick=\"supprQuestion(this)\" /></span>"+
+							"<span class=\"addQ\"><input type=\"button\" name=\"addQ\" value=\"Ajouter reponse\" onclick=\"ajoutReponse(this)\" /></span>"+
+							"<span class=\"checkbox\">Reponses horizontales?<input type=\"checkbox\" name=\"horizontal\"/></span>"+
+							"<span class=\"bareme\">bareme:<input class=\"baremeImput\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\"1\"/></span>"+
+							"</options>"+
+							"</blocQR>";
+	        		
+	        	}
+	        	else if (line.contains("exemplaire{")){
 	        		exemplaire=line.split("exemplaire")[1].substring(1, 2);
-	        		System.out.println("exemplaires:"+exemplaire);
 	        	}
 	        	else if (line.contains("\\\\ Examen du")){
 	        		date=line.split("\\\\\\\\ Examen du ")[1];
 	        		date=date.split("\\\\end")[0];
-	        		System.out.println("date:"+date);
 	        		matiere=line.split("\\\\\\\\ Examen du ")[0].split("\\\\centering\\\\large\\\\bf ")[1];
-	        		System.out.println("matiere:"+matiere);
 	        	}
 	        	
 	        	
 	        	
 	            line = br.readLine();
 	        }
+	        
+	        String entete="<p id=\"entete\">" +
+					"<span id=\"matiere\">Matiere:<input class=\"matiereInput\" name=\"matiere\" type=\"text\" value=\""+matiere+"\"/></span>" +
+					"<span id=\"date\">Date (jj/mm/aaaa):<input class=\"matiereInput\" name=\"date\" type=\"text\" value=\""+date+"\"/></span>"+
+					"<span id=\"nbCopies\">Nombre d'exemplaires de copies:<input class=\"nbCopiesImput\" name=\"nbCopies\" type=\"number\" min=\"1\" max=\"10\" value=\""+exemplaire+"\"/></span>"+
+					"</p>";
+	        html = entete + html;
 
 	    } catch (IOException e) {
 			e.printStackTrace();
