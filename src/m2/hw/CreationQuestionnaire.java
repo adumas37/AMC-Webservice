@@ -51,7 +51,7 @@ public class CreationQuestionnaire {
     @Produces("text/plain")
     public Response getTextFile() {
 
-		File file = new File("Projets-QCM/"+Utilisateurs.getCurrentUser().getProject()+"/questionnaire.tex");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 	        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
@@ -68,7 +68,7 @@ public class CreationQuestionnaire {
 	 * @param data
 	 */
 	private void ecrireFichier(String data){
-		File file = new File("Projets-QCM/"+Utilisateurs.getCurrentUser().getProject()+"/questionnaire.tex");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
 	    FileWriter fw;
 	    int nbCopies = 1;
 	    
