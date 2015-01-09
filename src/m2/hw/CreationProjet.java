@@ -64,6 +64,7 @@ public class CreationProjet {
 			String uploadedFileLocation = PROJECTS_PATH + "/" + nom + "/" + fileName;
 			creationRepertoire(nom);
 			Utilisateurs.getCurrentUser().setProject(nom);
+			System.out.println("user: "+Utilisateurs.getCurrentUser().getUserName()+", project: "+Utilisateurs.getCurrentUser().getProject());
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
 				saveFile(uploadedInputStream, uploadedFileLocation);

@@ -25,8 +25,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @Path("creationQuestionnaire")
 public class CreationQuestionnaire {
 
-	//TODO changer l'emplacement en fonction de l'utilisateur et du projet
-	private static String filePath = "Projets-QCM/"+Utilisateurs.getCurrentUser().getProject()+"/questionnaire.tex";
 	/**
 	 * Fonction appellee par le serveur lors de la creation d'un questionnaire
 	 * Permet de creer un fichier latex sur le serveur.
@@ -53,7 +51,7 @@ public class CreationQuestionnaire {
     @Produces("text/plain")
     public Response getTextFile() {
 
-		File file = new File(filePath);
+		File file = new File("Projets-QCM/"+Utilisateurs.getCurrentUser().getProject()+"/questionnaire.tex");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 	        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
@@ -70,7 +68,7 @@ public class CreationQuestionnaire {
 	 * @param data
 	 */
 	private void ecrireFichier(String data){
-		File file = new File(filePath);
+		File file = new File("Projets-QCM/"+Utilisateurs.getCurrentUser().getProject()+"/questionnaire.tex");
 	    FileWriter fw;
 	    int nbCopies = 1;
 	    
