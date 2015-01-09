@@ -416,9 +416,9 @@ public class CreationQuestionnaire {
 	@Path("modification")
 	public static String modifierQuestionnaire(){
 		String html="";
-				
-		//try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
-		try(BufferedReader br = new BufferedReader(new FileReader("questionnaire.tex"))) {
+		if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())		
+		try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
+		//try(BufferedReader br = new BufferedReader(new FileReader("questionnaire.tex"))) {
 			String exemplaire="1";
 	        String date = "";
 	        String matiere = "";
