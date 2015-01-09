@@ -424,6 +424,7 @@ public class CreationQuestionnaire {
 	        String matiere = "";
 	        String bareme = "1";
 	        String question = "";
+	        boolean multicol = false;
 	        ArrayList<String> reponses;
 	        ArrayList<Boolean> bmReponses;
 	        
@@ -434,6 +435,9 @@ public class CreationQuestionnaire {
 	        		
 	        		reponses = new ArrayList<String>();
 	    	        bmReponses = new ArrayList<Boolean>();
+	    	        multicol=false;
+	    	        bareme="1";
+	    	        question="";
 	    	        
 	        		if (line.contains("\\bareme{")){
 	        			bareme=line.split("bareme")[1].split("b")[1].split("=")[0];
@@ -443,9 +447,13 @@ public class CreationQuestionnaire {
 	        		}
 	        		
 	        		question = br.readLine();
+	        		question = question.replaceAll("\\t", "");
 	        		
 	        		while (!line.contains("\\end{reponses}")){
 	        				
+	        			if (line.contains("\\begin{multicols}")){
+	        				multicol=true;
+	        			}
 	        			if (line.contains("\\bonne{") || line.contains("\\mauvaise{")){
 	        				reponses.add(line.split("\\{")[1].split("\\}")[0]);
 	        				bmReponses.add(line.contains("\\bonne{"));
@@ -470,7 +478,7 @@ public class CreationQuestionnaire {
         					"<options>" +
         					"<span class=\"del\"><input type=\"button\" name=\"delQ\" value=\"Supprimer question\" onclick=\"supprQuestion(this)\" /></span>"+
 							"<span class=\"addQ\"><input type=\"button\" name=\"addQ\" value=\"Ajouter reponse\" onclick=\"ajoutReponse(this)\" /></span>"+
-							"<span class=\"checkbox\">Reponses horizontales?<input type=\"checkbox\" name=\"horizontal\"/></span>"+
+							"<span class=\"checkbox\">Reponses horizontales?<input type=\"checkbox\" name=\"horizontal\""+ (multicol?" checked":" ")+"/></span>"+
 							"<span class=\"bareme\">bareme:<input class=\"baremeImput\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\"1\"/></span>"+
 							"</options>"+
 							"</blocQR>";
