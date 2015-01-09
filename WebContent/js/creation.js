@@ -9,6 +9,7 @@ function ajoutReponse(elmnt){
 	reponse2.getElementsByClassName("reponseInput")[0].value="";
 	reponse2.getElementsByTagName("span")[0].getElementsByTagName("input")[0].checked=false;
 	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
+	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
 };
 
 function ajoutQuestion(elmnt){
@@ -18,8 +19,8 @@ function ajoutQuestion(elmnt){
 
 	question.getElementsByTagName("input")[0].value="";
 	var reponses = question.getElementsByTagName("reponses")[0];
-	if (reponses.childElementCount > 1 ) {
-		while (reponses.childNodes.length >=2){
+	if (reponses.childElementCount > 2 ) {
+		while (reponses.childNodes.length > 2){
 			reponses.removeChild(reponses.firstChild);
 		}
 	}	
@@ -33,7 +34,7 @@ function supprReponse(elmnt){
 	
 	var element = elmnt.parentNode.parentNode;
 	var nbChild = elmnt.parentNode.parentNode.parentNode.childElementCount;
-	if (nbChild>1){
+	if (nbChild>2){
 		element.parentNode.removeChild(element);
 	}
 	
