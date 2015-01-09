@@ -56,7 +56,9 @@ function chargerQuestionnaire(){
 	xhr.send();
 	console.log(xhr);
 	console.log(xhr.responseText);
-	document.getElementById("questionnaire").innerHTML = xhr.responseText;
+	if (xhr.responseText!=""){
+		document.getElementById("questionnaire").innerHTML = xhr.responseText;
+	}
 }
 /*
 <reponses>
