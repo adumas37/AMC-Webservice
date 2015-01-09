@@ -38,6 +38,7 @@ public class Utilisateurs {
 
     	Utilisateur u = new Utilisateur(username);
     	utilisateurs.put(username,u);
+    	this.currentUser=u;
     	
     	URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
 				.path("{a}")
