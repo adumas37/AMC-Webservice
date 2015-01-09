@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 /*TODO
@@ -23,15 +25,23 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @Path("creationQuestionnaire")
 public class CreationQuestionnaire {
 
-	private static String filePath = "questionnaire.tex";
+	//TODO changer l'emplacement en fonction de l'utilisateur et du projet
+	private static String filePath = "Projets-QCM/"+Utilisateurs.getCurrentUser().getProject()+"/questionnaire.tex";
 	/**
 	 * Fonction appellee par le serveur lors de la creation d'un questionnaire
 	 * Permet de creer un fichier latex sur le serveur.
 	 * @param data
 	 */
 	@POST
-	public void creation(String data){
+	public Response creation(String data){
 		ecrireFichier(data);
+		CreationProjet.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
+		
+		//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
+		URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+				.path("{a}")
+				.build("Projet.html");
+		return Response.seeOther(uri).build();
 	}
 	
 	/**
