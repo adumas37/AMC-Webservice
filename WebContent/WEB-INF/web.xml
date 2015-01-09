@@ -23,4 +23,7 @@
     <servlet-name>Jersey REST Service Test</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
+  <welcome-file-list>
+        <welcome-file>identification.html</welcome-file>
+    </welcome-file-list>
 </web-app>
