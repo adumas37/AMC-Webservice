@@ -9,12 +9,15 @@ public class Utilisateur {
     	userName=username;
     }
 
-    public static String getUserName(){
+    public String getUserName(){
     	return userName;
     }
     
-    public static String getProject(){
+    public String getProject(){
     	return project;
+    }
+    public void setProject(String project){
+    	this.project=project;
     }
     
 }
