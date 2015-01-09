@@ -20,7 +20,7 @@ import com.sun.jersey.spi.resource.Singleton;
 public class Utilisateurs {
 
 	private static HashMap<String,Utilisateur> utilisateurs = null;
-	
+	private static Utilisateur currentUser = null;
 	
 	@Path("load")
     @POST
@@ -50,6 +50,9 @@ public class Utilisateurs {
 		return utilisateurs.get(username);
 	}
     
+	public static Utilisateur getCurrentUser(){
+		return currentUser;
+	}
     /*@Lock(LockType.READ) // To allow multiple threads to invoke this method
                          // simultaneusly
     public String getValue(String key) {
