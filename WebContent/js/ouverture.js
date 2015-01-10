@@ -26,7 +26,7 @@ function afficherDossiers(elmnt){
 	
 	directories.forEach( function(directory){
 		var linkNode = document.createElement("a");
-		if (action != Suppression){
+		if (action != "Suppression"){
 			linkNode.setAttribute("href",action);
 			linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
 		}
