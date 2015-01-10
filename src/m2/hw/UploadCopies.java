@@ -19,7 +19,14 @@ public class UploadCopies {
 	private static final String PROJECTS_PATH = "Projets-QCM";
 	private static final String PROJECT = "projetTestWebservice";
 	
-
+	/**
+	 * Permet de telecharger les copies, les enregistrer, de recuperer le fichier CSV de la classe
+	 * et de lancer la correction des copies.
+	 * @param classe
+	 * @param uploadedInputStream
+	 * @param fileDetail
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response Correction(
@@ -38,6 +45,7 @@ public class UploadCopies {
 			
 			//TODO recupererClasseCSV(classe);
 			
+			//TODO lancer correction des copies
 	
 			//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
 			URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")

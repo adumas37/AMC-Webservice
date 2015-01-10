@@ -15,6 +15,9 @@ public class Utilisateurs {
 	private static HashMap<String,Utilisateur> utilisateurs = null;
 	private static Utilisateur currentUser = null;
 	
+	/**
+	 * Initialise le systeme d'utilisateur
+	 */
 	@Path("load")
     @POST
     public void loadConfiguration() {
@@ -23,6 +26,12 @@ public class Utilisateurs {
     	}
     }
 
+	/**
+	 * Permet d'ajouter un utilisateur a la banque d'utilisateur du service.
+	 * Pour le moment, le dernier utilisateur ajouté deviens l'utilisateur actuel.
+	 * @param username
+	 * @return
+	 */
 	@Path("add")
 	@POST
     public Response addUtilisateur(String username){
@@ -37,11 +46,18 @@ public class Utilisateurs {
 		
 		return Response.seeOther(uri).build();
     }
-    
+    /**
+     * Permet d'obtenir l'utilisateur a partir de son username
+     * @param username
+     * @return
+     */
 	public static Utilisateur getUtilisateur(String username){
 		return utilisateurs.get(username);
 	}
-    
+    /**
+     * Renvois l'utilisateur actuel
+     * @return
+     */
 	public static Utilisateur getCurrentUser(){
 		return currentUser;
 	}    
