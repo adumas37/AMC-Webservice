@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
