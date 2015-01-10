@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 function ajoutReponse(elmnt){
 	
 	var reponse = document.getElementsByClassName("reponse")[0];
@@ -54,18 +50,7 @@ function chargerQuestionnaire(){
 	xhr.open("POST","rest/creationQuestionnaire/modification",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send();
-	console.log(xhr);
-	console.log(xhr.responseText);
 	if (xhr.responseText!=""){
 		document.getElementById("questionnaire").innerHTML = xhr.responseText;
 	}
 }
-/*
-<reponses>
-<p id="reponse">
-	Reponse: <input type="text" name="r1.1" id="reponseInput"/>
-	<span id="checkbox">Bonne reponse?<input type="checkbox" name="c1"/></span>
-	<span id="add"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
-</p>
-</reponses>
-*/

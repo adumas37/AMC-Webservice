@@ -10,10 +10,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 @Path("projet")
 public class Projet {
-
-	//Projets-QCM/projetTestWebservice
-	private static final String PROJECTS_PATH = "Projets-QCM";
-	private static final String PROJECT = "projetTestWebservice";
 	
 	/**
 	 * Permet de renvoyer les copies a imprimer
@@ -23,7 +19,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCopies() {
-		File file = new File(PROJECTS_PATH +"/"+PROJECT+"/"+PROJECTS_PATH +PROJECT+"sujet.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"sujet.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
@@ -40,7 +36,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCatalog() {
-		File file = new File(PROJECTS_PATH +"/"+PROJECT+"/"+PROJECTS_PATH +PROJECT+"catalog.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"catalog.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
@@ -57,7 +53,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCorrige() {
-		File file = new File(PROJECTS_PATH +"/"+PROJECT+"/"+PROJECTS_PATH +PROJECT+"corrige.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"corrige.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
@@ -75,7 +71,7 @@ public class Projet {
     @Produces("text/plain")
     public Response getTextFile() {
 
-		File file = new File(PROJECTS_PATH+"/"+PROJECT+"/"+"questionnaire.tex");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
 		ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
         return response.build();

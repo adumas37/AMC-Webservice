@@ -28,7 +28,6 @@ public class Utilisateurs {
     	if (utilisateurs==null){
     		utilisateurs = new HashMap<String,Utilisateur>();
     	}
-    	System.out.println("loaded");
     }
 
 	@Path("add")
@@ -53,12 +52,6 @@ public class Utilisateurs {
     
 	public static Utilisateur getCurrentUser(){
 		return currentUser;
-	}
-    /*@Lock(LockType.READ) // To allow multiple threads to invoke this method
-                         // simultaneusly
-    public String getValue(String key) {
-    }//*/
-    
-    
+	}    
     
 }
