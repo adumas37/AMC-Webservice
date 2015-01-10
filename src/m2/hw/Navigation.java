@@ -31,6 +31,5 @@ public class Navigation {
 	@POST
 	public void setProject(String project){
 		Utilisateurs.getCurrentUser().setProject(project);
-		System.out.println("setProject: "+project + ", project: "+Utilisateurs.getCurrentUser().getProject());
 	}
 }

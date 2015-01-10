@@ -10,10 +10,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 @Path("projet")
 public class Projet {
-
-	//Projets-QCM/projetTestWebservice
-	private static final String PROJECTS_PATH = "Projets-QCM";
-	private static final String PROJECT = "projetTestWebservice";
 	
 	/**
 	 * Permet de renvoyer les copies a imprimer

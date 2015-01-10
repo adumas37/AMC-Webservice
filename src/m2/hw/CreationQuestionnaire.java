@@ -23,7 +23,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
  *		- Ajout d'autres types de questions
  *		- Ammeliorer la robustesse
  *		- Mieux prendre en charge les caracteres speciaux
- *		- Ajout des coefficient des questions
  */
 
 @Path("creationQuestionnaire")
@@ -193,7 +192,6 @@ public class CreationQuestionnaire {
 				//questions[0] contient les donnees sur la matière, la date et le nombre de copies
 				
 				for (int i=1 ; i<questions.length ; i++){//pour chaque question et ses reponses
-					//System.out.println("question "+i+": "+questions[i]);
 					
 					String[] testMulti = questions[i].split("&bonne=");
 					if (testMulti.length > 2 ){//s'il y a plusieurs bonnes reponses
