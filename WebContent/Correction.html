@@ -8,17 +8,17 @@
 	
     <link href="css/styles.css" rel="stylesheet">
 </head>
-<body>
-
+<body onload="afficherNotes(this)">
+	
 	<header>AMC Webservice - Correction des copies</header>	
 	<hr>
-
+	<div id="loading"> LOADING</div>
 	<div id="content">
 		<div id="resultats">
 			tableau des resultats
 		</div>
-		<form id="DownloadResults" method="get" action="rest/correction">
-			<input type="button" value="Telecharger les resultats"/>
+		<form id="DownloadResults" method="get" action="rest/correction/download">
+			<input type="submit" value="Telecharger les resultats"/>
 		</form>		
 		<input type="button" value="Envoi des mails aux eleves"/>
 		<a href="index.html"><input type="button" value="Accueil" /></a>
@@ -27,7 +27,7 @@
 	<hr>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
-	<script src="js/creation.js"></script>
+	<script src="js/correction.js"></script>
 
 </body>
 </html>
