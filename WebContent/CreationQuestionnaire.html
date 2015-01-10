@@ -8,7 +8,7 @@
 	
     <link href="css/styles.css" rel="stylesheet">
 </head>
-<body>
+<body onload="chargerQuestionnaire()">
 
 	<header>AMC Webservice - Creation</header>
 	
@@ -16,7 +16,7 @@
 
 	<div id="content">Creation d'un nouveau questionnaire:
 		<form id="creationForm" method="post" action="rest/creationQuestionnaire" >
-			<questionnaire id="questionnaire">
+			<div id="questionnaire">
 				<p id="entete">
 					<span id="matiere">Matiere:<input class="matiereInput" name="matiere" type="text"/></span>
 					<span id="date">Date (jj/mm/aaaa):<input class="matiereInput" name="date" type="text"/></span>
@@ -30,7 +30,7 @@
 					<reponses>
 						<p class="reponse">
 							Reponse: <input type="text" name="reponse" class="reponseInput"/>
-							<span class="checkbox">Bonne reponse?<input type="checkbox" name="bonne"/></span>
+							<span class="checkbox">Bonne reponse?<input type="checkbox" name="bonne" checked/></span>
 							<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" /></span>
 						</p>
 					</reponses>
@@ -38,12 +38,12 @@
 					<options>
 						<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" /></span>
 						<span class="addQ"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
-						<span class="checkbox">Reponses horizontales?<input type="checkbox" name="horizontal"/></span>
+						<span class="checkbox">Reponses en colonnes?<input type="checkbox" name="horizontal"/></span>
 						<span class="bareme">bareme:<input class="baremeImput" name="bareme" type="number" min="1" max="20" value="1"/></span>
 					</options>
 				</blocQR>
 	
-			</questionnaire>
+			</div>
 			
 			<p class="addQ">
 				<input type="button" name="addQ" value="Ajouter question" onclick="ajoutQuestion(this)" />

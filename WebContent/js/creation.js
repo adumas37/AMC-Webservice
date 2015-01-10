@@ -24,7 +24,7 @@ function ajoutQuestion(elmnt){
 		}
 	}	
 	reponses.getElementsByClassName("reponseInput")[0].value="";
-	reponses.getElementsByTagName("input")[0].checked=false;
+	reponses.getElementsByTagName("input")[0].checked=true;
 
 	document.getElementById("questionnaire").appendChild(question);
 };
@@ -49,7 +49,17 @@ function supprQuestion(elmnt){
 	
 }
 
-
+function chargerQuestionnaire(){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/creationQuestionnaire/modification",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send();
+	console.log(xhr);
+	console.log(xhr.responseText);
+	if (xhr.responseText!=""){
+		document.getElementById("questionnaire").innerHTML = xhr.responseText;
+	}
+}
 /*
 <reponses>
 <p id="reponse">

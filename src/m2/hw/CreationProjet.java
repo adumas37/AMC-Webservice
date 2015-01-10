@@ -54,42 +54,47 @@ public class CreationProjet {
 
 		String fileName = fileDetail.getFileName();
 		// save it
-		if (!fileName.equals("") && !nom.equals("") && fileName.contains(".tex")){
+		if (!nom.equals("")){
 			
 			//TODO gestion des caracteres speciaux: ;/\{"'` etc.
 			if (nom.contains(" ")){
 				nom = CreationQuestionnaire.replace(nom, " ", "_");
 			}
-			
+			//TODO verifier que le repertoire n'existe pas deja
 			String uploadedFileLocation = PROJECTS_PATH + "/" + nom + "/" + fileName;
 			creationRepertoire(nom);
-			saveFile(uploadedInputStream, uploadedFileLocation);
-			prepareProject (nom, fileName);
-	
-			//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
-			URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
-					.path("{a}")
-					.build("Projet.html");
+			Utilisateurs.getCurrentUser().setProject(nom);
+			System.out.println("user: "+Utilisateurs.getCurrentUser().getUserName()+", project: "+Utilisateurs.getCurrentUser().getProject());
 			
-			return Response.seeOther(uri).build();
-		}
-		else {
-			if (!fileName.contains(".tex")){
-				return Response.status(204).entity("Erreur d'extension du fichier" +
-						"Le fichier doit etre un fichier Latex (.tex)").build();
-			}
-			if (fileName.equals("") && nom.equals("")){
-				return Response.status(204).entity("Aucun fichier selectionne ou nom donne. " +
-						"La creation d'un projet requiert un nom et un questionnaire").build();
-			}
-			else if (nom.equals("")) {
-				return Response.status(204).entity("Aucun nom specifie. " +
-						"La creation d'un projet requiert un nom").build();
+			if (!fileName.equals("") && fileName.contains(".tex")){
+				saveFile(uploadedInputStream, uploadedFileLocation);
+				prepareProject (nom, fileName);
+		
+				//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
+				URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+						.path("{a}")
+						.build("Projet.html");
+				return Response.seeOther(uri).build();
 			}
 			else if (fileName.equals("")){
-				return Response.status(204).entity("Aucun fichier selectionne. " +
-						"La creation d'un projet requiert un nom").build();
+				//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
+				URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+						.path("{a}")
+						.build("CreationQuestionnaire.html");
+				return Response.seeOther(uri).build();
 			}
+			else{
+				if (!fileName.contains(".tex")){
+					return Response.status(204).entity("Erreur d'extension du fichier" +
+							"Le fichier doit etre un fichier Latex (.tex)").build();
+				}
+			}
+			
+			
+		}
+		else {
+			return Response.status(204).entity("Aucun nom specifie. " +
+					"La creation d'un projet requiert un nom").build();
 			
 		}
 		
@@ -172,7 +177,7 @@ public class CreationProjet {
 	 * @param nom
 	 * @param fileName
 	 */
-	private void prepareProject(String nom, String fileName){
+	public static void prepareProject(String nom, String fileName){
 		try{
 			String filePath = PROJECTS_PATH +"/" + nom + "/" + fileName;
 			String projectPath = PROJECTS_PATH + nom;

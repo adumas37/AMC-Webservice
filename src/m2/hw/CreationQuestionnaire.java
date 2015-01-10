@@ -1,15 +1,21 @@
 package m2.hw;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 /*TODO
@@ -23,15 +29,21 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @Path("creationQuestionnaire")
 public class CreationQuestionnaire {
 
-	private static String filePath = "questionnaire.tex";
 	/**
 	 * Fonction appellee par le serveur lors de la creation d'un questionnaire
 	 * Permet de creer un fichier latex sur le serveur.
 	 * @param data
 	 */
 	@POST
-	public void creation(String data){
+	public Response creation(String data){
 		ecrireFichier(data);
+		CreationProjet.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
+		
+		//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
+		URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+				.path("{a}")
+				.build("Projet.html");
+		return Response.seeOther(uri).build();
 	}
 	
 	/**
@@ -43,7 +55,7 @@ public class CreationQuestionnaire {
     @Produces("text/plain")
     public Response getTextFile() {
 
-		File file = new File(filePath);
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 	        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
@@ -60,7 +72,7 @@ public class CreationQuestionnaire {
 	 * @param data
 	 */
 	private void ecrireFichier(String data){
-		File file = new File(filePath);
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
 	    FileWriter fw;
 	    int nbCopies = 1;
 	    
@@ -124,7 +136,7 @@ public class CreationQuestionnaire {
 			
 				+"\t\\vspace*{.5cm}\n"
 				+"\t\\begin{minipage}{.4\\linewidth}\n"
-				+"\t\\centering\\large\\bf "+ matiere +"\\ Examen du " +date +"\\end{minipage}\n"
+				+"\t\\centering\\large\\bf "+ matiere +"\\\\ Examen du " +date +"\\end{minipage}\n"
 				+"\t\\champnom{\\fbox{\n"
 					            +"\t\t\t\\begin{minipage}{.5\\linewidth}\n"
 					            +"\t\t\tNom et prénom :\n\n"
@@ -397,5 +409,105 @@ public class CreationQuestionnaire {
 		newText.append(text.substring(s));
 		
 		return newText.toString();
+	}
+	
+	
+	@POST
+	@Path("modification")
+	public static String modifierQuestionnaire(){
+		String html="";
+		if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())		
+		try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
+			String exemplaire="1";
+	        String date = "";
+	        String matiere = "";
+	        String bareme = "1";
+	        String question = "";
+	        boolean multicol = false;
+	        ArrayList<String> reponses;
+	        ArrayList<Boolean> bmReponses;
+	        
+			String line = br.readLine();
+	        while (line != null) {
+	        	
+	        	if (line.contains("\\begin{question")){
+	        		
+	        		reponses = new ArrayList<String>();
+	    	        bmReponses = new ArrayList<Boolean>();
+	    	        multicol=false;
+	    	        bareme="1";
+	    	        question="";
+	    	        
+	        		if (line.contains("\\bareme{")){
+	        			bareme=line.split("bareme")[1].split("b")[1].split("=")[0];
+	        		}
+	        		else {
+	        			bareme="1";
+	        		}
+	        		
+	        		question = br.readLine();
+	        		question = question.replaceAll("\\t", "");
+	        		
+	        		while (!line.contains("\\end{reponses}")){
+	        				
+	        			if (line.contains("\\begin{multicols}")){
+	        				multicol=true;
+	        			}
+	        			if (line.contains("\\bonne{") || line.contains("\\mauvaise{")){
+	        				reponses.add(line.split("\\{")[1].split("\\}")[0]);
+	        				bmReponses.add(line.contains("\\bonne{"));
+	        			}
+        				
+	        			line = br.readLine();
+	        			
+	        		}
+	        		html += "<blocQR class=\"blocQR\">" +
+        					"<p class=\"question\">" +
+        					"Question: <input type=\"text\" name=\"question\" class=\"questionInput\" value=\""+question+"\"/>" +
+        					"</p><reponses>";
+        			for (int i=0; i< reponses.size();i++){
+        				html += "<p class=\"reponse\">" +
+        						"Reponse: <input type=\"text\" name=\"reponse\" class=\"reponseInput\" value=\""+reponses.get(i)+"\"/>" +
+								"<span class=\"checkbox\">Bonne reponse?<input type=\"checkbox\" name=\"bonne\""+ (bmReponses.get(i).booleanValue()?" checked":" ")+"/></span>" +
+								"<span class=\"delQ\"><input type=\"button\" name=\"delQ\" value=\"Supprimer reponse\" onclick=\"supprReponse(this)\" /></span>" +
+								"</p>";
+        			}
+        			
+        			html += "</reponses>" +
+        					"<options>" +
+        					"<span class=\"del\"><input type=\"button\" name=\"delQ\" value=\"Supprimer question\" onclick=\"supprQuestion(this)\" /></span>"+
+							"<span class=\"addQ\"><input type=\"button\" name=\"addQ\" value=\"Ajouter reponse\" onclick=\"ajoutReponse(this)\" /></span>"+
+							"<span class=\"checkbox\">Reponses horizontales?<input type=\"checkbox\" name=\"horizontal\""+ (multicol?" checked":" ")+"/></span>"+
+							"<span class=\"bareme\">bareme:<input class=\"baremeImput\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>"+
+							"</options>"+
+							"</blocQR>";
+	        		
+	        	}
+	        	else if (line.contains("exemplaire{")){
+	        		exemplaire=line.split("exemplaire")[1].substring(1, 2);
+	        	}
+	        	else if (line.contains("\\\\ Examen du")){
+	        		date=line.split("\\\\\\\\ Examen du ")[1];
+	        		date=date.split("\\\\end")[0];
+	        		matiere=line.split("\\\\\\\\ Examen du ")[0].split("\\\\centering\\\\large\\\\bf ")[1];
+	        	}
+	        	
+	        	
+	        	
+	            line = br.readLine();
+	        }
+	        
+	        String entete="<p id=\"entete\">" +
+					"<span id=\"matiere\">Matiere:<input class=\"matiereInput\" name=\"matiere\" type=\"text\" value=\""+matiere+"\"/></span>" +
+					"<span id=\"date\">Date (jj/mm/aaaa):<input class=\"matiereInput\" name=\"date\" type=\"text\" value=\""+date+"\"/></span>"+
+					"<span id=\"nbCopies\">Nombre d'exemplaires de copies:<input class=\"nbCopiesImput\" name=\"nbCopies\" type=\"number\" min=\"1\" max=\"10\" value=\""+exemplaire+"\"/></span>"+
+					"</p>";
+	        html = entete + html;
+
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return html;
 	}
 }
