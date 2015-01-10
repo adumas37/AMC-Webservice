@@ -6,7 +6,8 @@ public class Utilisateur {
 	private String userName;
 	private String project;
 	private String projectPath;
-
+	private String action;
+	
     public Utilisateur(String username) {
     	userName=username;
     }
@@ -24,6 +25,12 @@ public class Utilisateur {
     }
     public String getProjectPath(){
     	return this.projectPath;
+    }
+    public String getAction(){
+    	return this.action;
+    }
+    public void setAction(String action){
+    	this.action=action;
     }
     
 }
