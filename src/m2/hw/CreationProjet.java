@@ -35,6 +35,7 @@ import com.sun.jersey.multipart.FormDataParam;
 @Path("creationProjet")
 public class CreationProjet {
 
+	//TODO changer ca!!!
 	private static final String PROJECTS_PATH = "Projets-QCM";
 
 	/**

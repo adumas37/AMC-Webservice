@@ -7,7 +7,7 @@ function afficherDossiers(elmnt){
 	
 	var action;
 	if (xhr.responseText == "correction"){
-		action = "Correction.html";
+		action = "UploadCopies.html";
 	}
 	else if (xhr.responseText == "suppression"){
 		action = "Suppression";
