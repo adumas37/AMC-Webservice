@@ -1,12 +1,16 @@
 
 function afficherDossiers(elmnt){
-	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/ouvertureProjet",false);
+	xhr.open("POST","rest/navigation/getAction",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send();
+	
+	var xhr2 = new XMLHttpRequest();
+	xhr2.open("POST","rest/ouvertureProjet",false);
+	xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr2.send();
 
-	var directories = xhr.responseText.split("/");
+	var directories = xhr2.responseText.split("/");
 	directories.sort();
 	
 	directories.forEach( function(directory){
