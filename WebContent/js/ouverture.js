@@ -6,7 +6,6 @@ function afficherDossiers(elmnt){
 	xhr.send();
 	
 	var action;
-	console.log("coucou: "+xhr.responseText);
 	if (xhr.responseText == "correction"){
 		action = "Correction.html";
 	}
@@ -25,6 +24,7 @@ function afficherDossiers(elmnt){
 	directories.forEach( function(directory){
 		var linkNode = document.createElement("a");
 		linkNode.setAttribute("href",action);
+		linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
 		var newNode = document.createElement("div");
 		newNode.className="directory";
 		var img = document.createElement("img");
@@ -37,4 +37,12 @@ function afficherDossiers(elmnt){
 		linkNode.appendChild(newNode);
 		document.getElementById("explorer").appendChild(linkNode);
 	});
+};
+
+function setProject(directory){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/navigation/setProject",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send(directory);
+	return true;
 };
