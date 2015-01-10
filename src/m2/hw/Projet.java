@@ -10,6 +10,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 @Path("projet")
 public class Projet {
+
+	//Projets-QCM/projetTestWebservice
+	private static final String PROJECTS_PATH = "Projets-QCM";
+	private static final String PROJECT = "projetTestWebservice";
 	
 	/**
 	 * Permet de renvoyer les copies a imprimer
@@ -19,8 +23,8 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCopies() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"sujet.pdf");
-		
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"sujet.pdf");
+ 
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
 			"attachment; filename=Copies.pdf");
@@ -36,7 +40,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCatalog() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"catalog.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"catalog.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
@@ -53,7 +57,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCorrige() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"corrige.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"corrige.pdf");
  
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
