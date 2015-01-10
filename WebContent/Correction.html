@@ -8,15 +8,17 @@
 	
     <link href="css/styles.css" rel="stylesheet">
 </head>
-<body onload="afficherNotes(this)">
+<body onload="chargerNotes(this)">
 	
 	<header>AMC Webservice - Correction des copies</header>	
 	<hr>
-	<div id="loading"> LOADING</div>
 	<div id="content">
-		<div id="resultats">
+	<input type="button" value="Afficher Notes" onclick="afficherNotes(this)"/>
+	<div id=resultats> 
+		<div id="tableau">
 			tableau des resultats
 		</div>
+	</div>	
 		<form id="DownloadResults" method="get" action="rest/correction/download">
 			<input type="submit" value="Telecharger les resultats"/>
 		</form>		
