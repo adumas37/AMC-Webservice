@@ -24,6 +24,7 @@ public class Navigation {
 		Utilisateurs.getCurrentUser().setAction("creation");
 	}
 	@Path("getAction")
+	@GET
 	public String getAction(){
 		System.out.println("getAction: "+Utilisateurs.getCurrentUser().getAction());
 		return Utilisateurs.getCurrentUser().getAction();

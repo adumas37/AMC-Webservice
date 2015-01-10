@@ -1,9 +1,18 @@
 
 function afficherDossiers(elmnt){
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/navigation/getAction",false);
+	xhr.open("GET","rest/navigation/getAction",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send();
+	
+	var action;
+	console.log("coucou: "+xhr.responseText);
+	if (xhr.responseText == "correction"){
+		action = "Correction.html";
+	}
+	else {
+		action = "Projet.html";
+	}
 	
 	var xhr2 = new XMLHttpRequest();
 	xhr2.open("POST","rest/ouvertureProjet",false);
@@ -14,6 +23,8 @@ function afficherDossiers(elmnt){
 	directories.sort();
 	
 	directories.forEach( function(directory){
+		var linkNode = document.createElement("a");
+		linkNode.setAttribute("href",action);
 		var newNode = document.createElement("div");
 		newNode.className="directory";
 		var img = document.createElement("img");
@@ -23,6 +34,7 @@ function afficherDossiers(elmnt){
 		newNode.appendChild(img);
 		var text = document.createTextNode(directory);
 		newNode.appendChild(text);
-		document.getElementById("explorer").appendChild(newNode);
+		linkNode.appendChild(newNode);
+		document.getElementById("explorer").appendChild(linkNode);
 	});
 };
