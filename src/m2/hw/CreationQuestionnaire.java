@@ -418,7 +418,6 @@ public class CreationQuestionnaire {
 		String html="";
 		if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())		
 		try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
-		//try(BufferedReader br = new BufferedReader(new FileReader("questionnaire.tex"))) {
 			String exemplaire="1";
 	        String date = "";
 	        String matiere = "";
@@ -479,7 +478,7 @@ public class CreationQuestionnaire {
         					"<span class=\"del\"><input type=\"button\" name=\"delQ\" value=\"Supprimer question\" onclick=\"supprQuestion(this)\" /></span>"+
 							"<span class=\"addQ\"><input type=\"button\" name=\"addQ\" value=\"Ajouter reponse\" onclick=\"ajoutReponse(this)\" /></span>"+
 							"<span class=\"checkbox\">Reponses horizontales?<input type=\"checkbox\" name=\"horizontal\""+ (multicol?" checked":" ")+"/></span>"+
-							"<span class=\"bareme\">bareme:<input class=\"baremeImput\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\"1\"/></span>"+
+							"<span class=\"bareme\">bareme:<input class=\"baremeImput\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>"+
 							"</options>"+
 							"</blocQR>";
 	        		
