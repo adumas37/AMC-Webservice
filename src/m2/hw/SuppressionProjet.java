@@ -8,6 +8,10 @@ import javax.ws.rs.Path;
 @Path("suppressionProjet")
 public class SuppressionProjet {
 
+	/**
+	 * Permet de supprimer un projet
+	 * @param project
+	 */
 	@POST
 	public void supprimerProjet(String project){
 		Utilisateurs.getCurrentUser().setProject(project);
@@ -15,6 +19,11 @@ public class SuppressionProjet {
 		deleteDir(dir);
 	}
 	
+	/**
+	 * permet de supprimer un dossier en supprimant recursivement les sous-dossiers et fichiers
+	 * @param dir
+	 * @return
+	 */
 	private boolean deleteDir(File dir) {
 		if (dir.isDirectory()) {
 			String[] children = dir.list();

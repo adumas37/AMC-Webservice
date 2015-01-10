@@ -1,18 +1,14 @@
 package m2.hw;
 
-import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
@@ -23,7 +19,14 @@ public class UploadCopies {
 	private static final String PROJECTS_PATH = "Projets-QCM";
 	private static final String PROJECT = "projetTestWebservice";
 	
-
+	/**
+	 * Permet de telecharger les copies, les enregistrer, de recuperer le fichier CSV de la classe
+	 * et de lancer la correction des copies.
+	 * @param classe
+	 * @param uploadedInputStream
+	 * @param fileDetail
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response Correction(
@@ -42,6 +45,7 @@ public class UploadCopies {
 			
 			//TODO recupererClasseCSV(classe);
 			
+			//TODO lancer correction des copies
 	
 			//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
 			URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")

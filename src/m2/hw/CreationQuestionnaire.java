@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -409,7 +408,11 @@ public class CreationQuestionnaire {
 		return newText.toString();
 	}
 	
-	
+	/**
+	 * Permet de renvoyer une partie du code html de la page de creation avec les valeurs fournies 
+	 * precedement par l'utilisateur. Lis le fichier questionnaire.tex du projet courant.
+	 * @return
+	 */
 	@POST
 	@Path("modification")
 	public static String modifierQuestionnaire(){
