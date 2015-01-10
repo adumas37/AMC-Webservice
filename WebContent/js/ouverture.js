@@ -9,6 +9,9 @@ function afficherDossiers(elmnt){
 	if (xhr.responseText == "correction"){
 		action = "Correction.html";
 	}
+	else if (xhr.responseText == "suppression"){
+		action = "Suppression";
+	}
 	else {
 		action = "Projet.html";
 	}
@@ -23,8 +26,14 @@ function afficherDossiers(elmnt){
 	
 	directories.forEach( function(directory){
 		var linkNode = document.createElement("a");
-		linkNode.setAttribute("href",action);
-		linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
+		if (action != Suppression){
+			linkNode.setAttribute("href",action);
+			linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
+		}
+		else {
+			linkNode.setAttribute("href","");
+			linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
+		}
 		var newNode = document.createElement("div");
 		newNode.className="directory";
 		var img = document.createElement("img");
@@ -42,6 +51,14 @@ function afficherDossiers(elmnt){
 function setProject(directory){
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST","rest/navigation/setProject",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send(directory);
+	return true;
+};
+
+function delProject(directory){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/suppressionProjet",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send(directory);
 	return true;
