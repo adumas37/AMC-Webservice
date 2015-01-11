@@ -78,6 +78,28 @@ public class CommandesAMC {
 		}
 		
 	}
+	
+	/**
+	 * Fonction permettant d'effectuer l'association entre les noms des eleves 
+	 * et leurs copies automatiquement
+	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
+	 * @param projectPath
+	 */
+	/* Fonction non testee
+	public static void associationAuto(String projectPath){
+		if (projectPath.contains("/")){
+			String username = projectPath.split("/")[0];
+	
+			String[] cmd = { "auto-multiple-choice", "association-auto", "--data",
+							 "/media/"+projectPath+"data/",
+							 "--notes-id", "numero", "--liste",
+							 "/media/"+projectPath+"student.csv",
+							 "--liste-key", "numero" };
+			
+			executerCommande(cmd, username);
+		}
+		
+	}//*/
 	/**
 	 * Permet d'executer la commande fournie en entrée, dans le dossier de l'utilisateur specifié
 	 * @param amcCmd
