@@ -19,7 +19,7 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "meptex", "--src",
-							 "/media/"+projectPath+"questionnaire-calage.xy",
+							"/media/"+projectPath+"questionnaire-calage.xy",
 							 "--data", "/media/"+projectPath+"data/" };
 			
 			executerCommande(cmd, username);
@@ -43,7 +43,24 @@ public class CommandesAMC {
 			executerCommande(cmd, username);
 		}
 		
-	}	
+	}
+	/**
+	 * Fonction permettant d'analyser les reponses des copies d'un projet
+	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
+	 * @param projectPath
+	 */
+	public static void analyseReponses(String projectPath){
+		if (projectPath.contains("/")){
+			String username = projectPath.split("/")[0];
+	
+			String[] cmd = { "auto-multiple-choice", "analyse", "--projet",
+							 "/media/"+projectPath,
+							 "/media/"+projectPath+"scans/*" };
+			
+			executerCommande(cmd, username);
+		}
+		
+	}
 	/**
 	 * Permet d'executer la commande fournie en entrée, dans le dossier de l'utilisateur specifié
 	 * @param amcCmd
