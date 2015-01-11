@@ -24,7 +24,24 @@ public class CommandesAMC {
 		executerCommande(cmd, username);
 		
 	}
+	/**
+	 * Fonction permettant de mettre en forme la commande d'AMC afin de generer 
+	 * les fichiers d'images des copies.
+	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
+	 * @param projectPath
+	 */
+	public static void generationImagesCopies(String projectPath){
+		if (projectPath.contains("/")){
+			String username = projectPath.split("/")[0];
 	
+			String[] cmd = { "auto-multiple-choice", "getimages", "--copy-to",
+							 "/media/"+projectPath+"scans/",
+							 "/media/"+projectPath+"copies.pdf" };
+			
+			executerCommande(cmd, username);
+		}
+		
+	}	
 	/**
 	 * Permet d'executer la commande fournie en entrée, dans le dossier de l'utilisateur specifié
 	 * @param amcCmd
