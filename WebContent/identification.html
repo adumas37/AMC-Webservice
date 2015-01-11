@@ -1,29 +1,35 @@
-<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Identification</title>
-</head>
-<body onload="Load()">
+	<meta charset="UTF-8">
+	<title>Identification</title>
+	<link rel="stylesheet" href="css/styles.css">
 
-	<div id="content">
-		<p>Saisir votre nom d'utilisateur et mot de passe</p>
-		<form id="identification" action="rest/utilisateurs/add" method="post">
-			<p>Nom d'utilisateur <input id="usernameInput" type="text" name="username" value=""/></p>
-			<!-- <p>Mot de passe <input id="passwordInput" type="password" name="password"/></p>
-			Nous ne nous interressons pas au mdp pour l'instant -->
-			<input type="submit" value="submit" value="Connexion"/>
-		</form>
-			
-	</div> <!-- /content -->
-	
-	<hr>
-	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
+	<body onload="Load()">
+		<div class="page">
+			<div class="bloc-principal">
+				<div class="main-header"> Authentification </div> 
+				<div id="content" class="contenu identification">
+					
+						<h2>Saisir votre nom d'utilisateur et mot de passe</h2>
+						<p>	<form id="identification" action="rest/utilisateurs/add" method="post">
+							<p>Nom d'utilisateur <input id="usernameInput" type="text" name="username" value="" class="inputButton inputText"/></p>
+							<!-- <p>Mot de passe <input id="passwordInput" type="password" name="password"/></p>
+							Nous ne nous interressons pas au mdp pour l'instant -->
+							<input type="submit" value="submit" value="Connexion" class="orangeButton inputButton"/>
+							</form><p>
+				
+				</div> <!-- /content -->
+			</div><!-- /bloc -->
+			<div class="footer">
+				Work in progress - Erwan BRIAND && Alexis DUMAS</div>
+
+		</div><!-- page -->
+	</body>
 	<script>
-	function Load(){var xhr2 = new XMLHttpRequest();
-	xhr2.open("POST","rest/utilisateurs/load",false);
-	xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhr2.send();
-	console.log("send");};</script>
-</body>
+		function Load(){var xhr2 = new XMLHttpRequest();
+		xhr2.open("POST","rest/utilisateurs/load",false);
+		xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr2.send();
+		console.log("send");};
+	</script>
 </html>
