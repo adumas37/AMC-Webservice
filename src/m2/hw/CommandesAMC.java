@@ -8,6 +8,22 @@ import java.util.logging.Level;
 import com.sun.istack.internal.logging.Logger;
 
 public class CommandesAMC {
+
+	/**
+	 * Fonction permettant de mettre en forme la commande d'AMC afin de creer les Layouts.
+	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
+	 * @param projectPath
+	 */
+	public static void creationLayout(String projectPath){
+		
+		String username = projectPath.split("/")[0];
+
+		String[] cmd = { "meptex", "--src", "/media/"+projectPath+"questionnaire-calage.xy",
+						 "--data", "/media/"+projectPath+"data/" };
+		
+		executerCommande(cmd, username);
+		
+	}
 	
 	private static void executerCommande(String[] amcCmd , String username){
 		try{
