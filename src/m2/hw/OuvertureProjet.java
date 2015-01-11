@@ -11,8 +11,6 @@ import javax.ws.rs.core.Response;
 @Path("ouvertureProjet")
 public class OuvertureProjet {
 	
-	private static final String PROJECTS_PATH = "Projets-QCM";
-
 	/**
 	 * Fonction permettant de recuperer le nom du projet a creer les dossiers ainsi que le fichier 
 	 * latex.
@@ -23,11 +21,9 @@ public class OuvertureProjet {
 	 */
 	@POST
 	public Response getDirectory() throws IOException {
-		File directory = new File(PROJECTS_PATH+"/");
+		File directory = new File(Utilisateurs.getCurrentUser().getProjectsPath());
 		File[] subdirs = directory.listFiles();
 		String directoryList = new String();
-
-		//System.out.println(Utilisateurs.getUtilisateur("adumas").getUserName());
 		
 		for (File dir : subdirs) {
 			if (dir.isDirectory()){

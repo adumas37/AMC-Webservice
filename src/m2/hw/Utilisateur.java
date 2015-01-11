@@ -60,5 +60,12 @@ public class Utilisateur {
     public void setAction(String action){
     	this.action=action;
     }
+    /**
+     * Getter du chemin du dossier contenant les projet de l'utilisateur
+     * @return
+     */
+    public String getProjectsPath(){
+    	return this.PATH;
+    }
     
 }
