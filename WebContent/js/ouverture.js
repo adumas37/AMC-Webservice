@@ -21,31 +21,37 @@ function afficherDossiers(elmnt){
 	xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr2.send();
 
+	console.log(xhr2.responseText);
 	var directories = xhr2.responseText.split("/");
 	directories.sort();
-	
-	directories.forEach( function(directory){
-		var linkNode = document.createElement("a");
-		if (action != "Suppression"){
-			linkNode.setAttribute("href",action);
-			linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
-		}
-		else {
-			linkNode.setAttribute("href","");
-			linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
-		}
-		var newNode = document.createElement("div");
-		newNode.className="directory";
-		var img = document.createElement("img");
-		img.src="src/directory.png";
-		img.alt="directory: ";
-		img.className="directory";
-		newNode.appendChild(img);
-		var text = document.createTextNode(directory);
-		newNode.appendChild(text);
-		linkNode.appendChild(newNode);
-		document.getElementById("explorer").appendChild(linkNode);
-	});
+	if (xhr2.responseText != ""){
+		directories.forEach( function(directory){
+			var linkNode = document.createElement("a");
+			if (action != "Suppression"){
+				linkNode.setAttribute("href",action);
+				linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
+			}
+			else {
+				linkNode.setAttribute("href","");
+				linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
+			}
+			var newNode = document.createElement("div");
+			newNode.className="directory";
+			var img = document.createElement("img");
+			img.src="src/directory.png";
+			img.alt="directory: ";
+			img.className="directory";
+			newNode.appendChild(img);
+			var text = document.createTextNode(directory);
+			newNode.appendChild(text);
+			linkNode.appendChild(newNode);
+			document.getElementById("explorer").appendChild(linkNode);
+		});
+	}
+	else {
+		var textNode = document.createTextNode("Aucun projet en cours.");
+		document.getElementById("explorer").appendChild(textNode);
+	}
 };
 
 function setProject(directory){
