@@ -19,8 +19,9 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "meptex", "--src",
-							"/media/"+projectPath+"questionnaire-calage.xy",
-							 "--data", "/media/"+projectPath+"data/" };
+							 projectPath+"questionnaire-calage.xy",
+							 "--data",
+							 projectPath+"data/" };
 			
 			executerCommande(cmd, username);
 		}
@@ -37,8 +38,8 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "getimages", "--copy-to",
-							 "/media/"+projectPath+"scans/",
-							 "/media/"+projectPath+"copies.pdf" };
+							 projectPath+"scans/",
+							 projectPath+"copies.pdf" };
 			
 			executerCommande(cmd, username);
 		}
@@ -54,8 +55,8 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "analyse", "--projet",
-							 "/media/"+projectPath,
-							 "/media/"+projectPath+"scans/*" };
+							 projectPath,
+							 projectPath+"scans/*" };
 			
 			executerCommande(cmd, username);
 		}
@@ -71,8 +72,8 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "note", "--data",
-							 "/media/"+projectPath+"data/",
-							 "/media/"+projectPath+"cr" };
+							 projectPath+"data/",
+							 projectPath+"cr" };
 			
 			executerCommande(cmd, username);
 		}
@@ -90,9 +91,9 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "association-auto", "--data",
-							 "/media/"+projectPath+"data/",
+							 projectPath+"data/",
 							 "--notes-id", "numero", "--liste",
-							 "/media/"+projectPath+"student.csv",
+							 projectPath+"student.csv",
 							 "--liste-key", "numero" };
 			
 			executerCommande(cmd, username);
@@ -109,11 +110,11 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "export", "--data",
-							 "/media/"+projectPath+"data",
+							 projectPath+"data",
 							 "--module", "CSV", "--fich-nom",
-							 "/media/"+projectPath+"student.csv",
+							 projectPath+"student.csv",
 							 "--o",
-							 "/media/"+projectPath+"exports/notes.csv" };
+							 projectPath+"exports/notes.csv" };
 			
 			executerCommande(cmd, username);
 		}
