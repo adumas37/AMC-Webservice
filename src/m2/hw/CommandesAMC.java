@@ -62,6 +62,23 @@ public class CommandesAMC {
 		
 	}
 	/**
+	 * Fonction permettant de noter les copies d'un projet
+	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
+	 * @param projectPath
+	 */
+	public static void notation(String projectPath){
+		if (projectPath.contains("/")){
+			String username = projectPath.split("/")[0];
+	
+			String[] cmd = { "auto-multiple-choice", "note", "--data",
+							 "/media/"+projectPath+"data/",
+							 "/media/"+projectPath+"cr" };
+			
+			executerCommande(cmd, username);
+		}
+		
+	}
+	/**
 	 * Permet d'executer la commande fournie en entrée, dans le dossier de l'utilisateur specifié
 	 * @param amcCmd
 	 * @param username
