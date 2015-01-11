@@ -15,13 +15,15 @@ public class CommandesAMC {
 	 * @param projectPath
 	 */
 	public static void creationLayout(String projectPath){
-		
-		String username = projectPath.split("/")[0];
-
-		String[] cmd = { "meptex", "--src", "/media/"+projectPath+"questionnaire-calage.xy",
-						 "--data", "/media/"+projectPath+"data/" };
-		
-		executerCommande(cmd, username);
+		if (projectPath.contains("/")){
+			String username = projectPath.split("/")[0];
+	
+			String[] cmd = { "auto-multiple-choice", "meptex", "--src",
+							 "/media/"+projectPath+"questionnaire-calage.xy",
+							 "--data", "/media/"+projectPath+"data/" };
+			
+			executerCommande(cmd, username);
+		}
 		
 	}
 	/**
