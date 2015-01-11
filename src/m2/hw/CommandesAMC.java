@@ -78,7 +78,6 @@ public class CommandesAMC {
 		}
 		
 	}
-	
 	/**
 	 * Fonction permettant d'effectuer l'association entre les noms des eleves 
 	 * et leurs copies automatiquement
@@ -100,6 +99,26 @@ public class CommandesAMC {
 		}
 		
 	}//*/
+	/**
+	 * Fonction permettant d'exporter les notes de chaque eleves dans un fichier .csv
+	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
+	 * @param projectPath
+	 */
+	public static void extractionNotesEleves(String projectPath){
+		if (projectPath.contains("/")){
+			String username = projectPath.split("/")[0];
+	
+			String[] cmd = { "auto-multiple-choice", "export", "--data",
+							 "/media/$username/$currentProject/data",
+							 "--module", "CSV", "--fich-nom",
+							 "/media/$username/$currentProject/student.csv",
+							 "--o",
+							 "/media/$username/$currentProject/exports/notes.csv" };
+			
+			executerCommande(cmd, username);
+		}
+		
+	}
 	/**
 	 * Permet d'executer la commande fournie en entrée, dans le dossier de l'utilisateur specifié
 	 * @param amcCmd
