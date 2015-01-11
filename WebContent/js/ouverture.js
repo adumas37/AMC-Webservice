@@ -57,9 +57,16 @@ function setProject(directory){
 };
 
 function delProject(directory){
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/suppressionProjet",false);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhr.send(directory);
+	
+	if (confirm("Voulez vous vraiment supprimer le projet "+directory+"?\nCe changement est irreversible!") == true) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/suppressionProjet",false);
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.send(directory);
+    } 
+	else {
+		return false;
+	}
+
 	return true;
 };
