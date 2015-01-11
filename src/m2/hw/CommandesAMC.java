@@ -109,11 +109,11 @@ public class CommandesAMC {
 			String username = projectPath.split("/")[0];
 	
 			String[] cmd = { "auto-multiple-choice", "export", "--data",
-							 "/media/$username/$currentProject/data",
+							 "/media/"+projectPath+"data",
 							 "--module", "CSV", "--fich-nom",
-							 "/media/$username/$currentProject/student.csv",
+							 "/media/"+projectPath+"student.csv",
 							 "--o",
-							 "/media/$username/$currentProject/exports/notes.csv" };
+							 "/media/"+projectPath+"exports/notes.csv" };
 			
 			executerCommande(cmd, username);
 		}
