@@ -25,6 +25,11 @@ public class CommandesAMC {
 		
 	}
 	
+	/**
+	 * Permet d'executer la commande fournie en entrée, dans le dossier de l'utilisateur specifié
+	 * @param amcCmd
+	 * @param username
+	 */
 	private static void executerCommande(String[] amcCmd , String username){
 		try{
 			ProcessBuilder pb = null;
