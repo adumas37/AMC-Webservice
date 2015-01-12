@@ -37,7 +37,7 @@ public class CreationProjet {
 
 	private String projectsPath = "Projets-QCM";
 
-	private CreationProjet(){
+	public CreationProjet(){
 		projectsPath=Utilisateurs.getCurrentUser().getProjectsPath();
 		
 	}
