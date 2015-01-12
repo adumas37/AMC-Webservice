@@ -162,7 +162,7 @@ public class CommandesAMC {
 		try{
 			ProcessBuilder pb = null;
 	        Process p = null;
-
+	        /*TODO comment this to work with docker
 	        String[] dockerCmd = { "sudo", "docker", "run", "-d", "-v", 
 	        					   "/home/user/Projects:/media/"+username, "dockeramc:v1"};
 	        String[] completeCmd = new String[dockerCmd.length+amcCmd.length];
@@ -170,7 +170,12 @@ public class CommandesAMC {
 	        System.arraycopy(amcCmd, 0, completeCmd, dockerCmd.length, amcCmd.length);
 	        
 	        pb = new ProcessBuilder(completeCmd);
-	        pb.directory(new File("/media"));
+	        pb.directory(new File("/media"));//*/
+	        
+	        //*TODO comment this to work without docker
+	        String[] completeCmd = amcCmd;
+	        pb = new ProcessBuilder(completeCmd);
+	        pb.directory(new File(System.getProperty("user.dir")));//*/
 	
 	        try {
 	            p = pb.start();
