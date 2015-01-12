@@ -49,10 +49,13 @@ public class CommandesAMC {
 	 */
 	public static void creationLayout(String projectPath){
 		if (projectPath.contains("/")){
+			String path[] = projectPath.split("/");
 			String username = projectPath.split("/")[0];
+			String projectsDirectory = path[path.length-2];
+			String project = path[path.length-1];
 	
 			String[] cmd = { "auto-multiple-choice", "meptex", "--src",
-							 projectPath+"questionnaire-calage.xy",
+							 projectPath + projectsDirectory + project+ "calage.xy",
 							 "--data",
 							 projectPath+"data/" };
 			
