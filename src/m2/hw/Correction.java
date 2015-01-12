@@ -17,13 +17,13 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 @Path("correction")
 public class Correction {
 
-	private static String filePath = Utilisateurs.getCurrentUser().getProjectPath()+"/exports/notes.csv";
 	@Path("download")
 	@GET
     @Produces("text/plain")
     public Response getTextFile() {
 		
-		File file = new File(filePath);
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() +
+							 "/exports/" + Utilisateurs.getCurrentUser().getProject() + ".csv");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 	        response.header("Content-Disposition", "attachment; filename=\"notes.csv\"");
@@ -39,11 +39,16 @@ public class Correction {
 	@POST
     @Produces("text/plain")
     public Response getNotes() throws IOException {
-		File file = new File(filePath);
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"/exports/" + 
+							 Utilisateurs.getCurrentUser().getProject() + ".csv");
 		String notesHTML = new String("<table>");
 		if (file.exists()){
 			try{
-				BufferedReader buffer = new BufferedReader(new FileReader(filePath));
+				BufferedReader buffer = new BufferedReader(
+											new FileReader(
+													Utilisateurs.getCurrentUser().getProjectPath() +
+													"/exports/" + 
+													Utilisateurs.getCurrentUser().getProject() + ".csv"));
 				
 				try{
 					String line;
