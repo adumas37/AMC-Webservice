@@ -19,7 +19,10 @@ public class CommandesAMC {
 	        String scriptloc = workingDir+"/createProject.sh";
 	        String projectsPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
 					Utilisateurs.getCurrentUser().getProjectsPath().length()-1);
+	        String username = Utilisateurs.getCurrentUser().getUserName();
 	        String cmd[] = {"/bin/bash",scriptloc ,nom, projectsPath};
+	        
+	        executerCommande(cmd, username);
 
 	}
 	
