@@ -47,6 +47,7 @@ public class UploadCopies {
 			CommandesAMC.generationImagesCopies(projectPath);
 			CommandesAMC.analyseReponses(projectPath);
 			CommandesAMC.notation(projectPath);
+			//CommandesAMC.associationAuto(projectPath);
 			CommandesAMC.extractionNotesEleves(projectPath);
 	
 			//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
