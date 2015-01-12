@@ -10,6 +10,36 @@ import com.sun.istack.internal.logging.Logger;
 public class CommandesAMC {
 
 	/**
+	 * Fonction permettant de creer les dossiers pour le nouveau projet
+	 * @param data
+	 */
+	public static void creationRepertoire(String nom){
+
+	        String workingDir = System.getProperty("user.dir");
+	        String scriptloc = workingDir+"/createProject.sh";
+	        String projectsPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
+					Utilisateurs.getCurrentUser().getProjectsPath().length()-1);
+	        String cmd[] = {"/bin/bash",scriptloc ,nom, projectsPath};
+
+	}
+	
+	/**
+	 * Fonction permettant de lancer la phase de preparation d'AMC pour le projet
+	 * @param nom
+	 * @param fileName
+	 */
+	public static void prepareProject(String nom, String fileName){
+
+			String filePath = Utilisateurs.getCurrentUser().getProjectsPath() + nom + "/" + fileName;
+			String projectPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
+					Utilisateurs.getCurrentUser().getProjectsPath().length()-1) + nom;
+			String username = Utilisateurs.getCurrentUser().getUserName();
+	        
+	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};
+
+	        executerCommande(cmd, username);
+	}
+	/**
 	 * Fonction permettant de mettre en forme la commande d'AMC afin de creer les Layouts.
 	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
 	 * @param projectPath
