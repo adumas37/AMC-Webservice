@@ -16,9 +16,6 @@ import com.sun.jersey.multipart.FormDataParam;
 @Path("uploadCopies")
 public class UploadCopies {
 
-	private static final String PROJECTS_PATH = "Projets-QCM";
-	private static final String PROJECT = "projetTestWebservice";
-	
 	/**
 	 * Permet de telecharger les copies, les enregistrer, de recuperer le fichier CSV de la classe
 	 * et de lancer la correction des copies.
@@ -35,17 +32,22 @@ public class UploadCopies {
 		@FormDataParam("file") FormDataContentDisposition fileDetail) {
  
 		String fileName = fileDetail.getFileName();
+		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
 		
 		System.out.println("classe: "+classe+", file: "+fileName);
 		
 		if (!fileName.equals("") && !classe.equals("") && fileName.contains(".pdf")){
 			
-			String uploadedFileLocation = PROJECTS_PATH + "/" + PROJECT + "/copies.pdf";
+			String uploadedFileLocation = projectPath + "copies.pdf";
 			CreationProjet.saveFile(uploadedInputStream, uploadedFileLocation);
 			
 			//TODO recupererClasseCSV(classe);
 			
-			//TODO lancer correction des copies
+			CommandesAMC.creationLayout(projectPath);
+			CommandesAMC.generationImagesCopies(projectPath);
+			CommandesAMC.analyseReponses(projectPath);
+			CommandesAMC.notation(projectPath);
+			CommandesAMC.extractionNotesEleves(projectPath);
 	
 			//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
 			URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
