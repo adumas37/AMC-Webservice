@@ -35,7 +35,7 @@ public class CreationQuestionnaire {
 	@POST
 	public Response creation(String data){
 		ecrireFichier(data);
-		CreationProjet.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
+		CommandesAMC.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
 		
 		//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
 		URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")

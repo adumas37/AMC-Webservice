@@ -35,9 +35,12 @@ import com.sun.jersey.multipart.FormDataParam;
 @Path("creationProjet")
 public class CreationProjet {
 
-	//TODO changer ca!!!
-	private static final String PROJECTS_PATH = "Projets-QCM";
+	private String projectsPath = "Projets-QCM";
 
+	private CreationProjet(){
+		projectsPath=Utilisateurs.getCurrentUser().getProjectsPath();
+		
+	}
 	/**
 	 * Fonction permettant de recuperer le nom du projet a creer les dossiers ainsi que le fichier 
 	 * latex.
@@ -62,14 +65,13 @@ public class CreationProjet {
 				nom = CreationQuestionnaire.replace(nom, " ", "_");
 			}
 			//TODO verifier que le repertoire n'existe pas deja
-			String uploadedFileLocation = PROJECTS_PATH + "/" + nom + "/" + fileName;
-			creationRepertoire(nom);
+			String uploadedFileLocation = projectsPath + "/" + nom + "/" + fileName;
+			CommandesAMC.creationRepertoire(nom);
 			Utilisateurs.getCurrentUser().setProject(nom);
-			System.out.println("user: "+Utilisateurs.getCurrentUser().getUserName()+", project: "+Utilisateurs.getCurrentUser().getProject());
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
 				saveFile(uploadedInputStream, uploadedFileLocation);
-				prepareProject (nom, fileName);
+				CommandesAMC.prepareProject (nom, fileName);
 		
 				//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
 				URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
@@ -128,97 +130,5 @@ public class CreationProjet {
         }
  
     }
-	
-	/**
-	 * Fonction permettant de creer les dossiers pour le nouveau projet
-	 * @param data
-	 */
-	private void creationRepertoire(String nom){
-		try{
-			
-			ProcessBuilder pb = null;
-	        Process p = null;
-	        
-	        String workingDir = System.getProperty("user.dir");
-	        String scriptloc=workingDir+"/createProject.sh";
-	        String cmd[] = {"/bin/bash",scriptloc ,nom, PROJECTS_PATH};
 
-	        pb = new ProcessBuilder(cmd);
-	        pb.directory(new File(workingDir));
-	
-	        try {
-	            p = pb.start();
-	        } catch (IOException ex) {
-	            Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
-	        }
-	        
-	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-	        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-	
-	        // read the output from the command
-	        System.out.println("Here is the standard output of the command:\n");
-	
-	        String s = null;
-	        while ((s = stdInput.readLine()) != null) {
-	            System.out.println(s);
-	        }
-	
-	        // read any errors from the attempted command
-	        System.out.println("Here is the standard error of the command (if any):\n");
-	        while ((s = stdError.readLine()) != null) {
-	            System.out.println(s);
-	        }
-	    } catch (IOException ex) {
-	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
-	    }
-	}
-	
-	/**
-	 * Fonction permettant de lancer la phase de preparation d'AMC pour le projet
-	 * @param nom
-	 * @param fileName
-	 */
-	public static void prepareProject(String nom, String fileName){
-		try{
-			String filePath = PROJECTS_PATH +"/" + nom + "/" + fileName;
-			String projectPath = PROJECTS_PATH + nom;
-			String workingDir = System.getProperty("user.dir");
-			
-			ProcessBuilder pb = null;
-	        Process p = null;
-	        
-	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};
-
-	        pb = new ProcessBuilder(cmd);
-	        pb.directory(new File(workingDir));
-	
-	        try {
-	            p = pb.start();
-	        } catch (IOException ex) {
-	            Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
-	        }
-	        
-	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-	        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-	
-	        // read the output from the command
-	        System.out.println("Here is the standard output of the command:\n");
-	
-	        String s = null;
-	        while ((s = stdInput.readLine()) != null) {
-	            System.out.println(s);
-	        }
-	
-	        // read any errors from the attempted command
-	        System.out.println("Here is the standard error of the command (if any):\n");
-	        while ((s = stdError.readLine()) != null) {
-	            System.out.println(s);
-	        }
-	    } catch (IOException ex) {
-	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
-	    }
-	
-	}
-	
-	
 }
