@@ -11,6 +11,7 @@ function afficherDossiers(elmnt){
 	}
 	else if (xhr.responseText == "suppression"){
 		action = "Suppression";
+		document.getElementById("action").innerHTML = "Suppression de projet";
 	}
 	else {
 		action = "Projet.html";
