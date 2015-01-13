@@ -126,7 +126,7 @@ function questionnaireValide(){
 		return false;
 	}
 	else {
-		return false;
+		return true;
 	}
 }
 
