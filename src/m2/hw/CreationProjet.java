@@ -59,8 +59,8 @@ public class CreationProjet {
 			if (nom.contains(" ")){
 				nom = CreationQuestionnaire.replace(nom, " ", "_");
 			}
-			//TODO verifier que le repertoire n'existe pas deja
-			String uploadedFileLocation = projectsPath + "/" + nom + "/" + fileName;
+
+			String uploadedFileLocation = projectsPath + "/" + nom + "/questionnaire.tex";
 			CommandesAMC.creationRepertoire(nom);
 			Utilisateurs.getCurrentUser().setProject(nom);
 			
