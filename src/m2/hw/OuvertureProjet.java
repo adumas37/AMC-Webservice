@@ -12,12 +12,10 @@ import javax.ws.rs.core.Response;
 public class OuvertureProjet {
 	
 	/**
-	 * Fonction permettant de recuperer le nom du projet a creer les dossiers ainsi que le fichier 
-	 * latex.
-	 * @param nom
-	 * @param uploadedInputStream
-	 * @param fileDetail
+	 * Fonction permettant de renvoyer tous les projets de l'utilisateur 
+	 * sous la forme "projet1/projet2/projet3/.../projetN"
 	 * @return
+	 * @throws IOException
 	 */
 	@POST
 	public Response getDirectory() throws IOException {
