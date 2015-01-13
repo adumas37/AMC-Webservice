@@ -66,7 +66,7 @@ public class CreationProjet {
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
 				saveFile(uploadedInputStream, uploadedFileLocation);
-				CommandesAMC.prepareProject (nom, fileName);
+				CommandesAMC.prepareProject (nom, "questionnaire.tex");
 		
 				//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
 				URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")

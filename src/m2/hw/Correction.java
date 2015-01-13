@@ -23,7 +23,7 @@ public class Correction {
     public Response getTextFile() {
 		
 		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() +
-							 "/exports/" + Utilisateurs.getCurrentUser().getProject() + ".csv");
+							 "/exports/notes.csv");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 	        response.header("Content-Disposition", "attachment; filename=\"notes.csv\"");
@@ -39,16 +39,14 @@ public class Correction {
 	@POST
     @Produces("text/plain")
     public Response getNotes() throws IOException {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"/exports/" + 
-							 Utilisateurs.getCurrentUser().getProject() + ".csv");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"/exports/notes.csv");
 		String notesHTML = new String("<table>");
 		if (file.exists()){
 			try{
 				BufferedReader buffer = new BufferedReader(
 											new FileReader(
 													Utilisateurs.getCurrentUser().getProjectPath() +
-													"/exports/" + 
-													Utilisateurs.getCurrentUser().getProject() + ".csv"));
+													"/exports/notes.csv"));
 				
 				try{
 					String line;
