@@ -469,7 +469,7 @@ public class CreationQuestionnaire {
         			for (int i=0; i< reponses.size();i++){
         				html += "<p class=\"reponse\">" +
         						"Reponse: <input type=\"text\" name=\"reponse\" class=\"reponseInput\" value=\""+reponses.get(i)+"\"/>" +
-								"<span class=\"checkbox\">Bonne reponse?<input type=\"checkbox\" name=\"bonne\""+ (bmReponses.get(i).booleanValue()?" checked":" ")+"/></span>" +
+								"<span class=\"checkbox\">Bonne reponse?<input class=\"bonneInput\" type=\"checkbox\" name=\"bonne\""+ (bmReponses.get(i).booleanValue()?" checked":" ")+"/></span>" +
 								"<span class=\"delQ\"><input type=\"button\" name=\"delQ\" value=\"Supprimer reponse\" onclick=\"supprReponse(this)\" /></span>" +
 								"</p>";
         			}
@@ -499,9 +499,9 @@ public class CreationQuestionnaire {
 	        }
 	        
 	        String entete="<p id=\"entete\">" +
-					"<span id=\"matiere\">Matiere:<input class=\"matiereInput\" name=\"matiere\" type=\"text\" value=\""+matiere+"\"/></span>" +
-					"<span id=\"date\">Date (jj/mm/aaaa):<input class=\"matiereInput\" name=\"date\" type=\"text\" value=\""+date+"\"/></span>"+
-					"<span id=\"nbCopies\">Nombre d'exemplaires de copies:<input class=\"nbCopiesImput\" name=\"nbCopies\" type=\"number\" min=\"1\" max=\"10\" value=\""+exemplaire+"\"/></span>"+
+					"<span id=\"matiere\">Matiere:<input id=\"matiereInput\" name=\"matiere\" type=\"text\" value=\""+matiere+"\"/></span>" +
+					"<span id=\"date\">Date (jj/mm/aaaa):<input id=\"dateInput\" name=\"date\" type=\"text\" value=\""+date+"\"/></span>"+
+					"<span id=\"nbCopies\">Nombre d'exemplaires de copies:<input id=\"nbCopiesImput\" name=\"nbCopies\" type=\"number\" min=\"1\" max=\"10\" value=\""+exemplaire+"\"/></span>"+
 					"</p>";
 	        html = entete + html;
 
