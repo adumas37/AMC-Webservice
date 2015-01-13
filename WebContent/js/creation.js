@@ -54,3 +54,52 @@ function chargerQuestionnaire(){
 		document.getElementById("questionnaire").innerHTML = xhr.responseText;
 	}
 }
+
+function questionnaireValide(){
+	var reponseSansTexte = 0;
+	var questionSansTexte = 0;
+	var questionSansBonneReponse = 0;
+	
+	var blocsQR = document.getElementsByClassName("blocQR");
+	var reponses;
+	var bonnesReponses;
+	var nbBonnesReponses;
+	
+	for (var i = 0; i < blocsQR.length; i++) {
+		if (blocsQR[i].getElementsByClassName("questionInput")[0].value == ""){ questionSansTexte ++; }
+	
+		reponses = blocsQR[i].getElementsByClassName("reponseInput");
+		for (var j = 0; j < reponses.length; j++) {
+			if (reponses[j].value == ""){ reponseSansTexte ++; }
+		}
+		
+		bonnesReponses = blocsQR[i].getElementsByClassName("bonneInput");
+		nbBonnesReponses = 0;
+		for (var j = 0; j < bonnesReponses.length; j++) {
+			if (bonnesReponses[j].checked == true) { nbBonnesReponses ++; }
+		}
+		if (nbBonnesReponses == 0){ questionSansBonneReponse ++; }
+		
+	}
+	
+	if (reponseSansTexte >0 || questionSansTexte >0 || questionSansBonneReponse > 0){
+		var alertText = "";
+		if(reponseSansTexte >0){ 
+			if (alertText != ""){ alertText += "\n"; }
+			alertText += "Il y a des reponses sans texte. Supprimez les reponses vides ou remplissez les."; 
+		}
+		if(questionSansTexte >0){ 
+			if (alertText != ""){ alertText += "\n"; }
+			alertText += "Il y a des questions sans texte. Supprimez les questions vides ou remplissez les."; 
+		}
+		if(questionSansBonneReponse >0){ 
+			if (alertText != ""){ alertText += "\n"; }
+			alertText += "Il y a des questions sans bonnes reponses. Choisissez au moins une bonne reponse par question."; 
+		}
+		alert(alertText);
+		return false;
+	}
+	else {
+		return false;
+	}
+}
