@@ -133,10 +133,12 @@ function questionnaireValide(){
 function creationValide(){
 	var name = false;
 	var file = false;
+	var projectExists = false;
+	var projectName = document.getElementById("nomProjetInput").value;
 	var filename = document.getElementById("fichierTexInput").value;
 	var alertText = "";
 
-	if (document.getElementById("nomProjetInput").value != "" ){ 
+	if ( projectName != "" ){ 
 		name = true;
 	}
 	else {
@@ -144,8 +146,11 @@ function creationValide(){
 	}
 	
 	if (filename != ""){
+		console.log(filename);
 		var nameList = filename.split(".");
-		var extension = nameList[nameList.length];
+		console.log(nameList);
+		var extension = nameList[nameList.length-1];
+		console.log(extension);
 		if (extension=="tex") {
 			file = true;
 		}
@@ -156,16 +161,41 @@ function creationValide(){
 			alertText += "Le fichier fournit n'est pas au bon format. Le fichier doit etre un fichier Latex (.tex)."; 
 		}
 	}
-	else {
+	else {			
 		file = true;
 	}
-	
+		
 	if (name == false || file == false){
 		alert(alertText);
 		return false;
 	}
 	else{
-		return true;
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/ouvertureProjet",false);
+		xhr.send(projectName);
+		
+		var projects = xhr.responseText.split("/");
+		projects.forEach( function testExistingProject(project){
+			if (project == projectName){ 
+				projectExists = true;
+			}
+		});
+		if (projectExists){
+			alertText="Un projet nommé "+projectName+" existe déjà.";
+			if (filename != ""){
+				alertText += "\nSi vous souhaitez remplacer le questionnaire du projet par celui " +
+						"que vous venez de choisir, cliquez sur OK. " +
+						"\nPour annuler et conserver l'ancien projet ou changer de nom, cliquez sur Annuler.";
+			}
+			else {
+				alertText += "\nSi vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
+						"\nPour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.";
+			}
+			return confirm(alertText);
+		}
+		else {
+			return true;
+		}
 	}
 }
 
