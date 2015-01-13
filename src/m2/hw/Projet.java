@@ -78,5 +78,16 @@ public class Projet {
 
 
     }
+	/**
+	 * Permet d'obtenir le nom du projet de l'utilisateur actuel
+	 * @return
+	 */
+	@Path("nomProjet")
+	@GET
+	@Produces("text/plain")
+	public Response getProjectName(){
+		ResponseBuilder response = Response.ok(Utilisateurs.getCurrentUser().getProject());
+        return response.build();
+	}
 	
 }
