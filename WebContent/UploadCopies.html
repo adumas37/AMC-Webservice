@@ -16,7 +16,7 @@
 	
 		<p> Veuillez uploader les copies scannées au format PDF </p>
 		
-		<form id=uploadCopies method=post action="rest/uploadCopies" enctype="multipart/form-data">
+		<form id=uploadCopies method=post action="rest/uploadCopies" enctype="multipart/form-data" onsubmit="return uploadValide();">
 			<p id="fichierCopies">Copies (.pdf): <input id="copiesPDFInput" name="file" type="file"></p>
 			<p id="choixClasse">Classe: <select id="classeInput" name="classe">
 				<option selected="" value="EI3-INFO">EI3-INFO</option>
@@ -38,6 +38,7 @@
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
 	<script src="js/projet.js"></script>
+	<script src="js/upload.js"></script>
 	
 </body>
 </html>
