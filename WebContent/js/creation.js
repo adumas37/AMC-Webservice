@@ -59,11 +59,29 @@ function questionnaireValide(){
 	var reponseSansTexte = 0;
 	var questionSansTexte = 0;
 	var questionSansBonneReponse = 0;
+	var matiere = false;
+	var date = false;
 	
 	var blocsQR = document.getElementsByClassName("blocQR");
 	var reponses;
 	var bonnesReponses;
 	var nbBonnesReponses;
+	
+	if (document.getElementById("matiereInput").value != ""){
+		matiere = true;
+	}
+	if (document.getElementById("dateInput").value != ""){
+		var date2 = document.getElementById("dateInput").value;
+	    var pattern =/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+	    if (!pattern.test(date2))
+	    {
+	    	date = false;
+	    }
+	    else{
+	    	date = true;
+	    }
+	}
+	
 	
 	for (var i = 0; i < blocsQR.length; i++) {
 		if (blocsQR[i].getElementsByClassName("questionInput")[0].value == ""){ questionSansTexte ++; }
@@ -82,11 +100,19 @@ function questionnaireValide(){
 		
 	}
 	
-	if (reponseSansTexte >0 || questionSansTexte >0 || questionSansBonneReponse > 0){
+	if (reponseSansTexte >0 || questionSansTexte >0 || questionSansBonneReponse > 0 || !matiere || !date){
 		var alertText = "";
+		if (!matiere){
+			if (alertText != ""){ alertText += "\n"; }
+			alertText += "Aucune matière specifiée. Une matière doit etre donnée pour continuer."; 
+		}
+		if (!date){
+			if (alertText != ""){ alertText += "\n"; }
+			alertText += "Date non spécifiée ou incorrecte. Le format correct est jj/mm/aaaa."; 
+		}
 		if(reponseSansTexte >0){ 
 			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des reponses sans texte. Supprimez les reponses vides ou remplissez les."; 
+			alertText += "Il y a des réponses sans texte. Supprimez les réponses vides ou remplissez les."; 
 		}
 		if(questionSansTexte >0){ 
 			if (alertText != ""){ alertText += "\n"; }
@@ -94,7 +120,7 @@ function questionnaireValide(){
 		}
 		if(questionSansBonneReponse >0){ 
 			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des questions sans bonnes reponses. Choisissez au moins une bonne reponse par question."; 
+			alertText += "Il y a des questions sans bonnes réponses. Choisissez au moins une bonne réponse par question."; 
 		}
 		alert(alertText);
 		return false;
