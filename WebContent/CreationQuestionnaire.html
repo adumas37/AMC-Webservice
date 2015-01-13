@@ -15,12 +15,12 @@
 	<hr>
 
 	<div id="content">Creation d'un nouveau questionnaire:
-		<form id="creationForm" method="post" action="rest/creationQuestionnaire" >
+		<form id="creationForm" method="post" action="rest/creationQuestionnaire" onsubmit="return questionnaireValide();">
 			<div id="questionnaire">
 				<p id="entete">
-					<span id="matiere">Matiere:<input class="matiereInput" name="matiere" type="text"/></span>
-					<span id="date">Date (jj/mm/aaaa):<input class="matiereInput" name="date" type="text"/></span>
-					<span id="nbCopies">Nombre d'exemplaires de copies:<input class="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="1"/></span>
+					<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text"/></span>
+					<span id="date">Date (jj/mm/aaaa):<input id="dateInput" name="date" type="text"/></span>
+					<span id="nbCopies">Nombre d'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="1"/></span>
 				</p>
 				<blocQR class="blocQR">
 					<p class="question">
@@ -30,7 +30,7 @@
 					<reponses>
 						<p class="reponse">
 							Reponse: <input type="text" name="reponse" class="reponseInput"/>
-							<span class="checkbox">Bonne reponse?<input type="checkbox" name="bonne" checked/></span>
+							<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne" checked/></span>
 							<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" /></span>
 						</p>
 					</reponses>
