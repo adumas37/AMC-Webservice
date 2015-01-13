@@ -12,7 +12,7 @@
 	
 	<hr>
 
-	<form id="creationProjet" method="post" action="rest/creationProjet" enctype="multipart/form-data">
+	<form id="creationProjet" method="post" action="rest/creationProjet" enctype="multipart/form-data" onsubmit="return creationValide();">
 		<p id="nomProjet">Nom du projet: <input id="nomProjetInput" name="nom" type="text"/></p>
 		<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file"></p>
 		<input id="submit" type="submit" value="Creer Projet"/>
@@ -22,5 +22,6 @@
 	
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
+	<script src="js/creation.js"></script>
 </body>
 </html>

@@ -129,3 +129,44 @@ function questionnaireValide(){
 		return false;
 	}
 }
+
+function creationValide(){
+	var name = false;
+	var file = false;
+	var filename = document.getElementById("fichierTexInput").value;
+	var alertText = "";
+
+	if (document.getElementById("nomProjetInput").value != "" ){ 
+		name = true;
+	}
+	else {
+		alertText = "Aucun nom de projet spécifié. Veuillez donner un nom au projet.";
+	}
+	
+	if (filename != ""){
+		var nameList = filename.split(".");
+		var extension = nameList[nameList.length];
+		if (extension=="tex") {
+			file = true;
+		}
+		else {
+			file = false;
+			if (alertText != ""){ alertText += "\n"; }
+			document.getElementById("fichierTexInput").value = "";
+			alertText += "Le fichier fournit n'est pas au bon format. Le fichier doit etre un fichier Latex (.tex)."; 
+		}
+	}
+	else {
+		file = true;
+	}
+	
+	if (name == false || file == false){
+		alert(alertText);
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
+
