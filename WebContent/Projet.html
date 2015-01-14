@@ -10,42 +10,51 @@
 </head>
 <body>
 
-	<header>AMC Webservice - Projet: <span id="nomProjet"></span></header>
-	<hr>
-	
-	<div id="content">
+	<header class="main-header">AMC Webservice - Projet: <span id="nomProjet"></span></header>
+	<div id="content" class="contenu index">
 		<div id="projetQuestionnaire">
-			Questionnaire
-			<a href="CreationQuestionnaire.html" >
-				<input type="button" value="Edition questionnaire"/>
-			</a>
-			<form id=getQuestionnaire method=get action="rest/projet/questionnaire">
-				<input type="submit" value="Telechargement source Latex"/>
-			</form>
+			<table>
+				<tr>
+				<td>Questionnaire :</td>
+				<td><a href="CreationQuestionnaire.html" >
+					<input type="button" value="Edition questionnaire" class="inputButton orangeButton"/>
+				</a></td>
+				<td><form id="getQuestionnaire" method="get" action="rest/projet/questionnaire">
+					<input type="submit" value="Telechargement source Latex" class="inputButton greenButton"/>
+				</form>
+				</td>
+				</tr>
+			</table>	
 		</div>
 	
 		<div id="projetFichiers">
-			Fichiers
-			<form id=getCopies method=get action="rest/projet/copies">
-				<input type="submit" value="Copies"/>
-			</form>
-			<form id=getCatalog method=get action="rest/projet/catalog">
-				<input type="submit" value="Catalogue des questions"/>
-			</form>
-			<form id=getCorrige method=get action="rest/projet/corrige">
-				<input type="submit" value="Correction des questions"/>
-			</form>
+
+			<table>
+				<tr>
+					<td>Fichiers : </td>
+					<td><form id="getCopies" method="get" action="rest/projet/copies">
+						<input type="submit" value="Copies" class="inputButton greenButton"/>
+					</form></td>
+					<td><form id="getCatalog" method="get" action="rest/projet/catalog">
+						<input type="submit" value="Catalogue des questions" class="inputButton greenButton"/>
+					</form></td>
+					<td><form id="getCorrige" method="get" action="rest/projet/corrige">
+						<input type="submit" value="Correction des questions" class="inputButton greenButton"/>
+					</form></td>
+				</tr>
+			</table>
 		</div>
+		<p>
 		<a href="UploadCopies.html">
-			<input type="button" value="Debuter la correction"/>
+			<input type="button" value="Debuter la correction" class="inputButton orangeButton"/>
 		</a>
-		
-		<a href="index.html">
-			<input type="button" value="Accueil"/>
-		</a>
+		</p>
+		<p>
+			<a href="index.html">
+				<input type="button" value="Accueil" class="inputButton greenButton"/>
+			</a>
+		</p>
 	</div>
-	
-	<hr>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 
 	<script src="js/projet.js"></script>
