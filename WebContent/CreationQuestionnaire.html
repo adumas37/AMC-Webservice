@@ -10,58 +10,56 @@
 </head>
 <body onload="chargerQuestionnaire()">
 
-	<header>AMC Webservice - Creation questionnaire: <span id="nomProjet"></span></header>
-	
-	<hr>
 
-	<div id="content">Creation d'un nouveau questionnaire:
+	<div class="page">
+	<div class="bloc-principal">
+	<header class="main-header">AMC Webservice - Creation questionnaire: <span id="nomProjet"></span></header>
+	<div id="content" class="contenu-quest"><h2>Creation d'un nouveau questionnaire:</h2>
 		<form id="creationForm" method="post" action="rest/creationQuestionnaire" onsubmit="return questionnaireValide();">
 			<div id="questionnaire">
 				<p id="entete">
-					<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text"/></span>
-					<span id="date">Date (jj/mm/aaaa):<input id="dateInput" name="date" type="text"/></span>
-					<span id="nbCopies">Nombre d'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="1"/></span>
+					<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton"/></span>
+					<span id="date">Date (jj/mm/aaaa):<input id="dateInput" name="date" type="text" class="inputText inputButton"/></span>
+					<span id="nbCopies">Nombre d'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="1" class="inputText inputButton"/></span>
 				</p>
 				<blocQR class="blocQR">
 					<p class="question">
-						Question: <input type="text" name="question" class="questionInput"/>
+						Question: <input type="text" name="question" class="questionInput inputText inputButton"/>
 					</p>
 					
 					<reponses>
 						<p class="reponse">
-							Reponse: <input type="text" name="reponse" class="reponseInput"/>
+							Reponse: <input type="text" name="reponse" class="reponseInput inputText inputButton"/>
 							<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne" checked/></span>
-							<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" /></span>
+							<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span>
 						</p>
 					</reponses>
 					
 					<options>
-						<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" /></span>
-						<span class="addQ"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" /></span>
+						<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" class="inputButton blueButton"/></span>
+						<span class="addQ"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)" class="inputButton blueButton" /></span>
 						<span class="checkbox">Reponses en colonnes?<input type="checkbox" name="horizontal"/></span>
-						<span class="bareme">bareme:<input class="baremeImput" name="bareme" type="number" min="1" max="20" value="1"/></span>
+						<span class="bareme">bareme:<input class="baremeImput inputText" name="bareme" type="number" min="1" max="20" value="1"/></span>
 					</options>
 				</blocQR>
 	
 			</div>
 			
 			<p class="addQ">
-				<input type="button" name="addQ" value="Ajouter question" onclick="ajoutQuestion(this)" />
+				<input type="button" name="addQ" value="Ajouter question" onclick="ajoutQuestion(this)" class="inputButton blueButton"/>
 			</p>
 				
 			<p id="submit">
-				<input type="submit" name="submit" value="Creer questionnaire">
+				<input type="submit" name="submit" value="Creer questionnaire" class="inputButton orangeButton">
 			</p>
 		</form>
 		<form id="DownloadForm" method="get" action="rest/creationQuestionnaire">
-			<input type="submit" name="download" value="Telecharger questionnaire"/>
+			<input type="submit" name="download" value="Telecharger questionnaire" class="inputButton greenButton"/>
 		</form>	
 	</div> <!-- /content -->
-	
-	<hr>
-	
+	</div><!-- bloc -->
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
-	
+	</div><!-- page -->
 	<script src="js/creation.js"></script>
 	<script src="js/projet.js"></script>
 
