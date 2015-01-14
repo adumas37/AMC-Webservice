@@ -468,22 +468,22 @@ public class CreationQuestionnaire {
 	        		}
 	        		html += "<blocQR class=\"blocQR\">" +
         					"<p class=\"question\">" +
-        					"Question: <input type=\"text\" name=\"question\" class=\"questionInput\" value=\""+question+"\"/>" +
+        					"Question: <input type=\"text\" name=\"question\" class=\"questionInput inputText inputButton\" value=\""+question+"\"/>" +
         					"</p><reponses>";
         			for (int i=0; i< reponses.size();i++){
         				html += "<p class=\"reponse\">" +
-        						"Reponse: <input type=\"text\" name=\"reponse\" class=\"reponseInput\" value=\""+reponses.get(i)+"\"/>" +
+        						"Reponse: <input type=\"text\" name=\"reponse\" class=\"reponseInput inputText inputButton\" value=\""+reponses.get(i)+"\"/>" +
 								"<span class=\"checkbox\">Bonne reponse?<input class=\"bonneInput\" type=\"checkbox\" name=\"bonne\""+ (bmReponses.get(i).booleanValue()?" checked":" ")+"/></span>" +
-								"<span class=\"delQ\"><input type=\"button\" name=\"delQ\" value=\"Supprimer reponse\" onclick=\"supprReponse(this)\" /></span>" +
+								"<span class=\"delQ\"><input type=\"button\" name=\"delQ\" value=\"Supprimer reponse\" onclick=\"supprReponse(this)\" class=\"inputButton blueButton\"/></span>" +
 								"</p>";
         			}
         			
         			html += "</reponses>" +
         					"<options>" +
-        					"<span class=\"del\"><input type=\"button\" name=\"delQ\" value=\"Supprimer question\" onclick=\"supprQuestion(this)\" /></span>"+
-							"<span class=\"addQ\"><input type=\"button\" name=\"addQ\" value=\"Ajouter reponse\" onclick=\"ajoutReponse(this)\" /></span>"+
+        					"<span class=\"del\"><input type=\"button\" name=\"delQ\" value=\"Supprimer question\" onclick=\"supprQuestion(this)\" class=\"inputButton blueButton\"/></span>"+
+							"<span class=\"addQ\"><input type=\"button\" name=\"addQ\" value=\"Ajouter reponse\" onclick=\"ajoutReponse(this)\"  class=\"inputButton blueButton\"/></span>"+
 							"<span class=\"checkbox\">Reponses horizontales?<input type=\"checkbox\" name=\"horizontal\""+ (multicol?" checked":" ")+"/></span>"+
-							"<span class=\"bareme\">bareme:<input class=\"baremeImput\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>"+
+							"<span class=\"bareme\">bareme:<input class=\"baremeImput inputText\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>"+
 							"</options>"+
 							"</blocQR>";
 	        		
@@ -503,9 +503,9 @@ public class CreationQuestionnaire {
 	        }
 	        
 	        String entete="<p id=\"entete\">" +
-					"<span id=\"matiere\">Matiere:<input id=\"matiereInput\" name=\"matiere\" type=\"text\" value=\""+matiere+"\"/></span>" +
-					"<span id=\"date\">Date (jj/mm/aaaa):<input id=\"dateInput\" name=\"date\" type=\"text\" value=\""+date+"\"/></span>"+
-					"<span id=\"nbCopies\">Nombre d'exemplaires de copies:<input id=\"nbCopiesImput\" name=\"nbCopies\" type=\"number\" min=\"1\" max=\"10\" value=\""+exemplaire+"\"/></span>"+
+					"<span id=\"matiere\">Matiere:<input id=\"matiereInput\" name=\"matiere\" type=\"text\" class=\"inputText inputButton\" value=\""+matiere+"\"/></span>" +
+					"<span id=\"date\">Date (jj/mm/aaaa):<input id=\"dateInput\" name=\"date\" type=\"text\" class=\"inputText inputButton\" value=\""+date+"\"/></span>"+
+					"<span id=\"nbCopies\">Nombre d'exemplaires de copies:<input id=\"nbCopiesImput\" name=\"nbCopies\" type=\"number\" min=\"1\" max=\"10\" value=\""+exemplaire+"\" class=\"inputText inputButton\"/></span>"+
 					"</p>";
 	        html = entete + html;
 
