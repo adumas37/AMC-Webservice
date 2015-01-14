@@ -12,9 +12,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
@@ -49,10 +51,13 @@ public class CreationProjet {
 	public Response uploadFile(
 		@FormDataParam("nom") String nom,
 		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail) {
+		@FormDataParam("file") FormDataContentDisposition fileDetail,
+		@Context UriInfo context) {
 
 		String fileName = fileDetail.getFileName();
-		// save it
+		String url = context.getBaseUri().toString();
+		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
+		
 		if (!nom.equals("")){
 			
 			//TODO gestion des caracteres speciaux: ;/\{"'` etc.
@@ -68,15 +73,14 @@ public class CreationProjet {
 				saveFile(uploadedInputStream, uploadedFileLocation);
 				CommandesAMC.prepareProject (nom, "questionnaire.tex");
 		
-				//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
-				URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")
 						.build("Projet.html");
+				
 				return Response.seeOther(uri).build();
 			}
 			else if (fileName.equals("")){
-				//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
-				URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")
 						.build("CreationQuestionnaire.html");
 				return Response.seeOther(uri).build();
