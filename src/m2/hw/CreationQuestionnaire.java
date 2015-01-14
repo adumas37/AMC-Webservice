@@ -13,8 +13,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 /*TODO
@@ -33,12 +35,14 @@ public class CreationQuestionnaire {
 	 * @param data
 	 */
 	@POST
-	public Response creation(String data){
+	public Response creation(String data,
+			@Context UriInfo context){
 		ecrireFichier(data);
 		CommandesAMC.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
 		
-		//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
-		URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+		String url = context.getBaseUri().toString();
+		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
+		URI uri = UriBuilder.fromUri(url)
 				.path("{a}")
 				.build("Projet.html");
 		return Response.seeOther(uri).build();
