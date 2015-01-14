@@ -148,7 +148,8 @@ table{
 	padding-right: 50px;
 }
 .homeImg  {
-	height: 200px;
+	max-width:100%;
+	max-height:100%;
 }
 .homeHref {
 	display: -moz-inline-grid;
@@ -162,6 +163,10 @@ table{
 
 input {
 	margin-left: 3px;
+}
+
+a:link {
+	text-decoration:none;
 }
 #entete {
 	background-color: lavender;
