@@ -4,33 +4,31 @@
 	<title>AMC - Correction des copies</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="description" content="Correction des copies">
-    <meta name="author" content="Alexis DUMAS">
+    <meta name="author" content="Alexis DUMAS && Erwan Briand">
 	
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body onload="chargerNotes(this)">
 	
-	<header>AMC Webservice - Correction des copies: <span id="nomProjet"></span></header>	
-	<hr>
-	<div id="content">
-	<input type="button" value="Afficher Notes" onclick="afficherNotes(this)"/>
-	<div id=resultats> 
+	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>	
+	<div id="content" class="contenu correction">
+	<input type="button" value="Afficher Notes" onclick="afficherNotes(this)" class="inputButton blueButton"/>
+	<div id="resultats"> 
 		<div id="tableau">
 			tableau des resultats
 		</div>
 	</div>	
 		<form id="DownloadResults" method="get" action="rest/correction/download">
-			<input type="submit" value="Telecharger les resultats"/>
+			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</form>		
-		<input type="button" value="Envoi des mails aux eleves"/>
-		<a href="index.html"><input type="button" value="Accueil" /></a>
+		<input type="button" value="Envoi des mails aux eleves" class="inputButton orangeButton"/>
+		<a href="index.html"><input type="button" value="Accueil" class="inputButton orangeButton"/></a>
 	</div>
 	
-	<hr>
+
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
 	<script src="js/correction.js"></script>
 	<script src="js/projet.js"></script>
-
 </body>
 </html>
