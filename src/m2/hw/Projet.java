@@ -72,11 +72,14 @@ public class Projet {
     public Response getTextFile() {
 
 		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
-		ResponseBuilder response = Response.ok((Object) file);
-        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
-        return response.build();
-
-
+		if (file.exists()){
+			ResponseBuilder response = Response.ok((Object) file);
+	        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
+	        return response.build();
+		}
+		else {
+			return null;
+		}
     }
 	/**
 	 * Permet d'obtenir le nom du projet de l'utilisateur actuel
