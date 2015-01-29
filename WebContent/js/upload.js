@@ -3,8 +3,17 @@ function addFile(){
 	
 }
 
-function delFile(){
-	
+function delFile(elmnt){
+	var element = elmnt.parentNode.parentNode;
+	var nbChild = element.childElementCount;
+	if (nbChild>2){
+		element.removeChild(elmnt.parentNode);
+		console.log("1");
+	}
+	else {
+		elmnt.parentNode.childNodes[1].value="";
+		console.log("2");
+	}
 }
 
 function addClasse(){
