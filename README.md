@@ -1,3 +1,3 @@
 AMC-Webservice
 ==============
-Erwan BRIAND and Alexis DUMAS
+Erwan BRIAND, Alexis DUMAS, Julien LANGLOIS, Raphael MEYER, Olivier NGUYEN QUOC and Valentin VIELZEUF
