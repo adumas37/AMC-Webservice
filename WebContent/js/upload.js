@@ -1,4 +1,26 @@
 
+function addFile(){
+	
+}
+
+function delFile(){
+	
+}
+
+function addClasse(){
+	
+}
+
+function delClasse(elmnt){
+	
+	var element = elmnt.parentNode.parentNode;
+	var nbChild = element.childElementCount;
+	if (nbChild>2){
+		element.removeChild(elmnt.parentNode);
+	}
+	
+}
+
 function uploadValide(){
 	var file = false;
 	var alertText = "";
