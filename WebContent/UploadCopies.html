@@ -18,17 +18,17 @@
 			<copies id="copies">
 				<input type="button" value="Ajouter fichier" onclick="addFile()"/>
 				<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file"> 
-					<input type="button" value="Supprimer fichier" onclick="delFile()"/>
+					<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
 				</p>
 			</copies>
 			<classes id="classes">
-				<input type="button" value="Ajouter classe" onclick="addClass()"/>
+				<input type="button" value="Ajouter classe" onclick="addClasse()"/>
 				<p class="choixClasse">Classe: <select class="classeInput" name="classe">
 					<option value="EI3-INFO">EI3-INFO</option>
 					<option value="EI3-PROD">EI3-PROD</option>
 					<option value="EI3-GC">EI3-GC</option>
 					</select>
-					<input type="button" value="Supprimer classe" onclick="delClasse()"/>
+					<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
 				</p>
 			</classes>
 				
