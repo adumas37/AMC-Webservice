@@ -1,6 +1,11 @@
 
 function addFile(){
 	
+	var copie = document.getElementById("copies").getElementsByClassName("fichierCopies")[0];
+	var copie2 = copie.cloneNode(true);
+	copie2.getElementsByClassName("copiesPDFInput")[0].value = "";
+	document.getElementById("copies").appendChild(copie2);
+	
 }
 
 function delFile(elmnt){
