@@ -13,16 +13,17 @@ function delFile(elmnt){
 	var nbChild = element.childElementCount;
 	if (nbChild>2){
 		element.removeChild(elmnt.parentNode);
-		console.log("1");
 	}
 	else {
 		elmnt.parentNode.childNodes[1].value="";
-		console.log("2");
 	}
 }
 
 function addClasse(){
 	
+	var classe = document.getElementById("classes").getElementsByClassName("choixClasse")[0];
+	var classe2 = classe.cloneNode(true);
+	document.getElementById("classes").appendChild(classe2);
 }
 
 function delClasse(elmnt){
