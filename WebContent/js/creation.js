@@ -199,4 +199,7 @@ function creationValide(){
 	}
 }
 
+function eraseFile(){
+	document.getElementById("fichierTexInput").value = "";
+}
 

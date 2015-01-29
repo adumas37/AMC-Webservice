@@ -15,7 +15,7 @@
 	<div id="content" class="contenu index">
 		<form id="creationProjet" method="post" action="rest/creationProjet" enctype="multipart/form-data" onsubmit="return creationValide();">
 			<p id="nomProjet">Nom du projet: <input id="nomProjetInput" name="nom" type="text" class="inputButton inputText"/></p>
-			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" class="inputButton"></p>
+			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" class="inputButton"> <input type="button" value="Supprimer le fichier" onclick="eraseFile()"/></p>
 			<input id="submit" type="submit" value="Creer Projet" class="inputButton orangeButton"/>
 		</form>
 		<p><a href="index.html">
