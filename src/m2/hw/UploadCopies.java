@@ -1,7 +1,10 @@
 package m2.hw;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -12,8 +15,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 @Path("uploadCopies")
 public class UploadCopies {
@@ -21,71 +24,65 @@ public class UploadCopies {
 	/**
 	 * Permet de telecharger les copies, les enregistrer, de recuperer le fichier CSV de la classe
 	 * et de lancer la correction des copies.
-	 * @param classe
-	 * @param uploadedInputStream
-	 * @param fileDetail
+	 * @param formParams
+	 * @param context
 	 * @return
 	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response Correction(
-		@FormDataParam("classe") String classe,
-		@FormDataParam("file") InputStream uploadedInputStream,
-		@FormDataParam("file") FormDataContentDisposition fileDetail,
+		FormDataMultiPart formParams,
 		@Context UriInfo context) {
- 
-		String url = context.getBaseUri().toString();
-		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
-		
-		String fileName = fileDetail.getFileName();
+
 		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
 		
-		System.out.println("classe: "+classe+", file: "+fileName);
+	    List<FormDataBodyPart> files = formParams.getFields("file");
+	    int i=0;
+	    
+	    for (FormDataBodyPart file : files){	//Recuperer et enregistrer les fichiers de copies
+	    	
+	    	String fileName =  file.getContentDisposition().getFileName();
+	    	if (!fileName.equals("") && /*!classe.equals("") &&*/ fileName.contains(".pdf")){
+		    	InputStream fileInputStream = file.getValueAs(InputStream.class);
+		    	i++;
+		    	String uploadedFileLocation = projectPath + "/copies/copies"+i+".pdf";
+				CreationProjet.saveFile(fileInputStream, uploadedFileLocation);
+				
+	    	}
+	    	
+	    }
+	    
+	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
+	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
+		    FileWriter fw = new FileWriter(file);
+	        //PrintWriter out  = new PrintWriter(new FileWriter("copies/listeCopies.txt"));
+	        for (int j = 1; j < i; j++){
+	        	fw.write("copies"+j+".pdf\n");
+	        }
+	        fw.write("copies"+i+".pdf");
+	        fw.close();
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	    			
+		//TODO recupererClasseCSV(classe);
 		
-		if (!fileName.equals("") && !classe.equals("") && fileName.contains(".pdf")){
-			
-			String uploadedFileLocation = projectPath + "copies.pdf";
-			CreationProjet.saveFile(uploadedInputStream, uploadedFileLocation);
-			
-			//TODO recupererClasseCSV(classe);
-			
-			CommandesAMC.creationLayout(projectPath);
-			CommandesAMC.generationImagesCopies(projectPath);
-			CommandesAMC.analyseReponses(projectPath);
-			CommandesAMC.notation(projectPath);
-			//CommandesAMC.associationAuto(projectPath);
-			CommandesAMC.extractionNotesEleves(projectPath);
-	
-			//TODO Changer le lien ci-dessous pour ne plus avoir de chemin fixé
-			URI uri = UriBuilder.fromUri(url)
-					.path("{a}")
-					.build("Correction.html");
-			
-			return Response.seeOther(uri).build();
-		}
-		else {
-			if (!fileName.contains(".pdf") && !fileName.equals("")){
-				return Response.status(204).entity("Erreur d'extension du fichier" +
-						"Le fichier doit etre un fichier PDF (.pdf)").build();
-			}
-			if (fileName.equals("") && classe.equals("")){
-				return Response.status(204).entity("Aucun fichier selectionne ou classe selectionne. " +
-						"La correction d'un projet requiert une classe et des copies.").build();
-			}
-			else if (classe.equals("")) {
-				return Response.status(204).entity("Aucun nom specifie. " +
-						"La correction d'un projet requiert une classe.").build();
-			}
-			else if (fileName.equals("")){
-				return Response.status(204).entity("Aucun fichier selectionne. " +
-						"La correction d'un projet requiert des copies.").build();
-			}
-			
-		}
+		CommandesAMC.creationLayout(projectPath);
+		CommandesAMC.generationImagesCopies(projectPath);
+		CommandesAMC.analyseReponses(projectPath);
+		CommandesAMC.notation(projectPath);
+		//CommandesAMC.associationAuto(projectPath);
+		//CommandesAMC.extractionNotesEleves(projectPath);
 		
-		return Response.status(406).entity("Not reacheable").build();
- 
-	}
-	
+
+		String url = context.getBaseUri().toString();
+		url = url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
+		URI uri = UriBuilder.fromUri(url)
+				.path("{a}")
+				.build("Correction.html");
+		
+		return Response.seeOther(uri).build();
+	}	
 	
 }
