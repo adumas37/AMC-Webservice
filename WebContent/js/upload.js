@@ -85,7 +85,7 @@ function uploadValide(){
 		return false;
 	}
 	else {
-		return false;//TODO true;
+		return true;
 	}
 	
 }
