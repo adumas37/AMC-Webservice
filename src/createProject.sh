@@ -12,3 +12,4 @@ mkdir $PROJECT_DIR/$1/cr/zooms
 mkdir $PROJECT_DIR/$1/data
 mkdir $PROJECT_DIR/$1/exports
 mkdir $PROJECT_DIR/$1/scans
+mkdir $PROJECT_DIR/$1/copies
