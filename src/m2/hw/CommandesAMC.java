@@ -72,10 +72,11 @@ public class CommandesAMC {
 	public static void generationImagesCopies(String projectPath){
 		if (projectPath.contains("/")){
 			String username = projectPath.split("/")[0];
-	
+
 			String[] cmd = { "auto-multiple-choice", "getimages", "--copy-to",
 							 projectPath+"scans/",
-							 "--list-fichiers", projectPath+"copies/listeCopies.txt" };
+							 //projectPath+"copies.pdf",
+							 "--list","list-file", projectPath+"copies/listeCopies.txt"};
 			
 			executerCommande(cmd, username);
 		}
@@ -89,10 +90,11 @@ public class CommandesAMC {
 	public static void analyseReponses(String projectPath){
 		if (projectPath.contains("/")){
 			String username = projectPath.split("/")[0];
-	
+
 			String[] cmd = { "auto-multiple-choice", "analyse", "--projet",
 							 projectPath,
-							 projectPath+"scans/*" };
+							 //projectPath+"scans/*" ,
+							 "--list","list-file", projectPath+"copies/listeCopies.txt"};
 			
 			executerCommande(cmd, username);
 		}
