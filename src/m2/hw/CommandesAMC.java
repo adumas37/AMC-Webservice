@@ -75,7 +75,7 @@ public class CommandesAMC {
 	
 			String[] cmd = { "auto-multiple-choice", "getimages", "--copy-to",
 							 projectPath+"scans/",
-							 projectPath+"copies.pdf" };
+							 "--list-fichiers", projectPath+"copies/listeCopies.txt" };
 			
 			executerCommande(cmd, username);
 		}
