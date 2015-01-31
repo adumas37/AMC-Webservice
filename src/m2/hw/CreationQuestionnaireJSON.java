@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -21,7 +23,13 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
 
 
 
@@ -33,9 +41,16 @@ public class CreationQuestionnaireJSON {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creation(String data,@Context UriInfo context){
 		
-		System.out.println(data);
 		Gson gson = new Gson();
-		gson.fromJson(data, String[].class);
+		JsonParser parser = new JsonParser();
+		//On parse les données reçues pour créer l'objet JSON
+		JsonObject obj = parser.parse(data).getAsJsonObject();
+		//On converti l'objet JSON en une classe Java définie par nos soins
+		//Il faut que cette classe possède des attributs repérables par Jersey 
+		//ex: @JsonProperty("nom") private String nom;
+		Question quest=gson.fromJson(obj,Question.class);
+		System.out.println(quest);
+		
 		String url = context.getBaseUri().toString();
 		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
 		URI uri = UriBuilder.fromUri(url)

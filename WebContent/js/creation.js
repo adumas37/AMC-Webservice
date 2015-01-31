@@ -9,19 +9,20 @@ function ajoutReponse(elmnt){
 
 function ajoutQuestion(elmnt){
 	
-	
-	var jsonData = {"nom":"Peter", "prenom": "Jones"}
-	
-	console.log(jsonData);
-	
+	//Ici on définit les attributs d'une classe java
+	//Dans la classe java, les attributs doivent etre précédés de la mention @jsonproperty
+	//ex: @JsonProperty("nom") private String nom;
+	var text = {"nom":"Peter" , "prenom":"Jones"};
+	//Conversion en objet JSON (supportée par quasiment tous les navigateurs)
+	var jsonData = JSON.stringify(text);
+	var count = Object.keys(text).length;
+	console.log(count);
 	var http = new XMLHttpRequest();
 	var url = "rest/creationQuestionnaireJSON";
 	http.open("POST", url, false);
-	
-	//Send the proper header information along with the request
+	//On envoie l'objet JSON avec xmlhttprequest
 	http.setRequestHeader("Content-type", "application/json");
-	http.setRequestHeader("Content-length", jsonData.length);
-
+	http.setRequestHeader("Content-length", count);
 	http.send(jsonData);
 	
 	var question1 = document.getElementsByClassName("blocQR")[0];

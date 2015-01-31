@@ -11,6 +11,7 @@ public class Question {
 	public Question(){
 		
 	}
+	
 	public Question(String nom, String prenom){
 		setNom(nom);
 		setPrenom(prenom);
@@ -30,5 +31,9 @@ public class Question {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	@Override
+	public String toString(){
+		return nom+" - "+prenom;
 	}
 }
