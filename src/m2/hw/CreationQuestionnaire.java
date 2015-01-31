@@ -109,6 +109,7 @@ public class CreationQuestionnaire {
 		imports= "\\documentclass[a4paper]{article}\n\n"
 				
 				+"\\usepackage[utf8x]{inputenc}\n"
+				+"\\usepackage[gen]{eurosym}\n"
 				+"\\usepackage{fontenc}\n"
 				+"\\usepackage{multicol}\n"
 				+"\\usepackage[francais,bloc,completemulti]{automultiplechoice}\n\n";
@@ -364,7 +365,7 @@ public class CreationQuestionnaire {
 			decoded = replace(decoded,"%7F","");
 		}
 		if (decoded.contains("%E2%82%AC")){
-			decoded = replace(decoded,"%E2%82%AC","€");
+			decoded = replace(decoded,"%E2%82%AC","\\euro{}");
 		}
 		if (decoded.contains("%C2%A7")){
 			decoded = replace(decoded,"%C2%A7","§");
