@@ -453,9 +453,14 @@ public class CreationQuestionnaire {
 	        		
 	        		question = br.readLine();
 	        		question = question.replaceAll("\\t", "");
+	        		if (question.contains("\\euro{}")){
+	        			question = replace(question,"\\euro{}","€");
+	        		}
 	        		
 	        		while (!line.contains("\\end{reponses}")){
-	        				
+	        			if (line.contains("\\euro{}")){
+	        				line = replace(line,"\\euro{}","€");
+		        		}	
 	        			if (line.contains("\\begin{multicols}")){
 	        				multicol=true;
 	        			}
