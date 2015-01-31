@@ -19,9 +19,9 @@
 				<td><a href="CreationQuestionnaire.html" >
 					<input type="button" value="Edition questionnaire" class="inputButton orangeButton"/>
 				</a></td>
-				<td><form id="DownloadForm" method="get" action="">
-					<input type="submit" name="download" value="Uploader questionnaire" class="inputButton orangeButton"/>
-				</form></td>
+				<td>
+					<input type="button" name="download" value="Uploader questionnaire" class="inputButton orangeButton" onclick="upload()"/>
+				</td>
 				<td><form id="getQuestionnaire" method="get" action="rest/projet/questionnaire">
 					<input type="submit" value="Telechargement source Latex" class="inputButton greenButton"/>
 				</form>
@@ -59,7 +59,19 @@
 		</p>
 	</div>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
-
+	
+	<div id="newTex" style="visibility:hidden;">
+		<form id="creationProjet" method="post" action="rest/creationProjet" enctype="multipart/form-data" onsubmit="return creationValide();">
+			<p>Choisissez un nouveau fichier latex pour votre projet:</p>
+			<p id="nomProjet"  style="display:none;">Nom du projet: <input id="nomProjetInput" name="nom" type="text" class="inputButton inputText"/></p>
+			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" class="inputButton"> <input type="button" value="Supprimer le fichier" onclick="eraseFile()"/></p>
+			<p id="alertText" style="display:none;"></p>
+			<p>
+				<input id="submit" type="submit" value="Creer Projet" class="inputButton orangeButton"/>
+				<input id="cancel" type="button" value="Annuler" class="inputButton orangeButton" onclick="hide()"/>
+			</p>
+		</form>
+	</div>
 	<script src="js/projet.js"></script>
 </body>
 </html>
