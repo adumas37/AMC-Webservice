@@ -67,13 +67,18 @@ public class UploadCopies {
 	    }
 	    			
 		//TODO recupererClasseCSV(classe);
-		
+		System.out.println("Layout");
 		CommandesAMC.creationLayout(projectPath);
+		System.out.println("generationImagesCopies");
 		CommandesAMC.generationImagesCopies(projectPath);
+		System.out.println("analyseReponses");
 		CommandesAMC.analyseReponses(projectPath);
+		System.out.println("notation");
 		CommandesAMC.notation(projectPath);
+		//System.out.println("associationAuto");
 		//CommandesAMC.associationAuto(projectPath);
-		//CommandesAMC.extractionNotesEleves(projectPath);
+		System.out.println("extractionNotesEleves");
+		CommandesAMC.extractionNotesEleves(projectPath);
 		
 
 		String url = context.getBaseUri().toString();
