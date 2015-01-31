@@ -20,11 +20,15 @@ public class Projet {
 	@Produces({"application/pdf"})
 	public Response getCopies() {
 		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"sujet.pdf");
- 
-		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition",
-			"attachment; filename=Copies.pdf");
+		if (file.exists()){
+			ResponseBuilder response = Response.ok((Object) file);
+			response.header("Content-Disposition",
+				"attachment; filename=Copies.pdf");
 		return response.build();
+		}
+		else {
+			return null;
+		}
  
 	}
 	
@@ -37,11 +41,15 @@ public class Projet {
 	@Produces({"application/pdf"})
 	public Response getCatalog() {
 		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"catalog.pdf");
- 
-		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition",
-			"attachment; filename=Catalogue.pdf");
+		if (file.exists()){
+			ResponseBuilder response = Response.ok((Object) file);
+			response.header("Content-Disposition",
+				"attachment; filename=Catalogue.pdf");
 		return response.build();
+		}
+		else {
+			return null;
+		}
  
 	}
 	
@@ -54,11 +62,15 @@ public class Projet {
 	@Produces({"application/pdf"})
 	public Response getCorrige() {
 		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"corrige.pdf");
- 
-		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition",
-			"attachment; filename=Corrige.pdf");
-		return response.build();
+		if (file.exists()){
+			ResponseBuilder response = Response.ok((Object) file);
+			response.header("Content-Disposition",
+				"attachment; filename=Corrige.pdf");
+			return response.build();
+		}
+		else {
+			return null;
+		}
  
 	}
 	
