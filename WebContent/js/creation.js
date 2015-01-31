@@ -9,6 +9,21 @@ function ajoutReponse(elmnt){
 
 function ajoutQuestion(elmnt){
 	
+	
+	var jsonData = {"nom":"Peter", "prenom": "Jones"}
+	
+	console.log(jsonData);
+	
+	var http = new XMLHttpRequest();
+	var url = "rest/creationQuestionnaireJSON";
+	http.open("POST", url, false);
+	
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/json");
+	http.setRequestHeader("Content-length", jsonData.length);
+
+	http.send(jsonData);
+	
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
 
