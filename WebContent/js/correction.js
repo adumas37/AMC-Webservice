@@ -30,5 +30,14 @@ function afficherNotes(elmnt){
 };
 
 function changerBareme(){
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET","rest/creationQuestionnaire/getBareme",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	
+	xhr.onreadystatechange = function (aEvt){
+		document.getElementById("bareme").innerHTML=xhr.responseText;
+		document.getElementById("bareme").style.display="block";
+		
+	};
+	xhr.send();
 };
