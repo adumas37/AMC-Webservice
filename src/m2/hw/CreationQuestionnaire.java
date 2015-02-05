@@ -521,4 +521,63 @@ public class CreationQuestionnaire {
 		
 		return html;
 	}
+	
+	/**
+	 * Permet de renvoyer une partie du code html de la page de modification du bareme.
+	 * Lis le fichier questionnaire.tex du projet courant.
+	 * @return
+	 */
+	@GET
+	@Path("getBareme")
+	public static String getBareme(){
+		String html="";
+		if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())		
+		try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
+			
+	        String bareme = "1";
+	        String question = "";
+	        
+			String line = br.readLine();
+	        while (line != null) {
+	        	
+	        	if (line.contains("\\begin{question")){
+
+	    	        bareme="1";
+	    	        question="";
+	    	        
+	        		if (line.contains("\\bareme{")){
+	        			bareme=line.split("bareme")[1].split("b")[1].split("=")[0];
+	        		}
+	        		else {
+	        			bareme="1";
+	        		}
+	        		
+	        		question = br.readLine();
+	        		question = question.replaceAll("\\t", "");
+	        		if (question.contains("\\euro{}")){
+	        			question = replace(question,"\\euro{}","€");
+	        		}
+	        		
+	        		while (!line.contains("\\end{reponses}")){        				
+	        			line = br.readLine();	        			
+	        		}
+	        		html += "<blocQB class=\"blocQB\">" +
+        						"<p class=\"question\">" +
+        							"Question: <span class=\"question\">"+question +"</span>" +
+        							"<span class=\"bareme\">bareme:<input class=\"baremeImput inputText\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>" +
+        						"</p>" +
+        					"</blocQB>";
+        			
+	        		
+	        	}
+       	
+	            line = br.readLine();
+	        }
+
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return html;
+	}
 }
