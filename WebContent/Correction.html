@@ -17,14 +17,16 @@
 		<div id="tableau">
 			tableau des resultats
 		</div>
-	</div>	
+	</div>
+		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
 		<form id="DownloadResults" method="get" action="rest/correction/download">
 			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</form>		
 		<input type="button" value="Envoi des mails aux eleves" class="inputButton orangeButton"/>
 		<a href="index.html"><input type="button" value="Accueil" class="inputButton orangeButton"/></a>
 	</div>
-	
+	<div id="bareme" style="display: none;">
+	</div>
 
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
