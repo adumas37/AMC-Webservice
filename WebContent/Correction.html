@@ -25,9 +25,16 @@
 		<input type="button" value="Envoi des mails aux eleves" class="inputButton orangeButton"/>
 		<a href="index.html"><input type="button" value="Accueil" class="inputButton orangeButton"/></a>
 	</div>
-	<div id="bareme" style="display: none;">
+	<div id="baremePopup" style="display: none;">
+		<form id="changerBareme" method="post" action="rest/creationProjet/setBareme" enctype="multipart/form-data">
+			<div id="bareme">
+			</div>
+			<p>
+				<input id="submitBareme" type="submit" value="Changer le bareme et calculer les notes" class="inputButton orangeButton"/>
+				<input id="cancelBareme" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideBareme()"/>
+			</p>
+		</form>
 	</div>
-
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
 	<script src="js/correction.js"></script>
