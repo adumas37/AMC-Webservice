@@ -28,3 +28,7 @@ function afficherNotes(elmnt){
 		document.getElementById("resultats").style.display="none";
 	}
 };
+
+function changerBareme(){
+	
+};
