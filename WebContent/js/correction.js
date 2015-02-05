@@ -41,3 +41,10 @@ function changerBareme(){
 	};
 	xhr.send();
 };
+
+
+function hideBareme(){
+	document.getElementById("baremePopup").style.display="none";
+};
+
+
