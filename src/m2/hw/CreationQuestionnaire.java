@@ -637,6 +637,12 @@ public class CreationQuestionnaire {
 			e.printStackTrace();
 		}
 		//TODO relancer les commandes AMC
-		
+		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+		System.out.println("notation");
+		CommandesAMC.notation(projectPath);
+		//System.out.println("associationAuto");
+		//CommandesAMC.associationAuto(projectPath);
+		System.out.println("extractionNotesEleves");
+		CommandesAMC.extractionNotesEleves(projectPath);
 	}
 }
