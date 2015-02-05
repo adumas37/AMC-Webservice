@@ -36,7 +36,7 @@ function changerBareme(){
 	
 	xhr.onreadystatechange = function (aEvt){
 		document.getElementById("bareme").innerHTML=xhr.responseText;
-		document.getElementById("bareme").style.display="block";
+		document.getElementById("baremePopup").style.display="block";
 		
 	};
 	xhr.send();
