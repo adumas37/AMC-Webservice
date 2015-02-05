@@ -8,16 +8,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 /*TODO
  *		- Ajout de photos dans les question
@@ -579,5 +586,57 @@ public class CreationQuestionnaire {
 		}
 		
 		return html;
+	}
+	
+	
+	@POST
+	@Path("setBareme")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public static void setBareme(FormDataMultiPart formParams){
+		
+		//Mise a jour du bareme
+		List<FormDataBodyPart> baremes = formParams.getFields("bareme");
+		ListIterator<FormDataBodyPart> baremeIterator = baremes.listIterator();
+		
+		File file  = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+		File file2 = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire2.tex");
+		if (file.exists())		
+		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+			FileWriter fw = new FileWriter(file2);
+	        
+			String line = br.readLine();
+	        while (line != null) {
+	        	
+	        	if (line.contains("\\begin{question")){
+	    	        
+	        		if (line.contains("\\bareme{")){
+	        			String bareme="1";
+	        			if (baremeIterator.hasNext()){
+	        				bareme = ((FormDataBodyPart) baremeIterator.next()).getValue();
+	        			}
+	        			
+	        			line=line.split("bareme")[0]+"bareme{b"+bareme+"="+bareme+"}";
+	        		}
+	        		else {
+	        		}
+
+	        		while (!line.contains("\\end{reponses}")){  
+	        			fw.write(line+"\n");
+	        			line = br.readLine();	        			
+	        		}
+	        	}
+	        	
+	        	fw.write(line+"\n");
+	            line = br.readLine();
+	            
+	        }
+	        br.close();
+	        fw.close();
+	        file2.renameTo(file);
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+		//TODO relancer les commandes AMC
+		
 	}
 }
