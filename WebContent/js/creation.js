@@ -8,23 +8,6 @@ function ajoutReponse(elmnt){
 };
 
 function ajoutQuestion(elmnt){
-	
-	//Ici on définit les attributs d'une classe java
-	//Dans la classe java, les attributs doivent etre précédés de la mention @jsonproperty
-	//ex: @JsonProperty("nom") private String nom;
-	var text = {"nom":"Peter" , "prenom":"Jones"};
-	//Conversion en objet JSON (supportée par quasiment tous les navigateurs)
-	var jsonData = JSON.stringify(text);
-	var count = Object.keys(text).length;
-	console.log(count);
-	var http = new XMLHttpRequest();
-	var url = "rest/creationQuestionnaireJSON";
-	http.open("POST", url, false);
-	//On envoie l'objet JSON avec xmlhttprequest
-	http.setRequestHeader("Content-type", "application/json");
-	http.setRequestHeader("Content-length", count);
-	http.send(jsonData);
-	
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
 
@@ -49,7 +32,7 @@ function supprReponse(elmnt){
 		element.parentNode.removeChild(element);
 	}
 	
-}
+};
 
 function supprQuestion(elmnt){
 	
@@ -59,7 +42,7 @@ function supprQuestion(elmnt){
 		element.parentNode.removeChild(element);
 	}
 	
-}
+};
 
 function chargerQuestionnaire(){
 	var xhr = new XMLHttpRequest();
@@ -69,9 +52,10 @@ function chargerQuestionnaire(){
 	if (xhr.responseText!=""){
 		document.getElementById("questionnaire").innerHTML = xhr.responseText;
 	}
-}
+};
 
 function questionnaireValide(){
+	console.log("kkkkkkk");
 	var reponseSansTexte = 0;
 	var questionSansTexte = 0;
 	var questionSansBonneReponse = 0;
@@ -100,19 +84,27 @@ function questionnaireValide(){
 	
 	
 	for (var i = 0; i < blocsQR.length; i++) {
-		if (blocsQR[i].getElementsByClassName("questionInput")[0].value == ""){ questionSansTexte ++; }
+		if (blocsQR[i].getElementsByClassName("questionInput")[0].value == ""){ 
+			questionSansTexte ++; 
+		}
 	
 		reponses = blocsQR[i].getElementsByClassName("reponseInput");
 		for (var j = 0; j < reponses.length; j++) {
-			if (reponses[j].value == ""){ reponseSansTexte ++; }
+			if (reponses[j].value == ""){ 
+				reponseSansTexte ++;
+			}
 		}
 		
 		bonnesReponses = blocsQR[i].getElementsByClassName("bonneInput");
 		nbBonnesReponses = 0;
 		for (var j = 0; j < bonnesReponses.length; j++) {
-			if (bonnesReponses[j].checked == true) { nbBonnesReponses ++; }
+			if (bonnesReponses[j].checked == true) { 
+				nbBonnesReponses ++; 
+			}
 		}
-		if (nbBonnesReponses == 0){ questionSansBonneReponse ++; }
+		if (nbBonnesReponses == 0){ 
+			questionSansBonneReponse ++;
+		}
 		
 	}
 	
@@ -142,9 +134,53 @@ function questionnaireValide(){
 		return false;
 	}
 	else {
+		//Ici on définit les attributs d'une classe java
+		//Dans la classe java, les attributs doivent etre précédés de la mention @jsonproperty
+		//ex: @JsonProperty("nom") private String nom;
+
+		
+		
+		//"colonnes":header.getElementsByName("horizontal")[0].checked
+
+		var jsonData ='{"matiere":"'+document.getElementById("matiereInput").value+'", \
+			"date":"'+document.getElementById("dateInput").value+'", \
+			"nbCopies":"'+document.getElementById("nbCopiesImput").value+'", \
+			"questions":[';
+
+	for(i=0;i<blocsQR.length;i++){
+		if(i>0){
+			jsonData+=',';
+		}
+		jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
+		"bareme":"2","reponses": \
+	            	  	[';
+		for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
+			if(j>0){
+				jsonData+=',';
+			}
+			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
+			"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
+		}
+		jsonData+=']}';
+
+	}
+		jsonData+=']}';
+		
+		console.log(jsonData);
+		var jsonobj=JSON.parse(jsonData);
+		var count = Object.keys(jsonobj).length;
+		console.log(jsonobj);
+		var http = new XMLHttpRequest();
+		var url = "rest/creationQuestionnaireJSON";
+		http.open("POST", url, false);
+		//On envoie l'objet JSON avec xmlhttprequest
+		http.setRequestHeader("Content-type", "application/json");
+		http.setRequestHeader("Content-length", count);
+		http.send(jsonData);
+		
 		return true;
 	}
-}
+};
 
 function creationValide(){
 	var name = false;
@@ -213,9 +249,9 @@ function creationValide(){
 			return true;
 		}
 	}
-}
+};
 
 function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
-}
+};
 

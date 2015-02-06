@@ -48,7 +48,7 @@ public class CreationQuestionnaireJSON {
 		//On converti l'objet JSON en une classe Java définie par nos soins
 		//Il faut que cette classe possède des attributs repérables par Jersey 
 		//ex: @JsonProperty("nom") private String nom;
-		Question quest=gson.fromJson(obj,Question.class);
+		Questionnaire quest=gson.fromJson(obj,Questionnaire.class);
 		System.out.println(quest);
 		
 		String url = context.getBaseUri().toString();
@@ -58,4 +58,5 @@ public class CreationQuestionnaireJSON {
 				.build("Projet.html");
 		return Response.seeOther(uri).build();
 	}
+	
 }
