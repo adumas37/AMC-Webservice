@@ -8,16 +8,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 /*TODO
  *		- Ajout de photos dans les question
@@ -520,5 +527,122 @@ public class CreationQuestionnaire {
 		}
 		
 		return html;
+	}
+	
+	/**
+	 * Permet de renvoyer une partie du code html de la page de modification du bareme.
+	 * Lis le fichier questionnaire.tex du projet courant.
+	 * @return
+	 */
+	@GET
+	@Path("getBareme")
+	public static String getBareme(){
+		String html="";
+		if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())		
+		try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
+			
+	        String bareme = "1";
+	        String question = "";
+	        
+			String line = br.readLine();
+	        while (line != null) {
+	        	
+	        	if (line.contains("\\begin{question")){
+
+	    	        bareme="1";
+	    	        question="";
+	    	        
+	        		if (line.contains("\\bareme{")){
+	        			bareme=line.split("bareme")[1].split("b")[1].split("=")[0];
+	        		}
+	        		else {
+	        			bareme="1";
+	        		}
+	        		
+	        		question = br.readLine();
+	        		question = question.replaceAll("\\t", "");
+	        		if (question.contains("\\euro{}")){
+	        			question = replace(question,"\\euro{}","€");
+	        		}
+	        		
+	        		while (!line.contains("\\end{reponses}")){        				
+	        			line = br.readLine();	        			
+	        		}
+	        		html += "<blocQB class=\"blocQB\">" +
+        						"<p class=\"question\">" +
+        							"Question: <span class=\"question\">"+question +"</span>" +
+        							"<span class=\"bareme\">bareme:<input class=\"baremeImput inputText\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>" +
+        						"</p>" +
+        					"</blocQB>";
+        			
+	        		
+	        	}
+       	
+	            line = br.readLine();
+	        }
+
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return html;
+	}
+	
+	
+	@POST
+	@Path("setBareme")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public static void setBareme(FormDataMultiPart formParams){
+		
+		//Mise a jour du bareme
+		List<FormDataBodyPart> baremes = formParams.getFields("bareme");
+		ListIterator<FormDataBodyPart> baremeIterator = baremes.listIterator();
+		
+		File file  = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+		File file2 = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire2.tex");
+		if (file.exists())		
+		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+			FileWriter fw = new FileWriter(file2);
+	        
+			String line = br.readLine();
+	        while (line != null) {
+	        	
+	        	if (line.contains("\\begin{question")){
+	    	        
+	        		if (line.contains("\\bareme{")){
+	        			String bareme="1";
+	        			if (baremeIterator.hasNext()){
+	        				bareme = ((FormDataBodyPart) baremeIterator.next()).getValue();
+	        			}
+	        			
+	        			line=line.split("bareme")[0]+"bareme{b"+bareme+"="+bareme+"}";
+	        		}
+	        		else {
+	        		}
+
+	        		while (!line.contains("\\end{reponses}")){  
+	        			fw.write(line+"\n");
+	        			line = br.readLine();	        			
+	        		}
+	        	}
+	        	
+	        	fw.write(line+"\n");
+	            line = br.readLine();
+	            
+	        }
+	        br.close();
+	        fw.close();
+	        file2.renameTo(file);
+	    } catch (IOException e) {
+			e.printStackTrace();
+		}
+		//TODO relancer les commandes AMC
+		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+		System.out.println("notation");
+		CommandesAMC.notation(projectPath);
+		//System.out.println("associationAuto");
+		//CommandesAMC.associationAuto(projectPath);
+		System.out.println("extractionNotesEleves");
+		CommandesAMC.extractionNotesEleves(projectPath);
 	}
 }

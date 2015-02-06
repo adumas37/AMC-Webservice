@@ -28,3 +28,22 @@ function afficherNotes(elmnt){
 		document.getElementById("resultats").style.display="none";
 	}
 };
+
+function changerBareme(){
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET","rest/creationQuestionnaire/getBareme",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
+	xhr.onreadystatechange = function (aEvt){
+		document.getElementById("bareme").innerHTML=xhr.responseText;
+		document.getElementById("baremePopup").style.display="block";
+		
+	};
+	xhr.send();
+};
+
+
+function hideBareme(){
+	document.getElementById("baremePopup").style.display="none";
+};
+
