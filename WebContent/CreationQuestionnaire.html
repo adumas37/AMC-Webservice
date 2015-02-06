@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 	<title>AMC - Creation de questionnaire</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="description" content="Creation de QCM">
     <meta name="author" content="Alexis DUMAS">
 	
@@ -15,7 +15,7 @@
 	<div class="bloc-principal">
 	<header class="main-header">AMC Webservice - Creation questionnaire: <span id="nomProjet"></span></header>
 	<div id="content" class="contenu-quest"><h2>Creation d'un nouveau questionnaire:</h2>
-		<form id="creationForm" method="post" action="rest/creationQuestionnaire" onsubmit="return questionnaireValide();">
+		<form id="creationForm" method="post" action="rest/creationQuestionnaireJSON/changePage" onsubmit="return questionnaireValide();">
 			<div id="questionnaire">
 				<p id="entete">
 					<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton"/></span>

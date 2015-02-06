@@ -1,7 +1,13 @@
 package m2.hw;
 
+import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonProperty;
-public class Question {
+public class Question implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String texte;
 	private Reponse[] reponses;
 	private int bareme;

@@ -34,10 +34,10 @@ import com.google.gson.stream.JsonReader;
 
 
 @Path("creationQuestionnaireJSON")
-@Consumes(MediaType.APPLICATION_JSON)
 public class CreationQuestionnaireJSON {
 	
 	@POST
+	@Path("creation")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response creation(String data,@Context UriInfo context){
 		
@@ -50,7 +50,18 @@ public class CreationQuestionnaireJSON {
 		//ex: @JsonProperty("nom") private String nom;
 		Questionnaire quest=gson.fromJson(obj,Questionnaire.class);
 		System.out.println(quest);
-		
+		QuestionnaireTools.ExportProjet(quest);
+		System.out.println(QuestionnaireTools.ImportProjet());
+		String url = context.getBaseUri().toString();
+		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
+		URI uri = UriBuilder.fromUri(url)
+				.path("{a}")
+				.build("Projet.html");
+		return Response.seeOther(uri).build();
+	}
+	@POST
+	@Path("changePage")
+	public Response changePage(String data, @Context UriInfo context){
 		String url = context.getBaseUri().toString();
 		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
 		URI uri = UriBuilder.fromUri(url)

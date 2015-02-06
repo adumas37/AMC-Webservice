@@ -46,16 +46,48 @@ function supprQuestion(elmnt){
 
 function chargerQuestionnaire(){
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/creationQuestionnaire/modification",false);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.open("POST","rest/questionnaireTools/modification",false);
+	xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+	xhr.setRequestHeader("Accept-Encoding", "UTF-8");
 	xhr.send();
 	if (xhr.responseText!=""){
-		document.getElementById("questionnaire").innerHTML = xhr.responseText;
+		var json = JSON.parse(xhr.responseText);
+		var html='';
+		html+='<p id="entete"> \
+			<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \
+			<span id="date">Date (jj/mm/aaaa):<input id="dateInput" name="date" type="text" class="inputText inputButton" value="'+json.date+'"/></span> \
+			<span id="nbCopies">Nombre d\'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="'+json.nbCopies+'" class="inputText inputButton"/></span> \
+			</p>';
+		for(i=0;i<json.questions.length;i++){
+			html += '<blocQR class="blocQR"> \
+			<p class="question"> \
+			Question: <input type="text" name="question" class="questionInput inputText inputButton" value="'+json.questions[i].texte+'"/> \
+			</p><reponses>';
+			for(j=0;j<json.questions[i].reponses.length;j++){
+				html += '<p class="reponse"> \
+				Reponse: <input type="text" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
+				<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne"';
+				if(json.questions[i].reponses[j].correcte){html+=' checked="true"';}
+				html+='"/></span> \
+				<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span> \
+				</p>';
+			}
+			html += '</reponses> \
+			<options> \
+			<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" class="inputButton blueButton"/></span> \
+			<span class="addQ"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)"  class="inputButton blueButton"/></span> \
+			<span class="checkbox">Reponses horizontales?<input type="checkbox" name="horizontal"'+ (json.questions[i].colonnes?" checked":" ")+'/></span> \
+			<span class="bareme">bareme:<input class="baremeImput inputText" name="bareme" type="number" min="1" max="20" value="'+json.questions[i].bareme+'"/></span> \
+			</options> \
+			</blocQR>';
+			
+		}
+		document.getElementById("questionnaire").innerHTML = html;
 	}
 };
 
 function questionnaireValide(){
-	console.log("kkkkkkk");
+
 	var reponseSansTexte = 0;
 	var questionSansTexte = 0;
 	var questionSansBonneReponse = 0;
@@ -134,14 +166,6 @@ function questionnaireValide(){
 		return false;
 	}
 	else {
-		//Ici on définit les attributs d'une classe java
-		//Dans la classe java, les attributs doivent etre précédés de la mention @jsonproperty
-		//ex: @JsonProperty("nom") private String nom;
-
-		
-		
-		//"colonnes":header.getElementsByName("horizontal")[0].checked
-
 		var jsonData ='{"matiere":"'+document.getElementById("matiereInput").value+'", \
 			"date":"'+document.getElementById("dateInput").value+'", \
 			"nbCopies":"'+document.getElementById("nbCopiesImput").value+'", \
@@ -166,18 +190,19 @@ function questionnaireValide(){
 	}
 		jsonData+=']}';
 		
-		console.log(jsonData);
+
 		var jsonobj=JSON.parse(jsonData);
 		var count = Object.keys(jsonobj).length;
-		console.log(jsonobj);
+
 		var http = new XMLHttpRequest();
-		var url = "rest/creationQuestionnaireJSON";
+		var url = "rest/creationQuestionnaireJSON/creation";
 		http.open("POST", url, false);
 		//On envoie l'objet JSON avec xmlhttprequest
-		http.setRequestHeader("Content-type", "application/json");
+		http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 		http.setRequestHeader("Content-length", count);
+		http.setRequestHeader("Accept-Encoding", "UTF-8");
 		http.send(jsonData);
-		
+
 		return true;
 	}
 };

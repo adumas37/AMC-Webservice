@@ -1,23 +1,30 @@
 package m2.hw;
 
-import java.io.BufferedReader;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-public abstract class QuestionnaireTools {
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+@Path("questionnaireTools")
+public class QuestionnaireTools {
 
 	public static String createHeader(Questionnaire questionnaire){
 		String entete= new String();
@@ -355,127 +362,22 @@ public Response getTextFile() {
  */
 @POST
 @Path("modification")
+@Produces(MediaType.APPLICATION_JSON)
 public static String modifierQuestionnaire(){
-	String html="";
-	if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())		
-	try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
-		String exemplaire="1";
-        String date = "";
-        String matiere = "";
-        String bareme = "1";
-        String question = "";
-        boolean multicol = false;
-        ArrayList<String> reponses;
-        ArrayList<Boolean> bmReponses;
-        
-		String line = br.readLine();
-        while (line != null) {
-        	
-        	if (line.contains("\\begin{question")){
-        		
-        		reponses = new ArrayList<String>();
-    	        bmReponses = new ArrayList<Boolean>();
-    	        multicol=false;
-    	        bareme="1";
-    	        question="";
-    	        
-        		if (line.contains("\\bareme{")){
-        			bareme=line.split("bareme")[1].split("b")[1].split("=")[0];
-        		}
-        		else {
-        			bareme="1";
-        		}
-        		
-        		question = br.readLine();
-        		question = question.replaceAll("\\t", "");
-        		if (question.contains("\\euro{}")){
-        			question = replace(question,"\\euro{}","€");
-        		}
-        		
-        		while (!line.contains("\\end{reponses}")){
-        			if (line.contains("\\euro{}")){
-        				line = replace(line,"\\euro{}","€");
-	        		}	
-        			if (line.contains("\\begin{multicols}")){
-        				multicol=true;
-        			}
-        			if (line.contains("\\bonne{") || line.contains("\\mauvaise{")){
-        				reponses.add(line.split("\\{")[1].split("\\}")[0]);
-        				bmReponses.add(line.contains("\\bonne{"));
-        			}
-    				
-        			line = br.readLine();
-        			
-        		}
-        		html += "<blocQR class=\"blocQR\">" +
-    					"<p class=\"question\">" +
-    					"Question: <input type=\"text\" name=\"question\" class=\"questionInput inputText inputButton\" value=\""+question+"\"/>" +
-    					"</p><reponses>";
-    			for (int i=0; i< reponses.size();i++){
-    				html += "<p class=\"reponse\">" +
-    						"Reponse: <input type=\"text\" name=\"reponse\" class=\"reponseInput inputText inputButton\" value=\""+reponses.get(i)+"\"/>" +
-							"<span class=\"checkbox\">Bonne reponse?<input class=\"bonneInput\" type=\"checkbox\" name=\"bonne\""+ (bmReponses.get(i).booleanValue()?" checked":" ")+"/></span>" +
-							"<span class=\"delQ\"><input type=\"button\" name=\"delQ\" value=\"Supprimer reponse\" onclick=\"supprReponse(this)\" class=\"inputButton blueButton\"/></span>" +
-							"</p>";
-    			}
-    			
-    			html += "</reponses>" +
-    					"<options>" +
-    					"<span class=\"del\"><input type=\"button\" name=\"delQ\" value=\"Supprimer question\" onclick=\"supprQuestion(this)\" class=\"inputButton blueButton\"/></span>"+
-						"<span class=\"addQ\"><input type=\"button\" name=\"addQ\" value=\"Ajouter reponse\" onclick=\"ajoutReponse(this)\"  class=\"inputButton blueButton\"/></span>"+
-						"<span class=\"checkbox\">Reponses horizontales?<input type=\"checkbox\" name=\"horizontal\""+ (multicol?" checked":" ")+"/></span>"+
-						"<span class=\"bareme\">bareme:<input class=\"baremeImput inputText\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>"+
-						"</options>"+
-						"</blocQR>";
-        		
-        	}
-        	else if (line.contains("exemplaire{")){
-        		exemplaire=line.split("exemplaire")[1].substring(1, 2);
-        	}
-        	else if (line.contains("\\\\ Examen du")){
-        		date=line.split("\\\\\\\\ Examen du ")[1];
-        		date=date.split("\\\\end")[0];
-        		matiere=line.split("\\\\\\\\ Examen du ")[0].split("\\\\centering\\\\large\\\\bf ")[1];
-        	}
-        	
-        	
-        	
-            line = br.readLine();
-        }
-        
-        String entete="<p id=\"entete\">" +
-				"<span id=\"matiere\">Matiere:<input id=\"matiereInput\" name=\"matiere\" type=\"text\" class=\"inputText inputButton\" value=\""+matiere+"\"/></span>" +
-				"<span id=\"date\">Date (jj/mm/aaaa):<input id=\"dateInput\" name=\"date\" type=\"text\" class=\"inputText inputButton\" value=\""+date+"\"/></span>"+
-				"<span id=\"nbCopies\">Nombre d'exemplaires de copies:<input id=\"nbCopiesImput\" name=\"nbCopies\" type=\"number\" min=\"1\" max=\"10\" value=\""+exemplaire+"\" class=\"inputText inputButton\"/></span>"+
-				"</p>";
-        html = entete + html;
-
-    } catch (IOException e) {
-		e.printStackTrace();
-	}
-	
-	return html;
+	Questionnaire questionnaire = ImportProjet();
+	Gson gson = new Gson();
+	String json = gson.toJson(questionnaire);
+	return json;
 }
 
 public static void ExportProjet(Questionnaire questionnaire){
 	try {
-		// création d'une personne
-		
-		System.out.println("creation de : " + questionnaire);
-
-		// ouverture d'un flux de sortie vers le fichier "personne.serial"
 		FileOutputStream fos = new FileOutputStream(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.bin");
-
-		// création d'un "flux objet" avec le flux fichier
 		ObjectOutputStream oos= new ObjectOutputStream(fos);
 		try {
-			// sérialisation : écriture de l'objet dans le flux de sortie
 			oos.writeObject(questionnaire); 
-			// on vide le tampon
 			oos.flush();
-			System.out.println(questionnaire + " a ete serialise");
 		} finally {
-			//fermeture des flux
 			try {
 				oos.close();
 			} finally {
@@ -485,6 +387,27 @@ public static void ExportProjet(Questionnaire questionnaire){
 	} catch(IOException ioe) {
 		ioe.printStackTrace();
 	}
+}
 
+public static Questionnaire ImportProjet(){
+	Questionnaire questionnaire = null;
+	try {
+		FileInputStream fis = new FileInputStream(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.bin");
+		ObjectInputStream ois= new ObjectInputStream(fis);
+		try {	
+			questionnaire = (Questionnaire) ois.readObject(); 
+		} finally {
+			try {
+				ois.close();
+			} finally {
+				fis.close();
+			}
+		}
+	} catch(IOException ioe) {
+		ioe.printStackTrace();
+	} catch(ClassNotFoundException cnfe) {
+		cnfe.printStackTrace();
+	}
+	return questionnaire;
 }
 }

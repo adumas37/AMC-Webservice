@@ -1,6 +1,12 @@
 package m2.hw;
 
-public class Reponse {
+import java.io.Serializable;
+
+public class Reponse implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String texte;
 	private boolean correcte;
 	
