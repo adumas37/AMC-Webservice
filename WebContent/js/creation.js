@@ -1,14 +1,28 @@
 function ajoutReponse(elmnt){
+
+	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
+	var stringNameReponse = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].getElementsByClassName("reponse")[0].getElementsByClassName("reponseInput")[0].id;
+	var reponseNb = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].childElementCount+1;
+	stringNameReponse = stringNameReponse.substring(0, stringNameReponse.length-1);
+	stringNameReponse += reponseNb;
 	
 	var reponse = document.getElementsByClassName("reponse")[0];
 	var reponse2 = reponse.cloneNode(true);
 	reponse2.getElementsByClassName("reponseInput")[0].value="";
 	reponse2.getElementsByTagName("span")[0].getElementsByTagName("input")[0].checked=false;
 	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
+
+	// Change input id for latex formula (input id and href for latex formula button)
+	reponse2.getElementsByClassName("reponseInput")[0].id = stringNameReponse;
+	reponse2.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('"+stringNameReponse+"','latex','fr-fr')";
 };
 
 function ajoutQuestion(elmnt){
-	
+
+	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
+	var questionNb = document.getElementById("questionnaire").childElementCount;
+	var stringNameReponse = "reponse "+questionNb+",1"
+
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
 
@@ -22,7 +36,11 @@ function ajoutQuestion(elmnt){
 	reponses.getElementsByClassName("reponseInput")[0].value="";
 	reponses.getElementsByTagName("input")[0].checked=true;
 
+	reponses.getElementsByClassName("reponseInput")[0].id = stringNameReponse;
+	reponses.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('"+stringNameReponse+"','latex','fr-fr')";
+
 	document.getElementById("questionnaire").appendChild(question);
+
 };
 
 function supprReponse(elmnt){
