@@ -21,7 +21,7 @@ function ajoutQuestion(elmnt){
 
 	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
 	var questionNb = document.getElementById("questionnaire").childElementCount;
-	var stringNameReponse = "reponse "+questionNb+",1"
+	var stringNameReponse = "reponse "+questionNb+",1";
 
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
@@ -36,6 +36,8 @@ function ajoutQuestion(elmnt){
 	reponses.getElementsByClassName("reponseInput")[0].value="";
 	reponses.getElementsByTagName("input")[0].checked=true;
 
+	question.getElementsByClassName("questionInput")[0].id="question"+questionNb;
+	question.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('question"+questionNb+"','latex','fr-fr')";
 	reponses.getElementsByClassName("reponseInput")[0].id = stringNameReponse;
 	reponses.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('"+stringNameReponse+"','latex','fr-fr')";
 
