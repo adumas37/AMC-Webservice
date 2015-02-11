@@ -49,18 +49,48 @@ function hideBareme(){
 
 function changerFichiers(){
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET","rest/correction/getFilesNames",false);
+	xhr.open("GET","rest/correction/getFilesNames",true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	
 	xhr.onreadystatechange = function (aEvt){
 		var json = JSON.parse(xhr.responseText);
-		document.getElementById("gestionFichiers").innerHTML="";
+		document.getElementById("oldFiles").innerHTML="";
+		document.getElementById("upload").innerHTML="";
+		
 		json.forEach(function(text){
 			var newNode = document.createElement("p");
 			var fileName = document.createTextNode(text);
-			newNode.appendChild(fileName);
-			document.getElementById("gestionFichiers").appendChild(newNode);
+			var textNode = document.createElement("span");
+			
+			var supprButton = document.createElement("input");
+			supprButton.setAttribute("type", "button");
+			supprButton.setAttribute("value", "Supprimer fichier");
+			supprButton.setAttribute("onclick", "delFileRest(this)");
+			textNode.appendChild(fileName);
+			newNode.appendChild(textNode);
+			newNode.appendChild(supprButton);
+			document.getElementById("oldFiles").appendChild(newNode);
 		});
+		
+		var newNode = document.createElement("p");
+		newNode.setAttribute("class", "fichierCopies");
+		var textNode = document.createTextNode("Copies (.pdf): ");
+		
+		var inputFile = document.createElement("input");
+		inputFile.setAttribute("class", "copiesPDFInput");
+		inputFile.setAttribute("name","file");
+		inputFile.setAttribute("type", "file");
+		inputFile.setAttribute("onchange", "chooseFile()");
+		
+		var supprButton = document.createElement("input");
+		supprButton.setAttribute("type", "button");
+		supprButton.setAttribute("value", "Supprimer fichier");
+		supprButton.setAttribute("onclick", "delFile(this)");
+		
+		newNode.appendChild(textNode);
+		newNode.appendChild(inputFile);
+		newNode.appendChild(supprButton);
+		document.getElementById("upload").appendChild(newNode);
 		
 		document.getElementById("fichiers").style.display="block";
 		
@@ -71,3 +101,8 @@ function changerFichiers(){
 function hideFichiers(){
 	document.getElementById("fichiers").style.display="none";
 };
+
+function delFile(elmnt){
+	var element = elmnt.parentNode
+	element.childNodes[1].value="";
+}
