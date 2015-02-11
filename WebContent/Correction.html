@@ -38,12 +38,20 @@
 	</div>
 	<div id="fichiers" style="display: none;">
 		<div id="gestionFichiers">
-		
+			<div id="oldFiles">
+			</div>
+			<div id="newFiles">
+				<form id=uploadCopies method=post action="rest/uploadCopies" enctype="multipart/form-data" >
+					<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file" onchange="hideFichiers()"> 
+						<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
+					</p>
+					<p>
+						<input id="submitFichiers" type="submit" value="Changer les fichiers et calculer les notes" onclick="hideFichiers()" class="inputButton orangeButton"/>
+						<input id="cancelFichiers" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideFichiers()"/>
+					</p>
+				</form>
+			</div>
 		</div>
-		<p>
-			<input id="submitFichiers" type="submit" value="Changer les fichiers et calculer les notes" onclick="hideFichiers()" class="inputButton orangeButton"/>
-			<input id="cancelFichiers" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideFichiers()"/>
-		</p>
 	</div>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
