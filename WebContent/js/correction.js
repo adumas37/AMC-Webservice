@@ -47,3 +47,27 @@ function hideBareme(){
 	document.getElementById("baremePopup").style.display="none";
 };
 
+function changerFichiers(){
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET","rest/correction/getFilesNames",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
+	xhr.onreadystatechange = function (aEvt){
+		var json = JSON.parse(xhr.responseText);
+		document.getElementById("gestionFichiers").innerHTML="";
+		json.forEach(function(text){
+			var newNode = document.createElement("p");
+			var fileName = document.createTextNode(text);
+			newNode.appendChild(fileName);
+			document.getElementById("gestionFichiers").appendChild(newNode);
+		});
+		
+		document.getElementById("fichiers").style.display="block";
+		
+	};
+	xhr.send();
+};
+
+function hideFichiers(){
+	document.getElementById("fichiers").style.display="none";
+};
