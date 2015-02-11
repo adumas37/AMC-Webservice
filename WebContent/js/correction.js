@@ -103,6 +103,37 @@ function hideFichiers(){
 };
 
 function delFile(elmnt){
-	var element = elmnt.parentNode
-	element.childNodes[1].value="";
+	var element = elmnt.parentNode;
+	element.parentNode.removeChild(element);
+	chooseFile();
+};
+
+function chooseFile(){
+	var fichiersUploades = document.getElementsByClassName("copiesPDFInput");
+	for (var i=0; i< fichiersUploades.length;i++){
+		if (fichiersUploades[i].value==""){
+			var node = fichiersUploades[i].parentNode;
+			node.parentNode.removeChild(node);
+		}
+	}
+	var newNode = document.createElement("p");
+	newNode.setAttribute("class", "fichierCopies");
+	var textNode = document.createTextNode("Copies (.pdf): ");
+	
+	var inputFile = document.createElement("input");
+	inputFile.setAttribute("class", "copiesPDFInput");
+	inputFile.setAttribute("name","file");
+	inputFile.setAttribute("type", "file");
+	inputFile.setAttribute("onchange", "chooseFile()");
+	
+	var supprButton = document.createElement("input");
+	supprButton.setAttribute("type", "button");
+	supprButton.setAttribute("value", "Supprimer fichier");
+	supprButton.setAttribute("onclick", "delFile(this)");
+	
+	newNode.appendChild(textNode);
+	newNode.appendChild(inputFile);
+	newNode.appendChild(supprButton);
+	document.getElementById("upload").appendChild(newNode);
+	
 }
