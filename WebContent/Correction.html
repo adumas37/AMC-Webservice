@@ -19,6 +19,7 @@
 		</div>
 	</div>
 		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
+		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>	
 		<form id="DownloadResults" method="get" action="rest/correction/download">
 			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</form>		
@@ -34,6 +35,15 @@
 				<input id="cancelBareme" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideBareme()"/>
 			</p>
 		</form>
+	</div>
+	<div id="fichiers" style="display: none;">
+		<div id="gestionFichiers">
+		
+		</div>
+		<p>
+			<input id="submitFichiers" type="submit" value="Changer les fichiers et calculer les notes" onclick="hideFichiers()" class="inputButton orangeButton"/>
+			<input id="cancelFichiers" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideFichiers()"/>
+		</p>
 	</div>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
 	
