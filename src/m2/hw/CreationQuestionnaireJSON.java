@@ -44,14 +44,20 @@ public class CreationQuestionnaireJSON {
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		//On parse les données reçues pour créer l'objet JSON
-		JsonObject obj = parser.parse(data).getAsJsonObject();
+		JsonObject obj =parser.parse(data).getAsJsonObject();
 		//On converti l'objet JSON en une classe Java définie par nos soins
 		//Il faut que cette classe possède des attributs repérables par Jersey 
 		//ex: @JsonProperty("nom") private String nom;
 		Questionnaire quest=gson.fromJson(obj,Questionnaire.class);
-		System.out.println(quest);
+		quest.setHeader(QuestionnaireTools.createHeader(quest));
+		quest.setBody(QuestionnaireTools.createBody(quest));
+		QuestionnaireTools.ecrireFichier(quest);
+		CommandesAMC.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
+		
+		/*System.out.println(quest);
 		QuestionnaireTools.ExportProjet(quest);
-		System.out.println(QuestionnaireTools.ImportProjet());
+		System.out.println(QuestionnaireTools.ImportProjet());*/
+		
 		String url = context.getBaseUri().toString();
 		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
 		URI uri = UriBuilder.fromUri(url)

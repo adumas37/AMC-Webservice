@@ -67,5 +67,9 @@ public class Utilisateur {
     public String getProjectsPath(){
     	return this.PATH;
     }
+    @Override
+    public String toString(){
+    	return "USERNAME : "+getUserName()+" RPOJECT : "+getProject();
+    }
     
 }

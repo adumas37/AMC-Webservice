@@ -98,7 +98,7 @@ public class QuestionnaireTools {
 					
 					
 					questionnaireBody += "\t\\begin{"+typeQuestion+"}{Q"+i+"}"+bareme+"\n";
-					questionnaireBody += "\t\t"+questionsReponses[0]+"\n";
+					questionnaireBody += "\t\t"+questionnaire.getQuestions()[i].getTexte()+"\n";
 					
 					if(questionnaire.getQuestions()[i].isColonnes()){
 						questionnaireBody += "\t\t\\begin{multicols}{2}\n";
@@ -297,6 +297,7 @@ public static String replace(String text, String substring, String replaceWith){
  * @param data
  */
 public static void ecrireFichier(Questionnaire questionnaire){
+	System.out.println(Utilisateurs.getCurrentUser());
 	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
     FileWriter fw;
 
