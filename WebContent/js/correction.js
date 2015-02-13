@@ -61,6 +61,7 @@ function changerFichiers(){
 			var newNode = document.createElement("p");
 			var fileName = document.createTextNode(text);
 			var textNode = document.createElement("span");
+			textNode.setAttribute("class", "fileName");
 			
 			var supprButton = document.createElement("input");
 			supprButton.setAttribute("type", "button");
@@ -141,8 +142,10 @@ function chooseFile(){
 
 function verificationFichier(){
 	var erreursExtension = 0;
+	var sameName = 0;
 	var alertText = "";
 	var copies = document.getElementsByClassName("copiesPDFInput");
+	var names = document.getElementsByClassName("fileName");
 	
 	for (var i = 0; i < copies.length; i++) {
 		var filename = copies[i].value;
@@ -153,27 +156,29 @@ function verificationFichier(){
 			var extension = nameList[nameList.length-1];
 			if (extension!="pdf") {
 				erreursExtension ++;
-				/*if (copies[i].parentNode.parentNode.childElementCount>2){
-					copies[i].parentNode.remove();
-					i--;
+			}
+			for (var i=0;i<names.length;i++){
+				name=names[i].innerHTML;
+				console.log(name);
+				if (name==filename){
+					console.log("sameName!");
+					sameName ++;
 				}
-				else {
-					copies[i].value = "";
-				}*/
 			}
 		}	
-		/*else {
-			//if (copies[i].parentNode.parentNode.childElementCount>2){
-				copies[i].parentNode.remove();
-				i--;
-			//}
-		}*/
+
 	}
 
-	if ((erreursExtension > 0) ){
-		alertText = "L'un des fichiers fourni n'est pas au bon format et n'a pas été pris en compte.\n" +
-				"Verifiez que l'ensemble des fichiers nécessaires sont présents.\n" +
-				"Les fichiers doivent etre au format pdf (.pdf).";
+	if ((erreursExtension > 0) || (sameName > 0) ){
+		if (erreursExtension > 0){
+			alertText += "<p>L'un des fichiers fourni n'est pas au bon format et n'a pas été pris en compte. " +
+				"Verifiez que l'ensemble des fichiers nécessaires sont présents. " +
+				"Les fichiers doivent etre au format pdf (.pdf).</p>";
+		}
+		if (sameName > 0 ){
+			alertText += "<p>Un des fichiers a le même nom qu'un fichier déjà envoyé. " +
+				"Supprimer le fichier que vous ne souhaitez pas utiliser pour la correction.</p>";
+		}		
 		document.getElementById("alertText").innerHTML=alertText;
 		document.getElementById("alertText").setAttribute("style", "display:block;");
 		console.log("extensions!");
