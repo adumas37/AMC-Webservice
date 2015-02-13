@@ -157,8 +157,12 @@ public class Correction {
 	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
 	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
 		    FileWriter fw = new FileWriter(file,true);
+		    String fileName="";
 	        for (int i = 0; i < files.size(); i++){
-	        	fw.write("\n"+files.get(i).getContentDisposition().getFileName());
+	        	fileName=files.get(i).getContentDisposition().getFileName();
+	        	if (!fileName.equals("") && fileName.contains(".pdf")){
+	        		fw.write("\n"+files.get(i).getContentDisposition().getFileName());
+	        	}
 	        }
 	        fw.close();
 	    }
