@@ -136,4 +136,53 @@ function chooseFile(){
 	newNode.appendChild(supprButton);
 	document.getElementById("upload").appendChild(newNode);
 	
-}
+};
+//TODO verification de l'extension des fichiers!
+
+function verificationFichier(){
+	var erreursExtension = 0;
+	var alertText = "";
+	var copies = document.getElementsByClassName("copiesPDFInput");
+	
+	for (var i = 0; i < copies.length; i++) {
+		var filename = copies[i].value;
+
+		if (filename != ""){
+	
+			var nameList = filename.split(".");
+			var extension = nameList[nameList.length-1];
+			if (extension!="pdf") {
+				erreursExtension ++;
+				/*if (copies[i].parentNode.parentNode.childElementCount>2){
+					copies[i].parentNode.remove();
+					i--;
+				}
+				else {
+					copies[i].value = "";
+				}*/
+			}
+		}	
+		/*else {
+			//if (copies[i].parentNode.parentNode.childElementCount>2){
+				copies[i].parentNode.remove();
+				i--;
+			//}
+		}*/
+	}
+
+	if ((erreursExtension > 0) ){
+		alertText = "L'un des fichiers fourni n'est pas au bon format et n'a pas été pris en compte.\n" +
+				"Verifiez que l'ensemble des fichiers nécessaires sont présents.\n" +
+				"Les fichiers doivent etre au format pdf (.pdf).";
+		document.getElementById("alertText").innerHTML=alertText;
+		document.getElementById("alertText").setAttribute("style", "display:block;");
+		console.log("extensions!");
+		chooseFile();
+		return false;
+	}
+	else {
+		console.log("OK/File");
+		document.getElementById("fichiers").setAttribute("style", "display:none;");
+		return true;
+	}
+};
