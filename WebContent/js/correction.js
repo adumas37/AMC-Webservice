@@ -157,12 +157,18 @@ function verificationFichier(){
 			if (extension!="pdf") {
 				erreursExtension ++;
 			}
-			for (var i=0;i<names.length;i++){
-				name=names[i].innerHTML;
-				console.log(name);
+			for (var j=0;j<names.length;j++){
+				name=names[j].innerHTML;
 				if (name==filename){
-					console.log("sameName!");
 					sameName ++;
+				}
+			}
+			for (var j=0;j<copies.length;j++){
+				if (j!=i){
+					name=copies[j].value;
+					if (name==filename){
+						sameName ++;
+					}
 				}
 			}
 		}	
