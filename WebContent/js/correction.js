@@ -109,6 +109,22 @@ function delFile(elmnt){
 	chooseFile();
 };
 
+function delFileRest(elmnt){
+	
+	var filename = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/supprimerCopie/"+filename,false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
+	xhr.onreadystatechange = function (aEvt){
+		var element = elmnt.parentNode;
+		element.parentNode.removeChild(element);
+	};
+	xhr.send();	
+	
+};
+
 function chooseFile(){
 	var fichiersUploades = document.getElementsByClassName("copiesPDFInput");
 	for (var i=0; i< fichiersUploades.length;i++){
