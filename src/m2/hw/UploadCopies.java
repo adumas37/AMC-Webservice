@@ -63,7 +63,7 @@ public class UploadCopies {
 	        e.printStackTrace();
 	    }
 	    			
-		//TODO recupererClasseCSV(classe);
+		/*/TODO recupererClasseCSV(classe);
 		System.out.println("Layout");
 		CommandesAMC.creationLayout(projectPath);
 		System.out.println("generationImagesCopies");
@@ -75,7 +75,7 @@ public class UploadCopies {
 		//System.out.println("associationAuto");
 		//CommandesAMC.associationAuto(projectPath);
 		System.out.println("extractionNotesEleves");
-		CommandesAMC.extractionNotesEleves(projectPath);
+		CommandesAMC.extractionNotesEleves(projectPath);//*/
 		
 
 		String url = context.getBaseUri().toString();
