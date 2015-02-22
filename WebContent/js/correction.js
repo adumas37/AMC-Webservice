@@ -138,7 +138,6 @@ function chooseFile(){
 	document.getElementById("upload").appendChild(newNode);
 	
 };
-//TODO verification de l'extension des fichiers!
 
 function verificationFichier(){
 	var erreursExtension = 0;
@@ -182,8 +181,8 @@ function verificationFichier(){
 				"Les fichiers doivent etre au format pdf (.pdf).</p>";
 		}
 		if (sameName > 0 ){
-			alertText += "<p>Un des fichiers a le même nom qu'un fichier déjà envoyé. " +
-				"Supprimer le fichier que vous ne souhaitez pas utiliser pour la correction.</p>";
+			alertText += "<p>Deux fichiers disposent du même nom. " +
+				"Supprimez le fichier que vous ne souhaitez pas utiliser pour la correction.</p>";
 		}		
 		document.getElementById("alertText").innerHTML=alertText;
 		document.getElementById("alertText").setAttribute("style", "display:block;");
