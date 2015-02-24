@@ -194,4 +194,14 @@ public class Correction {
 		return Response.seeOther(uri).build();
 	}	
 	
+	//TODO trouver comment ne prendre en compte que la premierer partie du lien lors de l'envois de la requete
+	@Path("supprimerCopie/")
+	@POST
+	public void supprimerCopie( @Context UriInfo context) {
+
+		System.out.println("context path: "+context.getPath());
+	    // %20 --> espace
+	   
+	}	
+	
 }
