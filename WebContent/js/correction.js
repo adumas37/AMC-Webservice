@@ -112,16 +112,21 @@ function delFile(elmnt){
 function delFileRest(elmnt){
 	
 	var filename = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
-
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/correction/supprimerCopie/"+filename,false);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	
-	xhr.onreadystatechange = function (aEvt){
-		var element = elmnt.parentNode;
-		element.parentNode.removeChild(element);
-	};
-	xhr.send();	
+	if (confirm("Voulez vous vraiment supprimer le fichier "+filename+"?\nCe changement est irreversible!") == true) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/supprimerCopie/"+filename,false);
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		
+		xhr.onreadystatechange = function (aEvt){
+			var element = elmnt.parentNode;
+			element.parentNode.removeChild(element);
+		};
+		xhr.send();
+    } 
+	else {
+		return false;
+	}
+		
 	
 };
 
