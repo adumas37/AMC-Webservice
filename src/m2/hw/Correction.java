@@ -1,6 +1,7 @@
 package m2.hw;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,6 +15,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -112,9 +114,7 @@ public class Correction {
 				} finally {
 					buffer.close();
 					Gson gson = new Gson();
-					json = gson.toJson(listFiles);
-					System.out.println("JSON: "+json);
-					
+					json = gson.toJson(listFiles);					
 				}
 				return json;
 				
@@ -194,13 +194,38 @@ public class Correction {
 		return Response.seeOther(uri).build();
 	}	
 	
-	//TODO trouver comment ne prendre en compte que la premierer partie du lien lors de l'envois de la requete
-	@Path("supprimerCopie/")
+	@Path("supprimerCopie/{name}")
 	@POST
-	public void supprimerCopie( @Context UriInfo context) {
+	public void supprimerCopie( @PathParam("name") String name) {
 
-		System.out.println("context path: "+context.getPath());
-	    // %20 --> espace
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() + "/copies/"+ name);
+		if (file.exists()){
+			file.delete();
+		}
+		
+		try{	//Ecriture du fichier contenant la liste des fichiers des copies
+
+			File inputFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
+			File tempFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt~");
+
+			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+			String currentLine;
+
+			while((currentLine = reader.readLine()) != null) {
+			    // trim newline when comparing with lineToRemove
+			    String trimmedLine = currentLine.trim();
+			    if(trimmedLine.equals(name)) continue;
+			    writer.write(currentLine + System.getProperty("line.separator"));
+			}
+			writer.close(); 
+			reader.close(); 
+			tempFile.renameTo(inputFile);
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
 	   
 	}	
 	
