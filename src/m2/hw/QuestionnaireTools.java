@@ -361,7 +361,7 @@ public Response getTextFile() {
  * precedement par l'utilisateur. Lis le fichier questionnaire.tex du projet courant.
  * @return
  */
-@POST
+@GET
 @Path("modification")
 @Produces(MediaType.APPLICATION_JSON)
 public static String modifierQuestionnaire(){
