@@ -251,8 +251,36 @@ function verificationFichier(){
  */
 
 function changerClasses(){
-		document.getElementById("classes").style.display="block";
 
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET","rest/correction/getClasses",true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
+	xhr.onreadystatechange = function (aEvt){
+		document.getElementById("oldClasses").innerHTML="";
+
+		var json = JSON.parse(xhr.responseText);
+		console.log(json);
+		json.forEach(function(text){
+			var newNode = document.createElement("p");
+			var fileName = document.createTextNode(text);
+			var textNode = document.createElement("span");
+			textNode.setAttribute("class", "classeName");
+			
+			var supprButton = document.createElement("input");
+			supprButton.setAttribute("type", "button");
+			supprButton.setAttribute("value", "Supprimer classe");
+			supprButton.setAttribute("onclick", "delClasseRest(this)");
+			textNode.appendChild(fileName);
+			newNode.appendChild(textNode);
+			newNode.appendChild(supprButton);
+			document.getElementById("oldClasses").appendChild(newNode);
+		});
+		
+		document.getElementById("classes").style.display="block";
+		
+	};
+	xhr.send();
 };
 
 
