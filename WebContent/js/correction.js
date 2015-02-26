@@ -261,8 +261,11 @@ function hideClasses(){
 };
 
 function delClasse(elmnt){
-	var element = elmnt.parentNode;
-	element.parentNode.removeChild(element);
+	if (document.getElementById("upload2").childElementCount >1){
+		element = elmnt.parentNode;
+		element.parentNode.removeChild(element);
+	}
+	
 };
 
 function ajouterClasse(){
@@ -274,6 +277,22 @@ function ajouterClasse(){
 
 function verificationClasses(){
 	
+	var classes = document.getElementById("upload2").getElementsByClassName("classeInput");
+	
+	for (var i = 0; i < classes.length; i++) {
+		var classe = classes[i].value;
+
+		for (var j=0;j<classes.length;j++){
+			if (j!=i){
+				if (classe==classes[j].value){
+					delClasse(classes[j]);
+					j--;
+				}
+			}
+		}	
+
+	}
+	return true;
 	
 };
 
