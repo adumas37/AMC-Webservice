@@ -235,4 +235,46 @@ public class Correction {
 	    }
 	}	
 	
+	
+	@Path("getClasses")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+    public String getClasses() {
+		
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() +
+							 "/copies/Classes.txt");
+		ArrayList<String> listFiles = new ArrayList<String>();
+		String json = null;
+		
+		if (file.exists()){
+			try{
+				BufferedReader buffer = new BufferedReader(
+											new FileReader(file));
+				
+				try{
+					String line;
+					while((line = buffer.readLine()) != null){
+						listFiles.add(line);
+					}
+					
+				} finally {
+					buffer.close();
+					Gson gson = new Gson();
+					json = gson.toJson(listFiles);	
+					System.out.println("JSON: "+json);
+				}
+				return json;
+				
+			} catch (IOException ioex){
+				System.out.println(ioex);
+				return null;
+			}
+
+			
+		}
+		else {
+			return null;
+		}
+		
+    }
 }
