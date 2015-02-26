@@ -242,7 +242,7 @@ public class Correction {
     public String getClasses() {
 		
 		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() +
-							 "/copies/Classes.txt");
+							 "/copies/classes.txt");
 		ArrayList<String> listFiles = new ArrayList<String>();
 		String json = null;
 		
@@ -277,4 +277,38 @@ public class Correction {
 		}
 		
     }
+	
+	@Path("supprimerClasse/{name}")
+	@POST
+	public void supprimerClasse( @PathParam("name") String name) {
+		
+		try{	//Modification du fichier contenant la liste des classes
+
+			File inputFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
+			File tempFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt~");
+
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		    PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+		      
+		    String line = null;
+		 
+		    while ((line = br.readLine()) != null) {
+		        
+		    	if (!line.trim().equals(name)) {
+		 
+		    		pw.println(line);
+		    		pw.flush();
+		        }
+		    }
+		    pw.close();
+		    br.close();
+		      
+		    if (!tempFile.renameTo(inputFile)){
+		    	System.out.println("Could not rename file");
+		    }
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	}	
 }
