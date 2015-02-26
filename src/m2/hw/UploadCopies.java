@@ -63,7 +63,7 @@ public class UploadCopies {
 	        e.printStackTrace();
 	    }
 	    			
-		/*/TODO recupererClasseCSV(classe);
+		//TODO recupererClasseCSV(classe);
 		System.out.println("Layout");
 		CommandesAMC.creationLayout(projectPath);
 		System.out.println("generationImagesCopies");
