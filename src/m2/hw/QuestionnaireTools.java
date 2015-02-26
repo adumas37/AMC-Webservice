@@ -357,9 +357,8 @@ public Response getTextFile() {
 
 
 /**
- * Permet de renvoyer une partie du code html de la page de creation avec les valeurs fournies 
- * precedement par l'utilisateur. Lis le fichier questionnaire.tex du projet courant.
- * @return
+ * Permet de renvoyer l'objet questionnaire en JSON
+ * @return json string
  */
 @GET
 @Path("modification")
@@ -371,6 +370,10 @@ public static String modifierQuestionnaire(){
 	return json;
 }
 
+/**
+ * Permet d'exporter l'objet questionnaire au format binaire
+ * @param questionnaire
+ */
 public static void ExportProjet(Questionnaire questionnaire){
 	try {
 		FileOutputStream fos = new FileOutputStream(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.bin");
@@ -390,6 +393,10 @@ public static void ExportProjet(Questionnaire questionnaire){
 	}
 }
 
+/**
+ * Permet d'importer le fichier binaire du questionnaire du projet
+ * @return
+ */
 public static Questionnaire ImportProjet(){
 	Questionnaire questionnaire = null;
 	try {
@@ -405,7 +412,8 @@ public static Questionnaire ImportProjet(){
 			}
 		}
 	} catch(IOException ioe) {
-		ioe.printStackTrace();
+		return null;
+		//ioe.printStackTrace();
 	} catch(ClassNotFoundException cnfe) {
 		cnfe.printStackTrace();
 	}

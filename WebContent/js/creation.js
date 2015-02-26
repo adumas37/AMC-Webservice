@@ -51,14 +51,16 @@ function demanderQuestionnaire(callback){
 	xhr.setRequestHeader("Accept-Encoding", "UTF-8");
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-			
-			callback(xhr.responseText);
+			var json = JSON.parse(xhr.responseText);
+			if(json!=null){
+				callback(json);
+			}
 		}
 	};
 	xhr.send(null);
 };
-function chargerQuestionnaire(data){
-	var json = JSON.parse(data);
+function chargerQuestionnaire(json){
+	
 	var html='';
 	html+='<p id="entete"> \
 		<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \

@@ -28,7 +28,6 @@ function afficherDossiers(elmnt){
 	
 	xhr2.onreadystatechange = function() {
 		if (xhr2.readyState == 4 && (xhr2.status == 200 || xhr2.status == 0)) {
-			console.log(xhr2.responseText);
 			var directories = xhr2.responseText.split("/");
 			directories.sort();
 			if (xhr2.responseText != ""){
