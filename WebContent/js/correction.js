@@ -1,4 +1,10 @@
-
+/*
+ * 
+ * 
+ * Fonctions pour les notes
+ * 
+ * 
+ */
 function chargerNotes(elmnt){
 	
 	var xhr = new XMLHttpRequest();
@@ -29,6 +35,13 @@ function afficherNotes(elmnt){
 	}
 };
 
+/*
+ * 
+ * 
+ * Fonctions pour le barème
+ * 
+ * 
+ */
 function changerBareme(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/creationQuestionnaire/getBareme",false);
@@ -47,6 +60,14 @@ function hideBareme(){
 	document.getElementById("baremePopup").style.display="none";
 };
 
+
+/*
+ * 
+ * 
+ * Fonctions pour les fichiers
+ * 
+ * 
+ */
 function changerFichiers(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/correction/getFilesNames",true);
@@ -217,3 +238,42 @@ function verificationFichier(){
 		return true;
 	}
 };
+
+
+
+
+/*
+ * 
+ * 
+ * Fonctions pour les classes
+ * 
+ * 
+ */
+
+function changerClasses(){
+		document.getElementById("classes").style.display="block";
+
+};
+
+
+function hideClasses(){
+	document.getElementById("classes").style.display="none";
+};
+
+function delClasse(elmnt){
+	var element = elmnt.parentNode;
+	element.parentNode.removeChild(element);
+};
+
+function ajouterClasse(){
+	var node = document.getElementsByClassName("choixClasse")[0];
+	var newNode = node.cloneNode(true);
+	
+	document.getElementById("upload2").appendChild(newNode);	
+};
+
+function verificationClasses(){
+	
+	
+};
+
