@@ -1,12 +1,12 @@
 package m2.hw;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,12 +157,13 @@ public class Correction {
 	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
 	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
 		    FileWriter fw = new FileWriter(file,true);
+		    PrintWriter pw = new PrintWriter(fw);
 		    String fileName="";
 	        for (int i = 0; i < files.size(); i++){
 	        	fileName=files.get(i).getContentDisposition().getFileName();
 	        	if (!fileName.equals("") && fileName.contains(".pdf")){
 	        		System.out.println("filename: "+fileName);
-	        		fw.write("\n"+files.get(i).getContentDisposition().getFileName());
+	        		pw.println(files.get(i).getContentDisposition().getFileName());
 	        	}
 	        }
 	        fw.close();
@@ -172,7 +173,7 @@ public class Correction {
 	    }
 	    			
 		//TODO recupererClasseCSV(classe);
-		/*System.out.println("Layout");
+		System.out.println("Layout");
 		CommandesAMC.creationLayout(projectPath);
 		System.out.println("generationImagesCopies");
 		CommandesAMC.generationImagesCopies(projectPath);
@@ -183,7 +184,7 @@ public class Correction {
 		//System.out.println("associationAuto");
 		//CommandesAMC.associationAuto(projectPath);
 		System.out.println("extractionNotesEleves");
-		CommandesAMC.extractionNotesEleves(projectPath);*/
+		CommandesAMC.extractionNotesEleves(projectPath);
 		
 
 		String url = context.getBaseUri().toString();
@@ -209,34 +210,25 @@ public class Correction {
 			File inputFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
 			File tempFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt~");
 
-			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-
-			
-
-			/*while((currentLine = reader.readLine()) != null) {
-			    // trim newline when comparing with lineToRemove
-			    String trimmedLine = currentLine.trim();
-			    if(trimmedLine.equals(name)) continue;
-			    writer.write(currentLine + System.getProperty("line.separator"));
-			}*/
-			
-			//TODO faire attention aux retours a la ligne...
-			String  currentLine = reader.readLine();
-			String nextLine =""; 
-			while (nextLine!=null){
-				nextLine = reader.readLine();
-				if (!currentLine.equals(name)){
-					writer.write(currentLine);
-					if (nextLine != null && !nextLine.equals("")){
-						writer.write(System.getProperty("line.separator"));
-					}
-				}
-				currentLine=nextLine;	
-			}
-			writer.close(); 
-			reader.close(); 
-			tempFile.renameTo(inputFile);
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		    PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
+		      
+		    String line = null;
+		 
+		    while ((line = br.readLine()) != null) {
+		        
+		    	if (!line.trim().equals(name)) {
+		 
+		    		pw.println(line);
+		    		pw.flush();
+		        }
+		    }
+		    pw.close();
+		    br.close();
+		      
+		    if (!tempFile.renameTo(inputFile)){
+		    	System.out.println("Could not rename file");
+		    }
 	    }
 	    catch(Exception e){
 	        e.printStackTrace();
