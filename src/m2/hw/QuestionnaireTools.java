@@ -9,14 +9,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.google.gson.Gson;
@@ -26,6 +30,36 @@ import com.google.gson.JsonParser;
 @Path("questionnaireTools")
 public class QuestionnaireTools {
 
+	/**
+	 * Permet de créer un questionnaire depuis le json reçu 
+	 * @param data
+	 */
+	@POST
+	@Path("creation")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/plain")
+	public String creation(String data){
+		
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		JsonObject obj =parser.parse(data).getAsJsonObject();
+		Questionnaire quest=gson.fromJson(obj,Questionnaire.class);
+		quest.setHeader(QuestionnaireTools.createHeader(quest));
+		quest.setBody(QuestionnaireTools.createBody(quest));
+		QuestionnaireTools.ecrireFichier(quest);
+		CommandesAMC.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
+		//ATTENDRE LA FIN DE COMPILATION ?
+		QuestionnaireTools.ExportProjet(quest);
+		//On peut renvoyer les messages d'erreur de la compilation
+		//Ici 1 nous informe que tout est OK
+        return "1";
+	}
+	
+	/**
+	 * Permet de créer le header latex
+	 * @param questionnaire
+	 * @return
+	 */
 	public static String createHeader(Questionnaire questionnaire){
 		String entete= new String();
 		entete = "\t%%% En-tête des copies \n\n" 

@@ -203,14 +203,19 @@ function questionnaireValide(){
 		var count = Object.keys(jsonobj).length;
 
 		var http = new XMLHttpRequest();
-		var url = "rest/creationQuestionnaireJSON/creation";
+		var url = "rest/questionnaireTools/creation";
 		http.open("POST", url, false);
 		//On envoie l'objet JSON avec xmlhttprequest
 		http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 		http.setRequestHeader("Content-length", count);
 		http.setRequestHeader("Accept-Encoding", "UTF-8");
 		http.send(jsonData);
-		return true;
+		//Afficher les messages d'erreur de compilation ?
+		if(http.responseText=='1'){
+			return true;
+		}else{
+			return false;
+		}
 	}
 };
 

@@ -62,7 +62,7 @@ public class CreationProjet {
 			
 			//TODO gestion des caracteres speciaux: ;/\{"'` etc.
 			if (nom.contains(" ")){
-				nom = CreationQuestionnaire.replace(nom, " ", "_");
+				nom = QuestionnaireTools.replace(nom, " ", "_");
 			}
 
 			String uploadedFileLocation = projectsPath + "/" + nom + "/questionnaire.tex";
