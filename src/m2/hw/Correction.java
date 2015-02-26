@@ -161,6 +161,7 @@ public class Correction {
 	        for (int i = 0; i < files.size(); i++){
 	        	fileName=files.get(i).getContentDisposition().getFileName();
 	        	if (!fileName.equals("") && fileName.contains(".pdf")){
+	        		System.out.println("filename: "+fileName);
 	        		fw.write("\n"+files.get(i).getContentDisposition().getFileName());
 	        	}
 	        }
@@ -203,7 +204,7 @@ public class Correction {
 			file.delete();
 		}
 		
-		try{	//Ecriture du fichier contenant la liste des fichiers des copies
+		try{	//Modification du fichier contenant la liste des fichiers des copies
 
 			File inputFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
 			File tempFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt~");
@@ -211,13 +212,27 @@ public class Correction {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
-			String currentLine;
+			
 
-			while((currentLine = reader.readLine()) != null) {
+			/*while((currentLine = reader.readLine()) != null) {
 			    // trim newline when comparing with lineToRemove
 			    String trimmedLine = currentLine.trim();
 			    if(trimmedLine.equals(name)) continue;
 			    writer.write(currentLine + System.getProperty("line.separator"));
+			}*/
+			
+			//TODO faire attention aux retours a la ligne...
+			String  currentLine = reader.readLine();
+			String nextLine =""; 
+			while (nextLine!=null){
+				nextLine = reader.readLine();
+				if (!currentLine.equals(name)){
+					writer.write(currentLine);
+					if (nextLine != null && !nextLine.equals("")){
+						writer.write(System.getProperty("line.separator"));
+					}
+				}
+				currentLine=nextLine;	
 			}
 			writer.close(); 
 			reader.close(); 
@@ -226,7 +241,6 @@ public class Correction {
 	    catch(Exception e){
 	        e.printStackTrace();
 	    }
-	   
 	}	
 	
 }
