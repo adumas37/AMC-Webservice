@@ -46,7 +46,7 @@ function supprQuestion(elmnt){
 
 function chargerQuestionnaire(){
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/questionnaireTools/modification",false);
+	xhr.open("POST","rest/questionnaireTools/modification",true);
 	xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
 	xhr.setRequestHeader("Accept-Encoding", "UTF-8");
 	xhr.send();
@@ -166,6 +166,7 @@ function questionnaireValide(){
 		return false;
 	}
 	else {
+		 document.getElementById("message").style.visibility='visible';
 		var jsonData ='{"matiere":"'+document.getElementById("matiereInput").value+'", \
 			"date":"'+document.getElementById("dateInput").value+'", \
 			"nbCopies":"'+document.getElementById("nbCopiesImput").value+'", \
@@ -196,7 +197,7 @@ function questionnaireValide(){
 
 		var http = new XMLHttpRequest();
 		var url = "rest/creationQuestionnaireJSON/creation";
-		http.open("POST", url, false);
+		http.open("POST", url, true);
 		//On envoie l'objet JSON avec xmlhttprequest
 		http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 		http.setRequestHeader("Content-length", count);
@@ -248,7 +249,7 @@ function creationValide(){
 	}
 	else{
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/ouvertureProjet",false);
+		xhr.open("POST","rest/ouvertureProjet",true);
 		xhr.send(projectName);
 		
 		var projects = xhr.responseText.split("/");

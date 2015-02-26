@@ -1,7 +1,7 @@
 
 function afficherDossiers(elmnt){
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET","rest/navigation/getAction",false);
+	xhr.open("GET","rest/navigation/getAction",true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send();
 	
@@ -18,7 +18,7 @@ function afficherDossiers(elmnt){
 	}
 	
 	var xhr2 = new XMLHttpRequest();
-	xhr2.open("POST","rest/ouvertureProjet",false);
+	xhr2.open("POST","rest/ouvertureProjet",true);
 	xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr2.send();
 
@@ -57,7 +57,7 @@ function afficherDossiers(elmnt){
 
 function setProject(directory){
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/navigation/setProject",false);
+	xhr.open("POST","rest/navigation/setProject",true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send(directory);
 	return true;
@@ -67,7 +67,7 @@ function delProject(directory){
 	
 	if (confirm("Voulez vous vraiment supprimer le projet "+directory+"?\nCe changement est irreversible!") == true) {
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/suppressionProjet",false);
+		xhr.open("POST","rest/suppressionProjet",true);
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.send(directory);
     } 

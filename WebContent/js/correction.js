@@ -4,7 +4,7 @@ function chargerNotes(elmnt){
 	var xhr = new XMLHttpRequest();
 	document.getElementById("resultats").style.display="none";
 	document.getElementById("tableau").style.display="none";
-	xhr.open("POST","rest/correction/notes",false);
+	xhr.open("POST","rest/correction/notes",true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	
 	xhr.onreadystatechange = function (aEvt){
