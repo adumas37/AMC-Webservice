@@ -37,6 +37,7 @@ public class UploadCopies {
 		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
 		
 	    List<FormDataBodyPart> files = formParams.getFields("file");
+	    List<FormDataBodyPart> classes = formParams.getFields("classe");
 	    
 	    for (FormDataBodyPart file : files){	//Recuperer et enregistrer les fichiers de copies
 	    	
@@ -57,6 +58,19 @@ public class UploadCopies {
 	        	fw.write(files.get(i).getContentDisposition().getFileName()+"\n");
 	        }
 	        fw.write(files.get(files.size()-1).getContentDisposition().getFileName());
+	        fw.close();
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	    
+	    try{	//Ecriture du fichier contenant la liste des classes
+	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
+		    FileWriter fw = new FileWriter(file);
+	        for (int i = 0; i < classes.size()-1; i++){
+	        	fw.write(classes.get(i).getValue()+"\n");
+	        }
+	        fw.write(classes.get(files.size()-1).getValue());
 	        fw.close();
 	    }
 	    catch(Exception e){
