@@ -8,7 +8,6 @@ function ajoutReponse(elmnt){
 };
 
 function ajoutQuestion(elmnt){
-	
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
 
@@ -33,7 +32,7 @@ function supprReponse(elmnt){
 		element.parentNode.removeChild(element);
 	}
 	
-}
+};
 
 function supprQuestion(elmnt){
 	
@@ -43,19 +42,59 @@ function supprQuestion(elmnt){
 		element.parentNode.removeChild(element);
 	}
 	
-}
+};
 
-function chargerQuestionnaire(){
+function demanderQuestionnaire(callback){
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST","rest/creationQuestionnaire/modification",false);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhr.send();
-	if (xhr.responseText!=""){
-		document.getElementById("questionnaire").innerHTML = xhr.responseText;
+	xhr.open("GET","rest/questionnaireTools/modification",true);
+	xhr.setRequestHeader("Content-type", "application/json");
+	xhr.setRequestHeader("Accept-Encoding", "UTF-8");
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			var json = JSON.parse(xhr.responseText);
+			if(json!=null){
+				callback(json);
+			}
+		}
+	};
+	xhr.send(null);
+};
+function chargerQuestionnaire(json){
+	
+	var html='';
+	html+='<p id="entete"> \
+		<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \
+		<span id="date">Date (jj/mm/aaaa):<input id="dateInput" name="date" type="text" class="inputText inputButton" value="'+json.date+'"/></span> \
+		<span id="nbCopies">Nombre d\'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="'+json.nbCopies+'" class="inputText inputButton"/></span> \
+		</p>';
+	for(i=0;i<json.questions.length;i++){
+		html += '<blocQR class="blocQR"> \
+		<p class="question"> \
+		Question: <input type="text" name="question" class="questionInput inputText inputButton" value="'+json.questions[i].texte+'"/> \
+		</p><reponses>';
+		for(j=0;j<json.questions[i].reponses.length;j++){
+			html += '<p class="reponse"> \
+			Reponse: <input type="text" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
+			<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne"';
+			if(json.questions[i].reponses[j].correcte){html+=' checked="true"';}
+			html+='"/></span> \
+			<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span> \
+			</p>';
+		}
+		html += '</reponses> \
+		<options> \
+		<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" class="inputButton blueButton"/></span> \
+		<span class="addQ"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)"  class="inputButton blueButton"/></span> \
+		<span class="checkbox">Reponses horizontales?<input type="checkbox" name="horizontal"'+ (json.questions[i].colonnes?" checked":" ")+'/></span> \
+		<span class="bareme">bareme:<input class="baremeImput inputText" name="bareme" type="number" min="1" max="20" value="'+json.questions[i].bareme+'"/></span> \
+		</options> \
+		</blocQR>';
+		
 	}
-}
-
+	document.getElementById("questionnaire").innerHTML = html;
+};
 function questionnaireValide(){
+
 	var reponseSansTexte = 0;
 	var questionSansTexte = 0;
 	var questionSansBonneReponse = 0;
@@ -84,19 +123,27 @@ function questionnaireValide(){
 	
 	
 	for (var i = 0; i < blocsQR.length; i++) {
-		if (blocsQR[i].getElementsByClassName("questionInput")[0].value == ""){ questionSansTexte ++; }
+		if (blocsQR[i].getElementsByClassName("questionInput")[0].value == ""){ 
+			questionSansTexte ++; 
+		}
 	
 		reponses = blocsQR[i].getElementsByClassName("reponseInput");
 		for (var j = 0; j < reponses.length; j++) {
-			if (reponses[j].value == ""){ reponseSansTexte ++; }
+			if (reponses[j].value == ""){ 
+				reponseSansTexte ++;
+			}
 		}
 		
 		bonnesReponses = blocsQR[i].getElementsByClassName("bonneInput");
 		nbBonnesReponses = 0;
 		for (var j = 0; j < bonnesReponses.length; j++) {
-			if (bonnesReponses[j].checked == true) { nbBonnesReponses ++; }
+			if (bonnesReponses[j].checked == true) { 
+				nbBonnesReponses ++; 
+			}
 		}
-		if (nbBonnesReponses == 0){ questionSansBonneReponse ++; }
+		if (nbBonnesReponses == 0){ 
+			questionSansBonneReponse ++;
+		}
 		
 	}
 	
@@ -126,9 +173,51 @@ function questionnaireValide(){
 		return false;
 	}
 	else {
-		return true;
+		 document.getElementById("message").style.visibility='visible';
+		var jsonData ='{"matiere":"'+document.getElementById("matiereInput").value+'", \
+			"date":"'+document.getElementById("dateInput").value+'", \
+			"nbCopies":"'+document.getElementById("nbCopiesImput").value+'", \
+			"questions":[';
+
+	for(i=0;i<blocsQR.length;i++){
+		if(i>0){
+			jsonData+=',';
+		}
+		jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
+		"bareme":"2","reponses": \
+	            	  	[';
+		for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
+			if(j>0){
+				jsonData+=',';
+			}
+			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
+			"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
+		}
+		jsonData+=']}';
+
 	}
-}
+		jsonData+=']}';
+		
+
+		var jsonobj=JSON.parse(jsonData);
+		var count = Object.keys(jsonobj).length;
+
+		var http = new XMLHttpRequest();
+		var url = "rest/questionnaireTools/creation";
+		http.open("POST", url, false);
+		//On envoie l'objet JSON avec xmlhttprequest
+		http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+		http.setRequestHeader("Content-length", count);
+		http.setRequestHeader("Accept-Encoding", "UTF-8");
+		http.send(jsonData);
+		//Afficher les messages d'erreur de compilation ?
+		if(http.responseText=='1'){
+			return true;
+		}else{
+			return false;
+		}
+	}
+};
 
 function creationValide(){
 	var name = false;
@@ -171,35 +260,38 @@ function creationValide(){
 	}
 	else{
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/ouvertureProjet",false);
+		xhr.open("POST","rest/ouvertureProjet",true);
 		xhr.send(projectName);
-		
-		var projects = xhr.responseText.split("/");
-		projects.forEach( function testExistingProject(project){
-			if (project == projectName){ 
-				projectExists = true;
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+				var projects = xhr.responseText.split("/");
+				projects.forEach( function testExistingProject(project){
+					if (project == projectName){ 
+						projectExists = true;
+					}
+				});
+				if (projectExists){
+					alertText="Un projet nommé "+projectName+" existe déjà.";
+					if (filename != ""){
+						alertText += "\nSi vous souhaitez remplacer le questionnaire du projet par celui " +
+								"que vous venez de choisir, cliquez sur OK. " +
+								"\nPour annuler et conserver l'ancien projet ou changer de nom, cliquez sur Annuler.";
+					}
+					else {
+						alertText += "\nSi vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
+								"\nPour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.";
+					}
+					return confirm(alertText);
+				}
+				else {
+					return true;
+				}
 			}
-		});
-		if (projectExists){
-			alertText="Un projet nommé "+projectName+" existe déjà.";
-			if (filename != ""){
-				alertText += "\nSi vous souhaitez remplacer le questionnaire du projet par celui " +
-						"que vous venez de choisir, cliquez sur OK. " +
-						"\nPour annuler et conserver l'ancien projet ou changer de nom, cliquez sur Annuler.";
-			}
-			else {
-				alertText += "\nSi vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
-						"\nPour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.";
-			}
-			return confirm(alertText);
-		}
-		else {
-			return true;
-		}
+		};
 	}
-}
+};
 
 function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
-}
+};
 
