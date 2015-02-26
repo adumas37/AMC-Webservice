@@ -296,6 +296,26 @@ function delClasse(elmnt){
 	
 };
 
+function delClasseRest(elmnt){
+	
+	var classeName = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
+	if (confirm("Voulez vous vraiment supprimer la classe "+classeName+"?") == true) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/supprimerClasse/"+classeName,false);
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		
+		xhr.onreadystatechange = function (aEvt){
+			var element = elmnt.parentNode;
+			element.parentNode.removeChild(element);
+		};
+		xhr.send();
+    } 
+	else {
+		return false;
+	}
+		
+};
+
 function ajouterClasse(){
 	var node = document.getElementsByClassName("choixClasse")[0];
 	var newNode = node.cloneNode(true);
