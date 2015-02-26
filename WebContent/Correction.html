@@ -62,9 +62,9 @@
 			<div id="oldClasses">
 			</div>
 			<div id="newClasses">
-				<input type="button" value="Ajouter une classe" onclick="AjouterClasse()"/>
+				<input type="button" value="Ajouter une classe" onclick="ajouterClasse()"/>
 				<form id=uploadClasses method=post action="rest/correction/ajouterClasses" enctype="multipart/form-data" onsubmit="return verificationClasses();">
-					<div id="uploadClasses">
+					<div id="upload2">
 						<p class="choixClasse">Classe: <select class="classeInput" name="classe">
 							<option value="EI3-INFO">EI3-INFO</option>
 							<option value="EI3-PROD">EI3-PROD</option>
@@ -75,7 +75,7 @@
 					</div>
 					<p id="alertTextClasses" style="display:none;">		</p>
 					<div>
-						<input id="submitClasses" type="submit" value="Changer les classes et calculer les notes"  class="inputButton orangeButton"/>
+						<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton"/>
 						<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
 					</div>
 				</form>
