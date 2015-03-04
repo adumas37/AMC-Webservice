@@ -30,12 +30,14 @@
 				</p>
 				<blocQR class="blocQR">
 					<p class="question">
-						Question: <input type="text" name="question" class="questionInput inputText inputButton"/>
+						Question: <input type="text" id="question1" name="question" class="questionInput inputText inputButton"/>
+						<a class="linkLatex" href="javascript:OpenLatexEditor('question1','latex','fr-fr')"><img src="src/formula_icon.png"></a>
 					</p>
 					
 					<reponses>
 						<p class="reponse">
-							Reponse: <input type="text" name="reponse" class="reponseInput inputText inputButton"/>
+							Reponse: <input type="text" id="reponse 1,1" name="reponse" class="reponseInput inputText inputButton"/>
+							<a class="linkLatex" href="javascript:OpenLatexEditor('reponse 1,1','latex','fr-fr')"><img src="src/formula_icon.png"></a> 
 							<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne" checked/></span>
 							<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span>
 						</p>
@@ -70,6 +72,7 @@
 	</div><!-- page -->
 	<script src="js/creation.js"></script>
 	<script src="js/projet.js"></script>
+	<script src="js/latexEditor.js"></script>
 
 </body>
 </html>
