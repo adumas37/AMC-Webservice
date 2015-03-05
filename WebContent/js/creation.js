@@ -69,7 +69,6 @@ function demanderQuestionnaire(callback){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/questionnaireTools/modification",true);
 	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.setRequestHeader("Accept-Encoding", "UTF-8");
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 			var json = JSON.parse(xhr.responseText);
@@ -114,7 +113,9 @@ function chargerQuestionnaire(json){
 	}
 	document.getElementById("questionnaire").innerHTML = html;
 };
+
 function questionnaireValide(){
+
 	var reponseSansTexte = 0;
 	var questionSansTexte = 0;
 	var questionSansBonneReponse = 0;
@@ -190,55 +191,71 @@ function questionnaireValide(){
 			alertText += "Il y a des questions sans bonnes réponses. Choisissez au moins une bonne réponse par question."; 
 		}
 		alert(alertText);
-		return false;
+		
 	}
 	else {
-		 document.getElementById("message").style.visibility='visible';
+		// document.getElementById("message").style.visibility='visible';
 		var jsonData ='{"matiere":"'+document.getElementById("matiereInput").value+'", \
 			"date":"'+document.getElementById("dateInput").value+'", \
 			"nbCopies":"'+document.getElementById("nbCopiesImput").value+'", \
 			"questions":[';
 
-	for(i=0;i<blocsQR.length;i++){
-		if(i>0){
-			jsonData+=',';
-		}
-		jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
-		"bareme":"2","reponses": \
-	            	  	[';
-		for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
-			if(j>0){
+		for(i=0;i<blocsQR.length;i++){
+			if(i>0){
 				jsonData+=',';
 			}
-			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
-			"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
+			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
+			"bareme":"2","reponses": \
+		            	  	[';
+			for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
+				if(j>0){
+					jsonData+=',';
+				}
+				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
+				"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
+			}
+			jsonData+=']}';
+	
 		}
 		jsonData+=']}';
-
-	}
-		jsonData+=']}';
+		afficherWait();	
+		sendQuestionnaire(stateQuestionnaireCompilation,jsonData);
 		
+	}
+	return false;
 
-		var jsonobj=JSON.parse(jsonData);
-		var count = Object.keys(jsonobj).length;
+};
+function afficherWait(){
+	document.getElementById("message").style.visibility='visible';
+};
+function sendQuestionnaire(callback, data){
+	var jsonobj=JSON.parse(data);
+	var count = Object.keys(jsonobj).length;
 
-		var http = new XMLHttpRequest();
-		var url = "rest/questionnaireTools/creation";
-		http.open("POST", url, false);
-		//On envoie l'objet JSON avec xmlhttprequest
-		http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-		http.setRequestHeader("Content-length", count);
-		http.setRequestHeader("Accept-Encoding", "UTF-8");
-		http.send(jsonData);
-		//Afficher les messages d'erreur de compilation ?
-		if(http.responseText=='1'){
-			return true;
-		}else{
-			return false;
+	var xhr = new XMLHttpRequest();
+	var url = "rest/questionnaireTools/creation";
+	xhr.open("POST", url, true);
+	//On envoie l'objet JSON avec xmlhttprequest
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	//Afficher les messages d'erreur de compilation ?
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+			callback(xhr.responseText);
 		}
+	}
+	xhr.send(data);
+	
+	
+
+};
+function stateQuestionnaireCompilation(code){
+	if(code=='1'){
+		 document.location.href="Projet.html";
+	}else{
+		alert("ERREUR : "+code)
 	}
 };
-
 function creationValide(){
 	var name = false;
 	var file = false;
