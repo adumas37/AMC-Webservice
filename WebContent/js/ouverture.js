@@ -33,14 +33,6 @@ function afficherDossiers(elmnt){
 			if (xhr2.responseText != ""){
 				directories.forEach( function(directory){
 					var linkNode = document.createElement("a");
-					/*if (action != "Suppression"){
-						linkNode.setAttribute("href",action+directory);
-						linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
-					}
-					else {
-						linkNode.setAttribute("href","");
-						linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
-					}*/
 					if (action == "Suppression"){
 						linkNode.setAttribute("href","");
 						linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
