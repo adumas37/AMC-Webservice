@@ -6,7 +6,7 @@ function afficherDossiers(elmnt){
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 			
 			if (xhr.responseText == "correction"){
-				action = "UploadCopies.html";
+				action = "correction";
 			}
 			else if (xhr.responseText == "suppression"){
 				action = "Suppression";
@@ -33,13 +33,25 @@ function afficherDossiers(elmnt){
 			if (xhr2.responseText != ""){
 				directories.forEach( function(directory){
 					var linkNode = document.createElement("a");
-					if (action != "Suppression"){
-						linkNode.setAttribute("href",action);
+					/*if (action != "Suppression"){
+						linkNode.setAttribute("href",action+directory);
 						linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
 					}
 					else {
 						linkNode.setAttribute("href","");
 						linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
+					}*/
+					if (action == "Suppression"){
+						linkNode.setAttribute("href","");
+						linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
+					}
+					else if (action == "correction"){
+						linkNode.setAttribute("href","rest/navigation/correctionLien/" + directory);
+						linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
+					}
+					else {
+						linkNode.setAttribute("href",action);
+						linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
 					}
 					var newNode = document.createElement("div");
 					newNode.className="directory";
