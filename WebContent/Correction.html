@@ -19,7 +19,8 @@
 		</div>
 	</div>
 		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
-		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>	
+		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>
+		<input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>
 		<form id="DownloadResults" method="get" action="rest/correction/download">
 			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</form>		
@@ -47,11 +48,35 @@
 							<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
 						</p>
 					</div>
-					<p id="alertText" style="display:none;">
-					</p>
+					<p id="alertText" style="display:none;">		</p>
 					<div>
 						<input id="submitFichiers" type="submit" value="Changer les fichiers et calculer les notes"  class="inputButton orangeButton"/>
 						<input id="cancelFichiers" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideFichiers()"/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="classes" style="display: none;">
+		<div id="gestionClasses">
+			<div id="oldClasses">
+			</div>
+			<div id="newClasses">
+				<input type="button" value="Ajouter une classe" onclick="ajouterClasse()"/>
+				<form id=uploadClasses method=post action="rest/correction/ajouterClasses" enctype="multipart/form-data" onsubmit="return verificationClasses();">
+					<div id="upload2">
+						<p class="choixClasse">Classe: <select class="classeInput" name="classe">
+							<option value="EI3-INFO">EI3-INFO</option>
+							<option value="EI3-PROD">EI3-PROD</option>
+							<option value="EI3-GC">EI3-GC</option>
+							</select>
+							<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
+						</p>
+					</div>
+					<p id="alertTextClasses" style="display:none;">		</p>
+					<div>
+						<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton"/>
+						<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
 					</div>
 				</form>
 			</div>

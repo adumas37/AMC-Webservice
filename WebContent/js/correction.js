@@ -1,4 +1,10 @@
-
+/*
+ * 
+ * 
+ * Fonctions pour les notes
+ * 
+ * 
+ */
 function chargerNotes(elmnt){
 	
 	var xhr = new XMLHttpRequest();
@@ -29,6 +35,13 @@ function afficherNotes(elmnt){
 	}
 };
 
+/*
+ * 
+ * 
+ * Fonctions pour le barème
+ * 
+ * 
+ */
 function changerBareme(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/creationQuestionnaire/getBareme",false);
@@ -47,6 +60,14 @@ function hideBareme(){
 	document.getElementById("baremePopup").style.display="none";
 };
 
+
+/*
+ * 
+ * 
+ * Fonctions pour les fichiers
+ * 
+ * 
+ */
 function changerFichiers(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/correction/getFilesNames",true);
@@ -217,3 +238,109 @@ function verificationFichier(){
 		return true;
 	}
 };
+
+
+
+
+/*
+ * 
+ * 
+ * Fonctions pour les classes
+ * 
+ * 
+ */
+
+function changerClasses(){
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET","rest/correction/getClasses",true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	
+	xhr.onreadystatechange = function (aEvt){
+		document.getElementById("oldClasses").innerHTML="";
+
+		var json = JSON.parse(xhr.responseText);
+		console.log(json);
+		json.forEach(function(text){
+			var newNode = document.createElement("p");
+			var fileName = document.createTextNode(text);
+			var textNode = document.createElement("span");
+			textNode.setAttribute("class", "classeName");
+			
+			var supprButton = document.createElement("input");
+			supprButton.setAttribute("type", "button");
+			supprButton.setAttribute("value", "Supprimer classe");
+			supprButton.setAttribute("onclick", "delClasseRest(this)");
+			textNode.appendChild(fileName);
+			newNode.appendChild(textNode);
+			newNode.appendChild(supprButton);
+			document.getElementById("oldClasses").appendChild(newNode);
+		});
+		
+		document.getElementById("classes").style.display="block";
+		
+	};
+	xhr.send();
+};
+
+
+function hideClasses(){
+	document.getElementById("classes").style.display="none";
+};
+
+function delClasse(elmnt){
+	if (document.getElementById("upload2").childElementCount >1){
+		element = elmnt.parentNode;
+		element.parentNode.removeChild(element);
+	}
+	
+};
+
+function delClasseRest(elmnt){
+	
+	var classeName = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
+	if (confirm("Voulez vous vraiment supprimer la classe "+classeName+"?") == true) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/supprimerClasse/"+classeName,false);
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		
+		xhr.onreadystatechange = function (aEvt){
+			var element = elmnt.parentNode;
+			element.parentNode.removeChild(element);
+		};
+		xhr.send();
+    } 
+	else {
+		return false;
+	}
+		
+};
+
+function ajouterClasse(){
+	var node = document.getElementsByClassName("choixClasse")[0];
+	var newNode = node.cloneNode(true);
+	
+	document.getElementById("upload2").appendChild(newNode);	
+};
+
+function verificationClasses(){
+	
+	var classes = document.getElementById("upload2").getElementsByClassName("classeInput");
+	
+	for (var i = 0; i < classes.length; i++) {
+		var classe = classes[i].value;
+
+		for (var j=0;j<classes.length;j++){
+			if (j!=i){
+				if (classe==classes[j].value){
+					delClasse(classes[j]);
+					j--;
+				}
+			}
+		}	
+
+	}
+	return true;
+	
+};
+
