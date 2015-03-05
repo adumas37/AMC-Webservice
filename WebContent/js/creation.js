@@ -85,6 +85,31 @@ function chargerQuestionnaire(json){
 	var html='';
 	html+='<p id="entete"> \
 		<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \
+		<span id="duree">Durée:<select id="dureeInput" name="duree" class="inputText inputButton" value="' +json.duree '">\
+			<option value="0h10">0h10</option> \
+			<option value="0h15">0h15</option>\
+			<option value="0h20">0h20</option>\
+			<option value="0h25">0h25</option>\
+			<option value="0h30">0h30</option>\
+			<option value="0h35">0h35</option>\
+			<option value="0h40">0h40</option>\
+			<option value="0h45">0h45</option>\
+			<option value="0h50">0h50</option>\
+			<option value="0h55">0h55</option>\
+			<option value="1h00">1h00</option>\
+			<option value="1h05">1h05</option>\
+			<option value="1h10">1h10</option>\
+			<option value="1h15">1h15</option>\
+			<option value="1h20">1h20</option>\
+			<option value="1h25">1h25</option>\
+			<option value="1h30">1h30</option>\
+			<option value="1h35">1h35</option>\
+			<option value="1h40">1h40</option>\
+			<option value="1h45">1h45</option>\
+			<option value="1h50">1h50</option>\
+			<option value="1h55">1h55</option>\
+			<option value="2h00">2h00</option>\
+		</select></span>\
 		<span id="date">Date (jj/mm/aaaa):<input id="dateInput" name="date" type="text" class="inputText inputButton" value="'+json.date+'"/></span> \
 		<span id="nbCopies">Nombre d\'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="'+json.nbCopies+'" class="inputText inputButton"/></span> \
 		</p>';
