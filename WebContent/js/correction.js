@@ -16,12 +16,44 @@ function chargerNotes(elmnt){
 	xhr.onreadystatechange = function (aEvt){
 		document.getElementById("tableau").style.display="block";
 		document.getElementById("tableau").innerHTML=xhr.responseText;
-		
+		afficherIndicateurs();
 	};
 	xhr.send();
 	
 	
 
+};
+
+function afficherIndicateurs(){
+	var notesCont = document.getElementsByClassName("note");
+	var indicateurs="";
+	var notes = [];
+	for (i=1;i<notesCont.length;i++){
+		notes[notes.length] = parseFloat(notesCont[i].innerHTML);
+	}
+	
+	var moyenne = 0;
+	for (i=0;i<notes.length;i++){
+		moyenne += notes[i];
+	}
+	moyenne /= notes.length;
+	indicateurs +="<div>Moyenne: "+moyenne+"</div>";
+	
+	notes.sort( function(a,b){return a-b;});
+	indicateurs += "<div>Note min: "+notes[0]+"</div>";
+	indicateurs += "<div>Note max: "+notes[notes.length-1]+"</div>";
+	
+	var half = Math.floor(notes.length/2);
+	var mediane = 0;
+	if(notes.length % 2){
+		mediane = notes[half];
+	} 
+	else{
+		mediane = (notes[half-1] + notes[half]) / 2.0;
+	}
+	indicateurs += "<div>Mediane: "+mediane+"</div>";
+	
+	document.getElementById("indicateurs").innerHTML=indicateurs;
 };
 
 function afficherNotes(elmnt){

@@ -67,7 +67,7 @@ public class Correction {
 						notesHTML = notesHTML + "<tr>";
 						String[] tokens = line.split(",");
 						for(int i = 1;i<4;i++){
-							notesHTML = notesHTML + "<td>"+tokens[i]+"</td>";
+							notesHTML = notesHTML + "<td" +((i==3)?" class=\"note\"":"") +">"+tokens[i]+"</td>";
 						}
 						notesHTML = notesHTML + "</tr>";
 						
