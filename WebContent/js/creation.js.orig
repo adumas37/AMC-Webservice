@@ -18,11 +18,14 @@ function ajoutReponse(elmnt){
 };
 
 function ajoutQuestion(elmnt){
+<<<<<<< HEAD
+=======
 
 	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
 	var questionNb = document.getElementById("questionnaire").childElementCount;
 	var stringNameReponse = "reponse "+questionNb+",1";
 
+>>>>>>> olivier_branch
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
 
@@ -115,6 +118,7 @@ function chargerQuestionnaire(json){
 	document.getElementById("questionnaire").innerHTML = html;
 };
 function questionnaireValide(){
+
 	var reponseSansTexte = 0;
 	var questionSansTexte = 0;
 	var questionSansBonneReponse = 0;

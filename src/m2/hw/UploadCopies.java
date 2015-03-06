@@ -37,15 +37,14 @@ public class UploadCopies {
 		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
 		
 	    List<FormDataBodyPart> files = formParams.getFields("file");
-	    int i=0;
+	    List<FormDataBodyPart> classes = formParams.getFields("classe");
 	    
 	    for (FormDataBodyPart file : files){	//Recuperer et enregistrer les fichiers de copies
 	    	
 	    	String fileName =  file.getContentDisposition().getFileName();
 	    	if (!fileName.equals("") && /*!classe.equals("") &&*/ fileName.contains(".pdf")){
 		    	InputStream fileInputStream = file.getValueAs(InputStream.class);
-		    	i++;
-		    	String uploadedFileLocation = projectPath + "/copies/copies"+i+".pdf";
+		    	String uploadedFileLocation = projectPath + "/copies/"+fileName;
 				CreationProjet.saveFile(fileInputStream, uploadedFileLocation);
 				
 	    	}
@@ -55,11 +54,23 @@ public class UploadCopies {
 	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
 	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
 		    FileWriter fw = new FileWriter(file);
-	        //PrintWriter out  = new PrintWriter(new FileWriter("copies/listeCopies.txt"));
-	        for (int j = 1; j < i; j++){
-	        	fw.write("copies"+j+".pdf\n");
+	        for (int i = 0; i < files.size()-1; i++){
+	        	fw.write(files.get(i).getContentDisposition().getFileName()+"\n");
 	        }
-	        fw.write("copies"+i+".pdf");
+	        fw.write(files.get(files.size()-1).getContentDisposition().getFileName());
+	        fw.close();
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	    
+	    try{	//Ecriture du fichier contenant la liste des classes
+	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
+		    FileWriter fw = new FileWriter(file);
+	        for (int i = 0; i < classes.size()-1; i++){
+	        	fw.write(classes.get(i).getValue()+"\n");
+	        }
+	        fw.write(classes.get(files.size()-1).getValue());
 	        fw.close();
 	    }
 	    catch(Exception e){
@@ -78,7 +89,7 @@ public class UploadCopies {
 		//System.out.println("associationAuto");
 		//CommandesAMC.associationAuto(projectPath);
 		System.out.println("extractionNotesEleves");
-		CommandesAMC.extractionNotesEleves(projectPath);
+		CommandesAMC.extractionNotesEleves(projectPath);//*/
 		
 
 		String url = context.getBaseUri().toString();
