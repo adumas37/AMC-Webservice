@@ -2,7 +2,6 @@
 function afficherDossiers(elmnt){
 	
 	var action="";
-	
 	var xhr2 = new XMLHttpRequest();
 	xhr2.open("POST","rest/ouvertureProjet",true);
 	xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -13,13 +12,17 @@ function afficherDossiers(elmnt){
 			if (xhr2.responseText != ""){
 				directories.forEach( function(directory){
 					var linkNode = document.createElement("a");
-					if (action != "Suppression"){
-						linkNode.setAttribute("href",action);
+					if (action == "Suppression"){
+						linkNode.setAttribute("href","");
+						linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
+					}
+					else if (action == "correction"){
+						linkNode.setAttribute("href","rest/navigation/correctionLien/" + directory);
 						linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
 					}
 					else {
-						linkNode.setAttribute("href","");
-						linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
+						linkNode.setAttribute("href",action);
+						linkNode.setAttribute("onclick","return setProject(\""+directory+"\");");
 					}
 					var newNode = document.createElement("div");
 					newNode.className="directory";
