@@ -246,16 +246,14 @@ function questionnaireValide(){
 	
 		}
 		jsonData+=']}';
-		afficherWait();	
+		printWait("");	
 		sendQuestionnaire(stateQuestionnaireCompilation,jsonData);
 		
 	}
 	return false;
 
 };
-function afficherWait(){
-	document.getElementById("message").style.visibility='visible';
-};
+
 function sendQuestionnaire(callback, data){
 	var jsonobj=JSON.parse(data);
 	var count = Object.keys(jsonobj).length;
@@ -318,23 +316,23 @@ function creationValide(){
 	else {			
 		file = true;
 	}
-		
+	
 	if (name == false || file == false){
 		alert(alertText);
 		return false;
 	}
 	else{
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/ouvertureProjet",true);
-		xhr.send(projectName);
+		xhr.open("POST","rest/ouvertureProjet",false);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-				var projects = xhr.responseText.split("/");
+				var projects=xhr.responseText.split("/");
 				projects.forEach( function testExistingProject(project){
 					if (project == projectName){ 
 						projectExists = true;
 					}
 				});
+				
 				if (projectExists){
 					alertText="Un projet nommé "+projectName+" existe déjà.";
 					if (filename != ""){
@@ -346,16 +344,18 @@ function creationValide(){
 						alertText += "\nSi vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
 								"\nPour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.";
 					}
-					return confirm(alertText);
-				}
-				else {
-					return true;
+					projectExists=!confirm(alertText);
 				}
 			}
 		};
+		xhr.send(projectName);
 	}
+	return !projectExists;
+	
 };
-
+function printWait(text){
+	document.getElementById("message").style.visibility='visible';
+};
 function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
 };
