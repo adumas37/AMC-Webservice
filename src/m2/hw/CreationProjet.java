@@ -1,7 +1,6 @@
 package m2.hw;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +9,6 @@ import java.net.URI;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
-
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -38,6 +36,40 @@ public class CreationProjet {
 		projectsPath=Utilisateurs.getCurrentUser().getProjectsPath();
 		
 	}
+	
+	 /**
+     * Fonction permettant de creer les dossiers pour le nouveau projet
+     * @param data
+     */
+    public static void creationRepertoire(String nom){
+        String projectsPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
+                Utilisateurs.getCurrentUser().getProjectsPath().length()-1)+"/"+nom;
+        System.out.println(projectsPath);
+
+        File dir = new File(projectsPath);
+        boolean isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/cr");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/cr/corrections");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/cr/corrections/jpg");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/cr/corrections/pdf");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/cr/diagnostic");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/cr/zooms");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/data");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/exports");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/scans");
+        isCreated = dir.mkdirs();
+        dir = new File(projectsPath+"/copies");
+        isCreated = dir.mkdirs();
+    }
+	
 	/**
 	 * Fonction permettant de recuperer le nom du projet a creer les dossiers ainsi que le fichier 
 	 * latex.
@@ -66,7 +98,7 @@ public class CreationProjet {
 			}
 
 			String uploadedFileLocation = projectsPath + "/" + nom + "/questionnaire.tex";
-			CommandesAMC.creationRepertoire(nom);
+			creationRepertoire(nom);
 			Utilisateurs.getCurrentUser().setProject(nom);
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
