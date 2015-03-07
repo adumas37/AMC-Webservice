@@ -84,7 +84,7 @@ function chargerQuestionnaire(json){
 	var html='';
 	html+='<p id="entete"> \
 		<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \
-		<span id="duree">Durée:<select id="dureeInput" name="duree" class="inputText inputButton" value="' +json.duree '">\
+		<span id="duree">Durée:<select id="dureeInput" name="duree" class="inputText inputButton">\
 			<option value="0h10">0h10</option> \
 			<option value="0h15">0h15</option>\
 			<option value="0h20">0h20</option>\
@@ -136,7 +136,9 @@ function chargerQuestionnaire(json){
 		</blocQR>';
 		
 	}
+	
 	document.getElementById("questionnaire").innerHTML = html;
+	document.getElementById("dureeInput").value=json.duree;
 };
 
 function questionnaireValide(){
@@ -222,6 +224,7 @@ function questionnaireValide(){
 		// document.getElementById("message").style.visibility='visible';
 		var jsonData ='{"matiere":"'+document.getElementById("matiereInput").value+'", \
 			"date":"'+document.getElementById("dateInput").value+'", \
+			"duree":"'+document.getElementById("dureeInput").value+'", \
 			"nbCopies":"'+document.getElementById("nbCopiesImput").value+'", \
 			"questions":[';
 
