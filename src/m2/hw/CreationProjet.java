@@ -44,8 +44,6 @@ public class CreationProjet {
     public static void creationRepertoire(String nom){
         String projectsPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
                 Utilisateurs.getCurrentUser().getProjectsPath().length()-1)+"/"+nom;
-        System.out.println(projectsPath);
-
         File dir = new File(projectsPath);
         boolean isCreated = dir.mkdirs();
         dir = new File(projectsPath+"/cr");
