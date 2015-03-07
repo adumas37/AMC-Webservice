@@ -2,7 +2,7 @@ package m2.hw;
 
 public class Utilisateur {
 
-	private final String PATH="Projets-QCM/";
+	private final String PATH=System.getProperty("user.home")+"/Projets-QCM/";
 	private String userName;
 	private String project;
 	private String projectPath;
