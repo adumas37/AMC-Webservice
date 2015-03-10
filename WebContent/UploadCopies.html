@@ -17,7 +17,7 @@
 		<form id=uploadCopies method=post action="rest/uploadCopies" enctype="multipart/form-data" onsubmit="return uploadValide();">
 			<copies id="copies">
 				<input type="button" value="Ajouter fichier" onclick="addFile()"/>
-				<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file"> 
+				<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" accept=".pdf" type="file"> 
 					<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
 				</p>
 			</copies>
@@ -46,6 +46,7 @@
 	
 	<script src="js/projet.js"></script>
 	<script src="js/upload.js"></script>
+	<script src="js/erreurs.js"></script>
 	
 </body>
 </html>

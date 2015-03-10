@@ -73,15 +73,14 @@ function uploadValide(){
 
 	if ( (file == 0) || (erreursExtension > 0) ){
 		if (file == 0){
-			alertText = "Au moins un fichier contenant les copies des étudiants est necessaire pour la correction." +
-					"\nVeuillez selectionner un fichier pdf.";
+			showMessage("error","Au moins un fichier contenant les copies des étudiants est necessaire pour la correction.</br>" +
+					"<i>Veuillez selectionner un fichier pdf.</i>");
 		}
 		if (erreursExtension > 0 ){
-			alertText = "L'un des fichiers fourni n'est pas au bon format et n'a pas été pris en compte.\n" +
-					"Verifiez que l'ensemble des fichiers nécessaires sont présents.\n" +
-					"Les fichiers doivent etre au format pdf (.pdf).";
+			showMessage("error","L'un des fichiers fourni n'est pas au bon format et n'a pas été pris en compte.</br>" +
+					"<i>Verifiez que l'ensemble des fichiers nécessaires sont présents.</br>" +
+					"Les fichiers doivent etre au format pdf (.pdf).</i>");
 		}
-		alert(alertText);
 		return false;
 	}
 	else {
