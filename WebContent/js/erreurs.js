@@ -1,5 +1,19 @@
 /*******************************************************************************
  * Fichier JS pour le traitement et l'affichage des erreurs et loading screens
+ * 
+ * UTILISATION
+ * inclure erreur.js dans la page html
+ * Pour afficher un message :
+ * showMessage(type_du_message, texte_du_messagse, callback_boutonOK, callback_boutonAnnuler);
+ * 
+ * Les types de messages sont :
+ * 	"information"
+ * 	"wait"
+ * 	"question"
+ * 	"error"
+ * Les callback par défaut sont réglés sur la fermeture du message (si non précisés dans la fonction)
+ * Le bouton 'annuler' n'apparait que lorsque le message est du type question
+ * Le bouton 'OK' apparaît partout sauf lors d'un wait
  ******************************************************************************/
 var coverDiv;
 var messageDiv;
