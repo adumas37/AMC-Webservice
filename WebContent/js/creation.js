@@ -196,28 +196,23 @@ function questionnaireValide(){
 	}
 	
 	if (reponseSansTexte >0 || questionSansTexte >0 || questionSansBonneReponse > 0 || !matiere || !date){
-		var alertText = "";
+		var errorText = "";
 		if (!matiere){
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Aucune matière specifiée. Une matière doit etre donnée pour continuer."; 
+			errorText += "Aucune matière specifiée !</br><i>Une matière doit etre donnée pour continuer.</i></br>"; 
 		}
 		if (!date){
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Date non spécifiée ou incorrecte. Le format correct est jj/mm/aaaa."; 
+			errorText += "Date non spécifiée ou incorrecte !</br><i>Le format correct est jj/mm/aaaa.</i></br>"; 
 		}
 		if(reponseSansTexte >0){ 
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des réponses sans texte. Supprimez les réponses vides ou remplissez les."; 
+			errorText += "Il y a des réponses sans texte !</br><i>Supprimez les réponses vides ou remplissez les.</i></br>"; 
 		}
 		if(questionSansTexte >0){ 
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des questions sans texte. Supprimez les questions vides ou remplissez les."; 
+			errorText += "Il y a des questions sans texte !</br><i>Supprimez les questions vides ou remplissez les.</i></br>"; 
 		}
 		if(questionSansBonneReponse >0){ 
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des questions sans bonnes réponses. Choisissez au moins une bonne réponse par question."; 
+			errorText += "Il y a des questions sans bonnes réponses !</br><i>Choisissez au moins une bonne réponse par question.</i></br>"; 
 		}
-		alert(alertText);
+		showMessage("error",errorText);
 		
 	}
 	else {
@@ -292,7 +287,7 @@ function creationValide(){
 		name = true;
 	}
 	else {
-		showMessage("error","Aucun nom de projet spécifié. Veuillez donner un nom au projet !");
+		showMessage("error","Aucun nom de projet spécifié.</br><i>Veuillez donner un nom au projet !</i>");
 	}
 	
 	if (filename != ""){
@@ -304,7 +299,7 @@ function creationValide(){
 		else {
 			file = false;
 			document.getElementById("fichierTexInput").value = "";
-			showMessage("error","Le fichier fourni n'est pas au bon format. Le fichier doit etre un fichier Latex (.tex) !");
+			showMessage("error","Le fichier fourni n'est pas au bon format.</br><i>Le fichier doit etre un fichier Latex (.tex) !</i>");
 		}
 	}
 	else {			
@@ -329,18 +324,18 @@ function creationValide(){
 				
 				if (projectExists){
 					if (filename != ""){
-						showMessage("question","Un projet nommé "+projectName+" existe déjà !"+
-								"\nSi vous souhaitez remplacer le questionnaire du projet par celui " +
-								"que vous venez de choisir, cliquez sur OK. " +
-								"\nPour annuler et conserver l'ancien projet ou changer de nom, cliquez sur Annuler.","document.forms.formulaireProjet.submit()");
+						showMessage("question","Un projet nommé <b>"+projectName+"</b> existe déjà !"+
+								"</br><i>Si vous souhaitez remplacer le questionnaire du projet par celui " +
+								"que vous venez de choisir, cliquez sur OK." +
+								"</br>Pour annuler et conserver l'ancien projet ou changer de nom, cliquez sur Annuler.</i>","document.forms.formulaireProjet.submit()");
 					}
 					else {
-						showMessage("question","Un projet nommé "+projectName+" existe déjà !"+
-								"\nSi vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
-								"\nPour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.","document.forms.formulaireProjet.submit()");
+						showMessage("question","Un projet nommé <b>"+projectName+"</b> existe déjà !"+
+								"</br><i>Si vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
+								"</br>Pour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.</i>","document.forms.formulaireProjet.submit()");
 					}
 				}else{
-					
+					document.forms.formulaireProjet.submit();
 				}
 			}
 		};
