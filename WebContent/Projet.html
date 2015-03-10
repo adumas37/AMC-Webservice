@@ -64,8 +64,7 @@
 		<form id="creationProjet" method="post" action="rest/creationProjet" enctype="multipart/form-data" onsubmit="return creationValide();">
 			<p>Choisissez un nouveau fichier latex pour votre projet:</p>
 			<p id="nomProjet"  style="display:none;">Nom du projet: <input id="nomProjetInput" name="nom" type="text" class="inputButton inputText"/></p>
-			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" class="inputButton"> <input type="button" value="Supprimer le fichier" onclick="eraseFile()"/></p>
-			<p id="alertText" style="display:none;"></p>
+			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" accept=".tex" class="inputButton"> <input type="button" value="Supprimer le fichier" onclick="eraseFile()"/></p>
 			<p>
 				<input id="submit" type="submit" value="Creer Projet" class="inputButton orangeButton"/>
 				<input id="cancel" type="button" value="Annuler" class="inputButton orangeButton" onclick="hide()"/>
@@ -73,5 +72,6 @@
 		</form>
 	</div>
 	<script src="js/projet.js"></script>
+	<script src="js/erreurs.js"></script>
 </body>
 </html>

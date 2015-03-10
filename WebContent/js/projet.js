@@ -23,4 +23,54 @@ function readProject(data){
 
 getProject(readProject);
 	
+function upload(){
+	document.getElementById("newTex").setAttribute("style", "visibility:visible;");
+}
 
+function hide(){
+	document.getElementById("newTex").setAttribute("style", "visibility:hidden;");
+}
+
+function creationValide(){
+	var name = false;
+	var file = false;
+	var projectName = document.getElementById("nomProjetInput").value;
+	var filename = document.getElementById("fichierTexInput").value;
+	var alertText = "";
+
+	if ( projectName != "" ){ 
+		name = true;
+	}
+	else {
+		alertText = "Erreur lors de l'import du nom de projet.</br>";
+	}
+	
+	if (filename != ""){
+		var nameList = filename.split(".");
+		var extension = nameList[nameList.length-1];
+		if (extension=="tex") {
+			file = true;
+		}
+		else {
+			file = false;
+			document.getElementById("fichierTexInput").value = "";
+			alertText += "Le fichier fournit n'est pas au bon format. Le fichier doit etre un fichier Latex (.tex).</br>"; 
+		}
+	}
+	else {
+		alertText += "Vous devez specifier un fichier.</br>";
+		file = false;
+	}
+		
+	if (name == false || file == false){
+		showMessage("error",alertText);
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+function eraseFile(){
+	document.getElementById("fichierTexInput").value = "";
+}
