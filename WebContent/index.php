@@ -1,3 +1,7 @@
+<?php
+session_start();
+if (isset($_SESSION['username'])){
+?>
 <!DOCTYPE html >
 <html lang="fr">
 <head>
@@ -47,3 +51,8 @@
 
 </body>
 </html>
+<?php 
+}
+else {
+	header('location: identification.php');
+}
