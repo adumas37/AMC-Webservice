@@ -69,7 +69,6 @@ function demanderQuestionnaire(callback){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/questionnaireTools/modification",true);
 	xhr.setRequestHeader("Content-type", "application/json");
-	xhr.setRequestHeader("Accept-Encoding", "UTF-8");
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 			var json = JSON.parse(xhr.responseText);
@@ -85,6 +84,31 @@ function chargerQuestionnaire(json){
 	var html='';
 	html+='<p id="entete"> \
 		<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \
+		<span id="duree">Durée:<select id="dureeInput" name="duree" class="inputText inputButton">\
+			<option value="0h10">0h10</option> \
+			<option value="0h15">0h15</option>\
+			<option value="0h20">0h20</option>\
+			<option value="0h25">0h25</option>\
+			<option value="0h30">0h30</option>\
+			<option value="0h35">0h35</option>\
+			<option value="0h40">0h40</option>\
+			<option value="0h45">0h45</option>\
+			<option value="0h50">0h50</option>\
+			<option value="0h55">0h55</option>\
+			<option value="1h00">1h00</option>\
+			<option value="1h05">1h05</option>\
+			<option value="1h10">1h10</option>\
+			<option value="1h15">1h15</option>\
+			<option value="1h20">1h20</option>\
+			<option value="1h25">1h25</option>\
+			<option value="1h30">1h30</option>\
+			<option value="1h35">1h35</option>\
+			<option value="1h40">1h40</option>\
+			<option value="1h45">1h45</option>\
+			<option value="1h50">1h50</option>\
+			<option value="1h55">1h55</option>\
+			<option value="2h00">2h00</option>\
+		</select></span>\
 		<span id="date">Date (jj/mm/aaaa):<input id="dateInput" name="date" type="text" class="inputText inputButton" value="'+json.date+'"/></span> \
 		<span id="nbCopies">Nombre d\'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="'+json.nbCopies+'" class="inputText inputButton"/></span> \
 		</p>';
@@ -112,9 +136,13 @@ function chargerQuestionnaire(json){
 		</blocQR>';
 		
 	}
+	
 	document.getElementById("questionnaire").innerHTML = html;
+	document.getElementById("dureeInput").value=json.duree;
 };
+
 function questionnaireValide(){
+
 	var reponseSansTexte = 0;
 	var questionSansTexte = 0;
 	var questionSansBonneReponse = 0;
@@ -168,147 +196,156 @@ function questionnaireValide(){
 	}
 	
 	if (reponseSansTexte >0 || questionSansTexte >0 || questionSansBonneReponse > 0 || !matiere || !date){
-		var alertText = "";
+		var errorText = "";
 		if (!matiere){
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Aucune matière specifiée. Une matière doit etre donnée pour continuer."; 
+			errorText += "Aucune matière specifiée !</br><i>Une matière doit etre donnée pour continuer.</i></br>"; 
 		}
 		if (!date){
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Date non spécifiée ou incorrecte. Le format correct est jj/mm/aaaa."; 
+			errorText += "Date non spécifiée ou incorrecte !</br><i>Le format correct est jj/mm/aaaa.</i></br>"; 
 		}
 		if(reponseSansTexte >0){ 
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des réponses sans texte. Supprimez les réponses vides ou remplissez les."; 
+			errorText += "Il y a des réponses sans texte !</br><i>Supprimez les réponses vides ou remplissez les.</i></br>"; 
 		}
 		if(questionSansTexte >0){ 
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des questions sans texte. Supprimez les questions vides ou remplissez les."; 
+			errorText += "Il y a des questions sans texte !</br><i>Supprimez les questions vides ou remplissez les.</i></br>"; 
 		}
 		if(questionSansBonneReponse >0){ 
-			if (alertText != ""){ alertText += "\n"; }
-			alertText += "Il y a des questions sans bonnes réponses. Choisissez au moins une bonne réponse par question."; 
+			errorText += "Il y a des questions sans bonnes réponses !</br><i>Choisissez au moins une bonne réponse par question.</i></br>"; 
 		}
-		alert(alertText);
-		return false;
+		showMessage("error",errorText);
+		
 	}
 	else {
-		 document.getElementById("message").style.visibility='visible';
 		var jsonData ='{"matiere":"'+document.getElementById("matiereInput").value+'", \
 			"date":"'+document.getElementById("dateInput").value+'", \
+			"duree":"'+document.getElementById("dureeInput").value+'", \
 			"nbCopies":"'+document.getElementById("nbCopiesImput").value+'", \
 			"questions":[';
 
-	for(i=0;i<blocsQR.length;i++){
-		if(i>0){
-			jsonData+=',';
-		}
-		jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
-		"bareme":"2","reponses": \
-	            	  	[';
-		for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
-			if(j>0){
+		for(i=0;i<blocsQR.length;i++){
+			if(i>0){
 				jsonData+=',';
 			}
-			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
-			"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
+			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
+			"bareme":"2","reponses": \
+		            	  	[';
+			for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
+				if(j>0){
+					jsonData+=',';
+				}
+				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
+				"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
+			}
+			jsonData+=']}';
+	
 		}
 		jsonData+=']}';
-
-	}
-		jsonData+=']}';
+		showMessage("wait","Création du questionnaire...");
+		sendQuestionnaire(stateQuestionnaireCompilation,jsonData);
 		
-
-		var jsonobj=JSON.parse(jsonData);
-		var count = Object.keys(jsonobj).length;
-
-		var http = new XMLHttpRequest();
-		var url = "rest/questionnaireTools/creation";
-		http.open("POST", url, false);
-		//On envoie l'objet JSON avec xmlhttprequest
-		http.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-		http.setRequestHeader("Content-length", count);
-		http.setRequestHeader("Accept-Encoding", "UTF-8");
-		http.send(jsonData);
-		//Afficher les messages d'erreur de compilation ?
-		if(http.responseText=='1'){
-			return true;
-		}else{
-			return false;
-		}
 	}
+	return false;
+
 };
 
+function sendQuestionnaire(callback, data){
+	var jsonobj=JSON.parse(data);
+	var count = Object.keys(jsonobj).length;
+
+	var xhr = new XMLHttpRequest();
+	var url = "rest/questionnaireTools/creation";
+	xhr.open("POST", url, true);
+	//On envoie l'objet JSON avec xmlhttprequest
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
+	//Afficher les messages d'erreur de compilation ?
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+			callback(xhr.responseText);
+		}
+	}
+	xhr.send(data);
+	
+	
+
+};
+function stateQuestionnaireCompilation(code){
+	if(code=='1'){
+		 document.location.href="Projet.html";
+	}else{
+		showMessage("error",code);
+	}
+};
 function creationValide(){
 	var name = false;
 	var file = false;
 	var projectExists = false;
 	var projectName = document.getElementById("nomProjetInput").value;
 	var filename = document.getElementById("fichierTexInput").value;
-	var alertText = "";
 
 	if ( projectName != "" ){ 
 		name = true;
 	}
 	else {
-		alertText = "Aucun nom de projet spécifié. Veuillez donner un nom au projet.";
+		showMessage("error","Aucun nom de projet spécifié.</br><i>Veuillez donner un nom au projet !</i>");
 	}
 	
 	if (filename != ""){
-		console.log(filename);
 		var nameList = filename.split(".");
-		console.log(nameList);
 		var extension = nameList[nameList.length-1];
-		console.log(extension);
 		if (extension=="tex") {
 			file = true;
 		}
 		else {
 			file = false;
-			if (alertText != ""){ alertText += "\n"; }
 			document.getElementById("fichierTexInput").value = "";
-			alertText += "Le fichier fournit n'est pas au bon format. Le fichier doit etre un fichier Latex (.tex)."; 
+			showMessage("error","Le fichier fourni n'est pas au bon format.</br><i>Le fichier doit etre un fichier Latex (.tex) !</i>");
 		}
 	}
 	else {			
 		file = true;
 	}
-		
+	
 	if (name == false || file == false){
-		alert(alertText);
-		return false;
+		return;
 	}
 	else{
+		
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/ouvertureProjet",true);
-		xhr.send(projectName);
+		xhr.open("POST","rest/ouvertureProjet",false);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-				var projects = xhr.responseText.split("/");
+				var projects=xhr.responseText.split("/");
 				projects.forEach( function testExistingProject(project){
 					if (project == projectName){ 
 						projectExists = true;
 					}
 				});
+				
 				if (projectExists){
-					alertText="Un projet nommé "+projectName+" existe déjà.";
 					if (filename != ""){
-						alertText += "\nSi vous souhaitez remplacer le questionnaire du projet par celui " +
-								"que vous venez de choisir, cliquez sur OK. " +
-								"\nPour annuler et conserver l'ancien projet ou changer de nom, cliquez sur Annuler.";
+						showMessage("question","Un projet nommé <b>"+projectName+"</b> existe déjà !"+
+								"</br><i>Si vous souhaitez remplacer le questionnaire du projet par celui " +
+								"que vous venez de choisir, cliquez sur OK." +
+								"</br>Pour annuler et conserver l'ancien projet ou changer de nom, cliquez sur Annuler.</i>","document.forms.formulaireProjet.submit()");
 					}
 					else {
-						alertText += "\nSi vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
-								"\nPour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.";
+						showMessage("question","Un projet nommé <b>"+projectName+"</b> existe déjà !"+
+								"</br><i>Si vous souhaitez editer le questionnaire du projet, cliquez sur OK." +
+								"</br>Pour annuler et choisir un nouveau nom de projet, cliquez sur Annuler.</i>","document.forms.formulaireProjet.submit()");
 					}
-					return confirm(alertText);
-				}
-				else {
-					return true;
+				}else{
+					document.forms.formulaireProjet.submit();
 				}
 			}
 		};
+		
+		xhr.send(projectName);
+		
 	}
+	
+	
+	
 };
 
 function eraseFile(){

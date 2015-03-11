@@ -116,8 +116,11 @@
 	<script src="js/creation.js"></script>
 	<script src="js/projet.js"></script>
 	<script src="js/latexEditor.js"></script>
-	<script src="js/erreurs.js"></script>
+<<<<<<< HEAD
 	<script src="js/uploadImg.js"></script>
+=======
+	<script src="js/erreurs.js"></script>
+>>>>>>> master
 
 </body>
 </html>

@@ -73,7 +73,9 @@ function creationValide(){
 
 function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
-
+<<<<<<< HEAD
+	document.getElementById("alertText").innerHTML="";
+	document.getElementById("alertText").setAttribute("style", "display:none;");
 }
 
 function uploadImg(balise){
@@ -84,4 +86,6 @@ function uploadImg(balise){
 	{
 		document.getElementById(balise).setAttribute("style", "display: none;");
 	}
+=======
+>>>>>>> master
 }

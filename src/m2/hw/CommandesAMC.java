@@ -9,22 +9,7 @@ import com.sun.istack.internal.logging.Logger;
 
 public class CommandesAMC {
 
-	/**
-	 * Fonction permettant de creer les dossiers pour le nouveau projet
-	 * @param data
-	 */
-	public static void creationRepertoire(String nom){
 
-	        String workingDir = System.getProperty("user.dir");
-	        String scriptloc = workingDir+"/createProject.sh";
-	        String projectsPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
-					Utilisateurs.getCurrentUser().getProjectsPath().length()-1);
-	        String username = Utilisateurs.getCurrentUser().getUserName();
-	        String cmd[] = {"/bin/bash",scriptloc ,nom, projectsPath};
-	        
-	        executerCommande(cmd, username);
-
-	}
 	
 	/**
 	 * Fonction permettant de lancer la phase de preparation d'AMC pour le projet
@@ -207,5 +192,22 @@ public class CommandesAMC {
 	    } catch (IOException ex) {
 	        Logger.getLogger(Process.class.getName(), null).log(Level.SEVERE, null, ex);
 	    }
+	}
+	
+	public static void lancerCorrection(String projectPath){
+		
+		//TODO recupererClasseCSV(classe);
+		System.out.println("Layout");
+		CommandesAMC.creationLayout(projectPath);
+		System.out.println("generationImagesCopies");
+		CommandesAMC.generationImagesCopies(projectPath);
+		System.out.println("analyseReponses");
+		CommandesAMC.analyseReponses(projectPath);
+		System.out.println("notation");
+		CommandesAMC.notation(projectPath);
+		//System.out.println("associationAuto");
+		//CommandesAMC.associationAuto(projectPath);
+		System.out.println("extractionNotesEleves");
+		CommandesAMC.extractionNotesEleves(projectPath);
 	}
 }
