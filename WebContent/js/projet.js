@@ -81,3 +81,13 @@ function eraseFile(){
 	document.getElementById("alertText").innerHTML="";
 	document.getElementById("alertText").setAttribute("style", "display:none;");
 }
+
+function uploadImg(balise){
+	if (document.getElementById(balise).style.display=="none"){
+		document.getElementById(balise).setAttribute("style", "display: block;");
+	}
+	else
+	{
+		document.getElementById(balise).setAttribute("style", "display: none;");
+	}
+}

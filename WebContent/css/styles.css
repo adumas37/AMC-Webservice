@@ -215,4 +215,16 @@ options {
 	display: -moz-inline-grid;
 	padding: 20px;
 }
+.linkPicture{
+	height: 25px;
+	margin-bottom: -5px;
+}
+#previewcanvas{ 
+	position: relative; 
+	visibility: visible; 
+	width: 150; 
+	height: 150; 
+	margin:auto;
+	clip: rect(0,300,300,0);
+}
 
