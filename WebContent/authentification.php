@@ -14,7 +14,13 @@ if (isset($_POST['username'])){
 			//ldap_close($Liaison_LDAP); Enlever le comment losque le serveur sera sur le réseau ECN
 			$_SESSION['username']=$_POST['username'];
 			$_SESSION['logAttempt']=false;
-			header('location: index.php');
+			echo '<script>
+				  var xhr = new XMLHttpRequest();
+				  xhr.open("POST","rest/utilisateurs/add",false);
+				  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				  xhr.send("'.$_SESSION['username'].'");
+				  location.href="index.php";
+				  </script>';
 	}
 	else {
 			// Utilisateur non authentifie
