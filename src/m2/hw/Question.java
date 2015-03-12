@@ -2,7 +2,6 @@ package m2.hw;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 public class Question implements Serializable{
 	/**
 	 * 
