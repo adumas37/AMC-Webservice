@@ -9,13 +9,12 @@ if (isset($_SESSION['username'])){
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="description" content="Page d'accueil">
     <meta name="author" content="Alexis DUMAS && Erwan Briand">
-	
     <link href="css/styles.css" rel="stylesheet">
 
 </head>
 
 <body>
-
+	
 	<div class="main-header">AMC Webservice</div>
 	
 
@@ -45,7 +44,7 @@ if (isset($_SESSION['username'])){
 	</div> <!-- /content -->
 
 	
-	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
+	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS <a href="logout.php">Log Out</a></footer>
 	
 	<script src="js/navigation.js"></script>
 
