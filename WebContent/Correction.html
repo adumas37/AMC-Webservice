@@ -22,6 +22,9 @@
 		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
 		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>
 		<input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>
+		<form id="correct" method="post" action="rest/correction/LancerCorrection">
+			<input type="submit" value="Relancer la correction" class="inputButton greenButton"/>
+		</form> 
 		<form id="DownloadResults" method="get" action="rest/correction/download">
 			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</form>		
