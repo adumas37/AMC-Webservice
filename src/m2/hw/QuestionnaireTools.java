@@ -9,18 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URI;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.google.gson.Gson;
@@ -47,7 +43,7 @@ public class QuestionnaireTools {
 		quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
 		QuestionnaireTools.ecrireFichier(quest);
-		CommandesAMC.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
+		CommandesAMC.prepareProject("questionnaire.tex");
 		//ATTENDRE LA FIN DE COMPILATION ?
 		QuestionnaireTools.ExportProjet(quest);
 		//On peut renvoyer les messages d'erreur de la compilation
@@ -102,68 +98,64 @@ public class QuestionnaireTools {
 	 */
 	public static String createBody(Questionnaire questionnaire){	
 		String questionnaireBody = "\t%%% Debut du questionnaire\n\n";
-		String[] chaines = null;
 		
-		String[] questionsReponses = null;
 		String typeQuestion = null;
 		String bareme = null;
+						
+				
+		//chaque questions[i] contient la question
+		//Une question contient les réponses et le bareme
 		
-		boolean multicols = false;
-				
-				
-				//chaque questions[i] contient la question
-				//Une question contient les réponses et le bareme
-				
-				for (int i=0 ; i<questionnaire.getQuestions().length ; i++){//pour chaque question
-					
-					if (questionnaire.getQuestions()[i].getNbBonnes() >= 2 ){
-						//s'il y a plusieurs bonnes reponses
-						typeQuestion = "questionmult";
-					}
-					else {
-						typeQuestion = "question";
-					}
-					
-					bareme = "\\bareme{b" 
-							+ questionnaire.getQuestions()[i].getBareme() 
-							+ "=" 
-							+ questionnaire.getQuestions()[i].getBareme() 
-							+"}";
-					
-					
-					questionnaireBody += "\t\\begin{"+typeQuestion+"}{Q"+i+"}"+bareme+"\n";
-					questionnaireBody += "\t\t"+questionnaire.getQuestions()[i].getTexte()+"\n";
-					
-					if(questionnaire.getQuestions()[i].isColonnes()){
-						questionnaireBody += "\t\t\\begin{multicols}{2}\n";
-					}
-					questionnaireBody += "\t\t\\begin{reponses}\n";
-					
-					for (int j=0 ; j<questionnaire.getQuestions()[i].getReponses().length ; j++){
-						if (questionnaire.getQuestions()[i].getReponses()[j].isCorrecte()){
-							//si la reponse est bonne
-							questionnaireBody += "\t\t\t\\bonne{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
-						}
-						else {
-							questionnaireBody += "\t\t\t\\mauvaise{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
-						}
-						
-						
-					}
-					questionnaireBody +="\t\t\\end{reponses}\n";
-					if(questionnaire.getQuestions()[i].isColonnes()){
-						questionnaireBody += "\t\t\\end{multicols}\n";
-					}
-					questionnaireBody += "\t\\end{"+typeQuestion+"}\n\n";
-					
-					
-					
+		for (int i=0 ; i<questionnaire.getQuestions().length ; i++){//pour chaque question
+			
+			if (questionnaire.getQuestions()[i].getNbBonnes() >= 2 ){
+				//s'il y a plusieurs bonnes reponses
+				typeQuestion = "questionmult";
+			}
+			else {
+				typeQuestion = "question";
+			}
+			
+			bareme = "\\bareme{b" 
+					+ questionnaire.getQuestions()[i].getBareme() 
+					+ "=" 
+					+ questionnaire.getQuestions()[i].getBareme() 
+					+"}";
+			
+			
+			questionnaireBody += "\t\\begin{"+typeQuestion+"}{Q"+i+"}"+bareme+"\n";
+			questionnaireBody += "\t\t"+questionnaire.getQuestions()[i].getTexte()+"\n";
+			
+			if(questionnaire.getQuestions()[i].isColonnes()){
+				questionnaireBody += "\t\t\\begin{multicols}{2}\n";
+			}
+			questionnaireBody += "\t\t\\begin{reponses}\n";
+			
+			for (int j=0 ; j<questionnaire.getQuestions()[i].getReponses().length ; j++){
+				if (questionnaire.getQuestions()[i].getReponses()[j].isCorrecte()){
+					//si la reponse est bonne
+					questionnaireBody += "\t\t\t\\bonne{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
+				}
+				else {
+					questionnaireBody += "\t\t\t\\mauvaise{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
 				}
 				
+				
+			}
+			questionnaireBody +="\t\t\\end{reponses}\n";
+			if(questionnaire.getQuestions()[i].isColonnes()){
+				questionnaireBody += "\t\t\\end{multicols}\n";
+			}
+			questionnaireBody += "\t\\end{"+typeQuestion+"}\n\n";
 			
 			
-	questionnaireBody += "\t\\clearpage\n\n";
-	questionnaireBody += "\t%%% Fin du questionnaire\n\n";
+			
+		}
+				
+			
+			
+		questionnaireBody += "\t\\clearpage\n\n";
+		questionnaireBody += "\t%%% Fin du questionnaire\n\n";
 		
 		return decode(questionnaireBody);
 	
