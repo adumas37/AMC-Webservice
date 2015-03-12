@@ -478,6 +478,7 @@ public static Questionnaire importFichier(){
 	    	if (line.contains("\\begin{question")){	    		
 	    		String texte = "";
 	    		int bareme = 0;
+	    		boolean col = false;
 	    		ArrayList<Reponse> reponses = new ArrayList<Reponse>() ;
 	    		
 	    		if (line.contains("\\bareme{")){
@@ -488,6 +489,9 @@ public static Questionnaire importFichier(){
 	    		}
 	    		texte = br.readLine().replace("\t", "");
 	    		while (!line.contains("\\end{reponses}")){
+	    			if (line.contains("\\begin{multicols}")){
+	    				col = true;
+	    			}
 		    		if (line.contains("\\bonne{") || line.contains("\\mauvaise{")){
 			    		reponses.add(new Reponse(line.split("\\{")[1].split("\\}")[0],line.contains("\\bonne{")));
 		    		}
@@ -495,7 +499,7 @@ public static Questionnaire importFichier(){
 	    		}
 	    		
 	    		Reponse[] rep = new Reponse[reponses.size()];
-	    		questions.add(new Question(texte, reponses.toArray(rep),bareme));
+	    		questions.add(new Question(texte, reponses.toArray(rep),bareme,col));
 	    	}
 	    	
 	    	
@@ -503,7 +507,7 @@ public static Questionnaire importFichier(){
 	    System.out.println("nbC: "+nbCopies+", matiere: "+matiere+", date: "+date);
 	    
 	    Question[] questionslist = new Question[questions.size()];
-	    quest = new Questionnaire(matiere, date, questions.toArray(questionslist), false, nbCopies);
+	    quest = new Questionnaire(matiere, date, questions.toArray(questionslist) ,nbCopies);
 	    quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
 		QuestionnaireTools.exportProjet(quest);
