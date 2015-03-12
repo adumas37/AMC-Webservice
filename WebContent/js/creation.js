@@ -226,14 +226,14 @@ function questionnaireValide(){
 			if(i>0){
 				jsonData+=',';
 			}
-			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
+			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value.replace(/\\/g,"\\\\")+'", \
 			"bareme":"2","reponses": \
 		            	  	[';
 			for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
 				if(j>0){
 					jsonData+=',';
 				}
-				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
+				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value.replace(/\\/g,"\\\\")+'", \
 				"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
 			}
 			jsonData+=']}';
