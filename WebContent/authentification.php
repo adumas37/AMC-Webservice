@@ -1,6 +1,5 @@
 <?php
 session_start();
-$_SESSION['logAttempt']=true;
 if (isset($_POST['username'])){
 	$Serveur = "ldap://rldap.ec-nantes.fr";
 	$Liaison_LDAP = ldap_connect($Serveur);
@@ -12,8 +11,9 @@ if (isset($_POST['username'])){
 	if ($_POST['username']=="AMC" && $_POST['password']=="AMC"){
 			// Utilisateur authentifie sur le serveur LDAP
 			//ldap_close($Liaison_LDAP); Enlever le comment losque le serveur sera sur le réseau ECN
+			session_set_cookie_params('86400');
+			session_regenerate_id(true); 
 			$_SESSION['username']=$_POST['username'];
-			$_SESSION['logAttempt']=false;
 			echo '<script>
 				  var xhr = new XMLHttpRequest();
 				  xhr.open("POST","rest/utilisateurs/add",false);
@@ -24,6 +24,7 @@ if (isset($_POST['username'])){
 	}
 	else {
 			// Utilisateur non authentifie
+			session_destroy();
 			header('location: identification.php');
 		}
 	
@@ -33,7 +34,8 @@ elseif (isset ($_SESSION['username'])){
 }
 else
 {
-	header('location: identification.php');
+			session_destroy();
+			header('location: identification.php');
 }
 ?>
 <!DOCTYPE html >
