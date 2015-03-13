@@ -353,24 +353,31 @@ function ajouterClasse(){
 };
 
 function verificationClasses(){
-	
 	var classes = document.getElementById("upload2").getElementsByClassName("classeInput");
-	
 	for (var i = 0; i < classes.length; i++) {
 		var classe = classes[i].value;
-
 		for (var j=0;j<classes.length;j++){
 			if (j!=i){
 				if (classe==classes[j].value){
-					delClasse(classes[j]);
-					j--;
+					alert("LLLL");
+					/*delClasse(classes[j]);
+					j--;*/
+					showMessage("error", "Vous voulez ajouter plusieurs fois une même classe !");
+					return false;
 				}
 			}
 		}	
-
+	}
+	var oldClasses=document.getElementById("oldClasses").getElementsByClassName("classeName");
+	for (var i = 0; i < classes.length; i++) {
+		for (var j=0;j<oldClasses.length;j++){
+			if (oldClasses[j].innerHTML==classes[i].value){
+				showMessage("error", "Vous voulez ajouter une classe qui existe déjà !");
+				return false;
+			}
+		}
 	}
 	return true;
-	
 };
 function uploadClasses(callback){
 	if(verificationClasses()){

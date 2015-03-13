@@ -116,7 +116,7 @@ function createOKButton() {
 	var messageFormulaireBoutonOK = document.createElement("button")
 	messageFormulaireBoutonOK.setAttribute("name", "answer");
 	messageFormulaireBoutonOK.setAttribute("style", "text-align:center;");
-	messageFormulaireBoutonOK.setAttribute("onclick",callbackA);
+	messageFormulaireBoutonOK.setAttribute("onclick",callbackA+";setMessageVisible(false);");
 	messageFormulaireBoutonOK.innerHTML = "OK";
 	messageDivBottom.appendChild(messageFormulaireBoutonOK);
 };
