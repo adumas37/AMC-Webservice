@@ -8,7 +8,7 @@
 	<link href="css/styles.css" rel="stylesheet">
 </head>
 
-	<body> <!--onload="Load()"-->
+	<body onload="Load()">
 		<div class="page">
 			<div class="bloc-principal">
 				<div class="main-header"> Identification </div> 

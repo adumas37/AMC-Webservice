@@ -1,9 +1,9 @@
 <?php
 session_start();
 if (isset($_POST['username'])){
-	$Serveur = "ldap://rldap.ec-nantes.fr";
+	/*$Serveur = "ldap://rldap.ec-nantes.fr";
 	$Liaison_LDAP = ldap_connect($Serveur);
-	/*if ($Liaison_LDAP) {
+	if ($Liaison_LDAP) {
 		// Le serveur est accessible
 		$LDAP_DN="uid=$login, ou=people, dc=ec-nantes, dc=fr";
 		$LDAPBind_User = ldap_bind($Liaison_LDAP, $LDAP_DN, $password);
