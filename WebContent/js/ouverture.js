@@ -9,6 +9,7 @@ function afficherDossiers(elmnt){
 		if (xhr2.readyState == 4 && (xhr2.status == 200 || xhr2.status == 0) ) {
 			var directories = xhr2.responseText.split("/");
 			directories.sort();
+			console.log(action);
 			if (xhr2.responseText != ""){
 				directories.forEach( function(directory){
 					var linkNode = document.createElement("a");
@@ -51,7 +52,7 @@ function afficherDossiers(elmnt){
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 			
 			if (xhr.responseText == "correction"){
-				action = "UploadCopies.html";
+				action = "correction";
 			}
 			else if (xhr.responseText == "suppression"){
 				action = "Suppression";
