@@ -3,6 +3,7 @@ package m2.hw;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.util.List;
 
@@ -54,10 +55,11 @@ public class UploadCopies {
 	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
 	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
 		    FileWriter fw = new FileWriter(file);
-	        for (int i = 0; i < files.size()-1; i++){
-	        	fw.write(files.get(i).getContentDisposition().getFileName()+"\n");
+		    PrintWriter pw = new PrintWriter(fw);
+	        for (int i = 0; i < files.size(); i++){
+	        	pw.println(files.get(i).getContentDisposition().getFileName());
 	        }
-	        fw.write(files.get(files.size()-1).getContentDisposition().getFileName());
+	        pw.close();
 	        fw.close();
 	    }
 	    catch(Exception e){
@@ -67,10 +69,11 @@ public class UploadCopies {
 	    try{	//Ecriture du fichier contenant la liste des classes
 	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
 		    FileWriter fw = new FileWriter(file);
-	        for (int i = 0; i < classes.size()-1; i++){
-	        	fw.write(classes.get(i).getValue()+"\n");
+		    PrintWriter pw = new PrintWriter(fw);
+	        for (int i = 0; i < classes.size(); i++){
+	        	pw.println(classes.get(i).getValue());
 	        }
-	        fw.write(classes.get(files.size()-1).getValue());
+	        pw.close();
 	        fw.close();
 	    }
 	    catch(Exception e){

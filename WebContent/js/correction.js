@@ -76,7 +76,7 @@ function afficherNotes(elmnt){
  */
 function changerBareme(){
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET","rest/creationQuestionnaire/getBareme",false);
+	xhr.open("GET","rest/questionnaireTools/getBareme",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	
 	xhr.onreadystatechange = function (aEvt){
