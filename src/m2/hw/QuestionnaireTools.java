@@ -81,7 +81,7 @@ public class QuestionnaireTools {
 				+"\t}}\n\n"
 			
 				+"\t\\begin{center}\\em\n"
-				+"\tDurée : 10 minutes.\n\n"
+				+"\tDurée : "+questionnaire.getDuree()+ ".\n\n"
 			
 				+"\tAucun document n'est autorisé.\n"
 				+"\tL'usage de la calculatrice est interdit.\n\n"
@@ -456,11 +456,12 @@ public static Questionnaire importProjet(){
 public static Questionnaire importFichier(){
 	
 	Questionnaire quest = null;
-	String matiere = null;
-	String date = null;
+	String matiere = "";
+	String date = "";
+	String duree = "";
 	int nbCopies = 0;
-	String header = null;
-	String body = null;
+	String header = "";
+	String body = "";
 	ArrayList<Question> questions = new ArrayList<Question>();
 	
 	
@@ -478,8 +479,10 @@ public static Questionnaire importFichier(){
 	    		matiere = line.split(" ")[1].substring(0, line.split(" ")[1].length()-2);
 	    		date = line.split(" ")[4].substring(0, 10);
 	    	}
-	    	
-	    	if (line.contains("\\begin{question")){	    		
+	    	else if (line.contains("Durée : ")){
+	    		duree = line.split("Durée : ")[1].substring(0, line.split("Durée : ")[1].length()-1);
+	    	}
+	    	else if (line.contains("\\begin{question")){	    		
 	    		String texte = "";
 	    		int bareme = 0;
 	    		boolean col = false;
@@ -511,7 +514,7 @@ public static Questionnaire importFichier(){
 	    System.out.println("nbC: "+nbCopies+", matiere: "+matiere+", date: "+date);
 	    
 	    Question[] questionslist = new Question[questions.size()];
-	    quest = new Questionnaire(matiere, date, questions.toArray(questionslist) ,nbCopies);
+	    quest = new Questionnaire(matiere, date, duree, questions.toArray(questionslist) ,nbCopies);
 	    quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
 		QuestionnaireTools.exportProjet(quest);
