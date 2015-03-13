@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,17 +24,15 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 public class UploadCopies {
 
 	/**
-	 * Permet de telecharger les copies, les enregistrer, de recuperer le fichier CSV de la classe
-	 * et de lancer la correction des copies.
+	 * Permet de telecharger les copies, les enregistrer, de recuperer le fichier CSV de la classe.
 	 * @param formParams
 	 * @param context
 	 * @return
 	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response Correction(
-		FormDataMultiPart formParams,
-		@Context UriInfo context) {
+	@Produces("text/plain")
+	public String Correction(FormDataMultiPart formParams,@Context UriInfo context) {
 
 		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
 		
@@ -80,16 +79,17 @@ public class UploadCopies {
 	        e.printStackTrace();
 	    }
 	    			
-	    CommandesAMC.lancerCorrection(projectPath);
-		
-
+	    /*CommandesAMC.lancerCorrection(projectPath);
 		String url = context.getBaseUri().toString();
 		url = url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
 		URI uri = UriBuilder.fromUri(url)
 				.path("{a}")
 				.build("Correction.html");
 		
-		return Response.seeOther(uri).build();
+		return Response.seeOther(uri).build();*/
+	    
+	    //Ici on peut envoyer un code d'erreur pour l'upload
+		return "1";
 	}	
 	
 }

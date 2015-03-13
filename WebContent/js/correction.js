@@ -119,7 +119,7 @@ function changerFichiers(){
 			var supprButton = document.createElement("input");
 			supprButton.setAttribute("type", "button");
 			supprButton.setAttribute("value", "Supprimer fichier");
-			supprButton.setAttribute("onclick", "delFileRest(this)");
+			supprButton.setAttribute("onclick", "delFileExistant(this)");
 			textNode.appendChild(fileName);
 			newNode.appendChild(textNode);
 			newNode.appendChild(supprButton);
@@ -149,6 +149,7 @@ function changerFichiers(){
 		document.getElementById("fichiers").style.display="block";
 		
 	};
+	
 	xhr.send();
 };
 
@@ -161,28 +162,27 @@ function delFile(elmnt){
 	element.parentNode.removeChild(element);
 	chooseFile();
 };
-
-function delFileRest(elmnt){
+var globalElement;
+function delFileExistant(elmnt){
 	
 	var filename = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
-	if (confirm("Voulez vous vraiment supprimer le fichier "+filename+"?\nCe changement est irreversible!") == true) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/correction/supprimerCopie/"+filename,false);
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		
-		xhr.onreadystatechange = function (aEvt){
-			var element = elmnt.parentNode;
-			element.parentNode.removeChild(element);
-		};
-		xhr.send();
-    } 
-	else {
-		return false;
-	}
-		
-	
+	globalElement=elmnt;
+	showMessage("question","Voulez vous vraiment supprimer le fichier <b>"+filename+"</b> ?" +
+			"</br>Ce changement est irreversible!","delFileRest(getUploadStatusThenNothing,'"+filename+"')");	
 };
-
+function delFileRest(callback,filename){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/supprimerCopie/"+filename,true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			var element = globalElement.parentNode;
+			element.parentNode.removeChild(element);
+			callback(xhr.responseText);
+		}
+	};
+	xhr.send();
+};
 function chooseFile(){
 	var fichiersUploades = document.getElementsByClassName("copiesPDFInput");
 	for (var i=0; i< fichiersUploades.length;i++){
@@ -376,3 +376,37 @@ function verificationClasses(){
 	
 };
 
+function ajoutCopies(callback){
+	if(verificationFichier()){
+		var form=document.getElementById("uploadCopies");
+		var formData = new FormData(form);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/ajouterCopies",true);
+		xhr.onreadystatechange = function (){
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+				callback(xhr.responseText);
+			}
+		};
+		showMessage("wait","Upload des copies en cours...");
+		xhr.send(formData);
+	}
+};
+function lancerCorrection(callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/LancerCorrection",true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+			callback(xhr.responseText);
+		}
+	};
+	showMessage("wait","Correction en cours...");
+	xhr.send(null);
+};
+function getCorrectionStatus(code){
+	if(code=='1'){
+		 document.location.href="Correction.html";
+	}else{
+		showMessage("error",code);
+	}
+};

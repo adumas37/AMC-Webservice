@@ -123,12 +123,12 @@ function createOKButton() {
 function createChoiceForm() {
 	var messageFormulaireBoutonOK = document.createElement("button");
 	messageFormulaireBoutonOK.setAttribute("name", "answer");
-	messageFormulaireBoutonOK.setAttribute("onclick",callbackA);
+	messageFormulaireBoutonOK.setAttribute("onclick",callbackA+";setMessageVisible(false);");
 	messageFormulaireBoutonOK.setAttribute("style", "text-align:right;");
 	messageFormulaireBoutonOK.innerHTML = "OK";
 	var messageFormulaireBoutonCancel = document.createElement("button");
 	messageFormulaireBoutonCancel.setAttribute("name", "answer");
-	messageFormulaireBoutonCancel.setAttribute("onclick",callbackB);
+	messageFormulaireBoutonCancel.setAttribute("onclick",callbackB+";setMessageVisible(false);");
 	messageFormulaireBoutonCancel.setAttribute("style", "text-align:left;");
 	messageFormulaireBoutonCancel.innerHTML = "Annuler";
 	messageDivBottom.appendChild(messageFormulaireBoutonCancel);
@@ -146,11 +146,11 @@ function setCallbackFunctions(cbA,cbB){
 	if( typeof(cbA) != 'undefined' ){
 		callbackA=cbA;
 	}else{
-		callbackA="setMessageVisible(false);";
+		callbackA="";
 	}
 	if (typeof(cbB) != 'undefined' ){
 		callbackB=cbB;
 	}else{
-		callbackB="setMessageVisible(false);";
+		callbackB="";
 	}
 };

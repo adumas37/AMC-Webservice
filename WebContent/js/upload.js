@@ -87,4 +87,43 @@ function uploadValide(){
 		return true;
 	}
 	
-}
+};
+
+function uploadFichiers(callback){
+	if(uploadValide()){
+		var form=document.getElementById("uploadCopies");
+		var formData = new FormData(form);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/uploadCopies",true);
+		xhr.onreadystatechange = function (){
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+				callback(xhr.responseText);
+			}
+		};
+		showMessage("wait","Upload des copies en cours...");
+		xhr.send(formData);
+	}
+};
+function getUploadStatusThenCorrect(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on lance la correction
+		lancerCorrection(getCorrectionStatus);
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenReload(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on recharge la page
+		location.reload();
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenNothing(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on ne fait rien
+	}else{
+		showMessage("error",code);
+	}
+};
