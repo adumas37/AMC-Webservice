@@ -51,14 +51,14 @@ function afficherDossiers(elmnt){
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 			
 			if (xhr.responseText == "correction"){
-				action = "UploadCopies.html";
+				action = "UploadCopies.php";
 			}
 			else if (xhr.responseText == "suppression"){
 				action = "Suppression";
 				document.getElementById("action").innerHTML = "Suppression de projet";
 			}
 			else {
-				action = "Projet.html";
+				action = "Projet.php";
 			}
 
 			xhr2.send(null);

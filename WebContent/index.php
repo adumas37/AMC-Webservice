@@ -22,19 +22,19 @@ if (isset($_SESSION['username'])){
 	<div id="content" class="contenu index">
 		<!-- 	<a href="rest/first">coucou</a> 	<p/> <a href="html/test2.html">test</a>	<p/> <form action="rest/first" method="GET"><input type="submit" value="Get HelloWorld"></form> -->
 		<ul id="homeNavList">
-			<li class="homeLi"><a class="homeHref" href="CreationProjet.html">
+			<li class="homeLi"><a class="homeHref" href="CreationProjet.php">
 					<img class="homeImg" height="50" src="src/bookmark-new.png" alt="creation">
 					<span class="homeText">Creation d'un projet</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.html" onclick="return ouverture();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return ouverture();">
 				<img class="homeImg" height="50" src="src/document-open.png" alt="open">
 				<span class="homeText">Ouverture d'un projet</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.html" onclick="return correction();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return correction();">
 				<img class="homeImg" height="50" src="src/document-open.png" alt="open">
 				<span class="homeText">Correction de copies</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.html"  onclick="return suppression();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php"  onclick="return suppression();">
 				<img class="homeImg" height="50" src="src/edit-delete.png" alt="delete">
 				<span class="homeText"> Suppression d'un projet </span>
 			</a>
@@ -55,3 +55,4 @@ if (isset($_SESSION['username'])){
 else {
 	header('location: identification.php');
 }
+?>

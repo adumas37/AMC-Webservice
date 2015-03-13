@@ -105,14 +105,14 @@ public class CreationProjet {
 		
 				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")
-						.build("Projet.html");
+						.build("Projet.php");
 				
 				return Response.seeOther(uri).build();
 			}
 			else if (fileName.equals("")){
 				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")
-						.build("CreationQuestionnaire.html");
+						.build("CreationQuestionnaire.php");
 				return Response.seeOther(uri).build();
 			}
 			else{
