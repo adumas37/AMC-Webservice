@@ -166,6 +166,7 @@ public class Correction {
 	        		pw.println(files.get(i).getContentDisposition().getFileName());
 	        	}
 	        }
+	        pw.close();
 	        fw.close();
 	    }
 	    catch(Exception e){
@@ -297,6 +298,41 @@ public class Correction {
 	        e.printStackTrace();
 	    }
 	}	
+	
+	@Path("ajouterClasses")
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response ajouterClasses(
+		FormDataMultiPart formParams,
+		@Context UriInfo context) {
+		
+	    List<FormDataBodyPart> classes = formParams.getFields("classe");
+	    
+	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
+	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
+		    FileWriter fw = new FileWriter(file,true);
+		    PrintWriter pw = new PrintWriter(fw);
+		    String classe="";
+	        for (int i = 0; i < classes.size(); i++){
+	        	classe=classes.get(i).getValue();
+        		System.out.println("filename: "+classe);
+        		pw.println(classes.get(i).getValue());
+	        }
+	        pw.close();
+	        fw.close();
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	    
+	    String url = context.getBaseUri().toString();
+		url = url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
+		URI uri = UriBuilder.fromUri(url)
+				.path("{a}")
+				.build("Correction.html");
+		
+		return Response.seeOther(uri).build();
+	}
 	
 	@Path("LancerCorrection")
 	@POST
