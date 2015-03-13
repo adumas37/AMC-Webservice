@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -25,6 +27,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 @Path("questionnaireTools")
 public class QuestionnaireTools {
@@ -513,10 +517,104 @@ public static Questionnaire importFichier(){
 		QuestionnaireTools.exportProjet(quest);
 	    br.close();
 	} catch (IOException e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
 	return quest;
 }
 
+	/**
+	* Permet de renvoyer une partie du code html de la page de modification du bareme.
+	* Lis le fichier questionnaire.tex du projet courant.
+	* @return
+	*/
+	@GET
+	@Path("getBareme")
+	public static String getBareme(){
+		String html="";
+		if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())
+		try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
+			String bareme = "1";
+			String question = "";
+			String line = br.readLine();
+			while (line != null) {
+				if (line.contains("\\begin{question")){
+					bareme="1";
+					question="";
+				if (line.contains("\\bareme{")){
+					bareme=line.split("bareme")[1].split("b")[1].split("=")[0];
+				}
+				else {
+					bareme="1";
+				}
+				question = br.readLine();
+				question = question.replaceAll("\\t", "");
+				if (question.contains("\\euro{}")){
+					question = replace(question,"\\euro{}","€");
+				}
+				while (!line.contains("\\end{reponses}")){
+					line = br.readLine();
+					}
+					html += "<blocQB class=\"blocQB\">" +
+					"<p class=\"question\">" +
+					"Question: <span class=\"question\">"+question +"</span>" +
+					"<span class=\"bareme\">bareme:<input class=\"baremeImput inputText\" name=\"bareme\" type=\"number\" min=\"1\" max=\"20\" value=\""+bareme+"\"/></span>" +
+					"</p>" +
+					"</blocQB>";
+				}
+				line = br.readLine();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return html;
+	}
+
+	
+	@POST
+	@Path("setBareme")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public static void setBareme(FormDataMultiPart formParams){
+		
+		Questionnaire quest = importProjet();
+		Question[] questions = quest.getQuestions();
+		int i=0;
+		
+		List<FormDataBodyPart> baremes = formParams.getFields("bareme");
+		ListIterator<FormDataBodyPart> baremeIterator = baremes.listIterator();
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+		File file2 = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire2.tex");
+		
+		if (file.exists()){
+			try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+				FileWriter fw = new FileWriter(file2);
+				String line = br.readLine();
+				while (line != null) {
+					if (line.contains("\\begin{question")){
+						if (line.contains("\\bareme{")){
+							String bareme="1";
+							if (baremeIterator.hasNext()){
+								bareme = ((FormDataBodyPart) baremeIterator.next()).getValue();
+								questions[i].setBareme(Integer.parseInt(bareme));
+								i++;
+							}
+							line=line.split("bareme")[0]+"bareme{b"+bareme+"="+bareme+"}";
+						}
+						while (!line.contains("\\end{reponses}")){
+							fw.write(line+"\n");
+							line = br.readLine();
+						}
+					}
+					fw.write(line+"\n");
+					line = br.readLine();
+				}
+				exportProjet(quest);
+				br.close();
+				fw.close();
+				file2.renameTo(file);
+			} catch (IOException e) {
+			e.printStackTrace();
+			}
+		}
+	}
+	
 }
