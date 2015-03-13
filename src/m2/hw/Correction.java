@@ -271,7 +271,8 @@ public class Correction {
 	
 	@Path("supprimerClasse/{name}")
 	@POST
-	public void supprimerClasse( @PathParam("name") String name) {
+	@Produces("text/plain")
+	public String supprimerClasse( @PathParam("name") String name) {
 		
 		try{	//Modification du fichier contenant la liste des classes
 
@@ -301,12 +302,14 @@ public class Correction {
 	    catch(Exception e){
 	        e.printStackTrace();
 	    }
+		return "1";
 	}	
 	
 	@Path("ajouterClasses")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response ajouterClasses(
+	@Produces("text/plain")
+	public String ajouterClasses(
 		FormDataMultiPart formParams,
 		@Context UriInfo context) {
 		
@@ -329,13 +332,14 @@ public class Correction {
 	        e.printStackTrace();
 	    }
 	    
-	    String url = context.getBaseUri().toString();
+	    /*String url = context.getBaseUri().toString();
 		url = url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
 		URI uri = UriBuilder.fromUri(url)
 				.path("{a}")
 				.build("Correction.html");
 		
-		return Response.seeOther(uri).build();
+		return Response.seeOther(uri).build();*/
+	    return "1";
 	}
 	
 	@Path("LancerCorrection")

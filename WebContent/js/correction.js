@@ -100,6 +100,7 @@ function hideBareme(){
  * 
  * 
  */
+var globalElement;
 function changerFichiers(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/correction/getFilesNames",true);
@@ -162,7 +163,6 @@ function delFile(elmnt){
 	element.parentNode.removeChild(element);
 	chooseFile();
 };
-var globalElement;
 function delFileExistant(elmnt){
 	
 	var filename = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
@@ -302,7 +302,7 @@ function changerClasses(){
 			var supprButton = document.createElement("input");
 			supprButton.setAttribute("type", "button");
 			supprButton.setAttribute("value", "Supprimer classe");
-			supprButton.setAttribute("onclick", "delClasseRest(this)");
+			supprButton.setAttribute("onclick", "delClasseExistante(this)");
 			textNode.appendChild(fileName);
 			newNode.appendChild(textNode);
 			newNode.appendChild(supprButton);
@@ -327,27 +327,24 @@ function delClasse(elmnt){
 	}
 	
 };
-
-function delClasseRest(elmnt){
-	
+function delClasseExistante(elmnt){
 	var classeName = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
-	if (confirm("Voulez vous vraiment supprimer la classe "+classeName+"?") == true) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/correction/supprimerClasse/"+classeName,false);
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		
-		xhr.onreadystatechange = function (aEvt){
-			var element = elmnt.parentNode;
-			element.parentNode.removeChild(element);
-		};
-		xhr.send();
-    } 
-	else {
-		return false;
-	}
-		
+	globalElement=elmnt;
+	showMessage("question","Voulez vous vraiment supprimer la classe <b>"+classeName+"</b> ?","delClasseRest(getUploadStatusThenNothing,'"+classeName+"');");	
 };
-
+function delClasseRest(callback,classeName){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/supprimerClasse/"+classeName,false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			var element = globalElement.parentNode;
+			element.parentNode.removeChild(element);
+			callback(xhr.responseText);
+		}
+	};
+	xhr.send();
+};
 function ajouterClasse(){
 	var node = document.getElementsByClassName("choixClasse")[0];
 	var newNode = node.cloneNode(true);
@@ -375,8 +372,21 @@ function verificationClasses(){
 	return true;
 	
 };
-
-function ajoutCopies(callback){
+function uploadClasses(callback){
+	if(verificationClasses()){
+		var form=document.getElementById("uploadClasses");
+		var formData = new FormData(form);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/ajouterClasses",true);
+		xhr.onreadystatechange = function (){
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+				callback(xhr.responseText);
+			}
+		};
+		xhr.send(formData);
+	}
+};
+function uploadCopies(callback){
 	if(verificationFichier()){
 		var form=document.getElementById("uploadCopies");
 		var formData = new FormData(form);
@@ -406,6 +416,29 @@ function lancerCorrection(callback){
 function getCorrectionStatus(code){
 	if(code=='1'){
 		 document.location.href="Correction.html";
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenCorrect(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on lance la correction
+		lancerCorrection(getCorrectionStatus);
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenReload(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on recharge la page
+		location.reload();
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenNothing(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on ne fait rien
 	}else{
 		showMessage("error",code);
 	}

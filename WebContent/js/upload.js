@@ -127,3 +127,22 @@ function getUploadStatusThenNothing(code){
 		showMessage("error",code);
 	}
 };
+function lancerCorrection(callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/LancerCorrection",true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+			callback(xhr.responseText);
+		}
+	};
+	showMessage("wait","Correction en cours...");
+	xhr.send(null);
+};
+function getCorrectionStatus(code){
+	if(code=='1'){
+		 document.location.href="Correction.html";
+	}else{
+		showMessage("error",code);
+	}
+};

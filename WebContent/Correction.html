@@ -57,7 +57,7 @@
 						<input id="cancelFichiers" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideFichiers()"/>
 					</div>
 				</form>
-				<input id="submitFichiers" type="button" value="Changer les fichiers et calculer les notes"  class="inputButton orangeButton" onclick="ajoutCopies(getUploadStatusThenCorrect)"/>
+				<input id="submitFichiers" type="button" value="Changer les fichiers et calculer les notes"  class="inputButton orangeButton" onclick="uploadCopies(getUploadStatusThenCorrect)"/>
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 			</div>
 			<div id="newClasses">
 				<input type="button" value="Ajouter une classe" onclick="ajouterClasse()"/>
-				<form id=uploadClasses method=post action="rest/correction/ajouterClasses" enctype="multipart/form-data" onsubmit="return verificationClasses();">
+				<form id=uploadClasses enctype="multipart/form-data">
 					<div id="upload2">
 						<p class="choixClasse">Classe: <select class="classeInput" name="classe">
 							<option value="EI3-INFO">EI3-INFO</option>
@@ -79,10 +79,10 @@
 					</div>
 					<p id="alertTextClasses" style="display:none;">		</p>
 					<div>
-						<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton"/>
 						<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
 					</div>
 				</form>
+				<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton" onclick="uploadClasses(getUploadStatusThenCorrect)"/>
 			</div>
 		</div>
 	</div>
@@ -90,7 +90,6 @@
 	
 	<script src="js/correction.js"></script>
 	<script src="js/projet.js"></script>
-	<script src="js/upload.js"></script>
 	<script src="js/erreurs.js"></script>
 
 </body>
