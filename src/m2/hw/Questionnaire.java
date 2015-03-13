@@ -15,7 +15,7 @@ public class Questionnaire implements Serializable{
 	private Question[] questions;
 	
 	
-	public Questionnaire(String matiere, String date, Question[] questions, boolean colonnes, int nbCopies){
+	public Questionnaire(String matiere, String date, Question[] questions, int nbCopies){
 		setDate(date);
 		setMatiere(matiere);
 		setQuestions(questions);

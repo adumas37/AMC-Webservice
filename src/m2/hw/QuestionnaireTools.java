@@ -1,26 +1,25 @@
 package m2.hw;
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URI;
+import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.google.gson.Gson;
@@ -47,9 +46,9 @@ public class QuestionnaireTools {
 		quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
 		QuestionnaireTools.ecrireFichier(quest);
-		CommandesAMC.prepareProject(Utilisateurs.getCurrentUser().getProject(), "questionnaire.tex");
+		CommandesAMC.prepareProject("questionnaire.tex");
 		//ATTENDRE LA FIN DE COMPILATION ?
-		QuestionnaireTools.ExportProjet(quest);
+		QuestionnaireTools.exportProjet(quest);
 		//On peut renvoyer les messages d'erreur de la compilation
 		//Ici 1 nous informe que tout est OK
         return "1";
@@ -102,68 +101,64 @@ public class QuestionnaireTools {
 	 */
 	public static String createBody(Questionnaire questionnaire){	
 		String questionnaireBody = "\t%%% Debut du questionnaire\n\n";
-		String[] chaines = null;
 		
-		String[] questionsReponses = null;
 		String typeQuestion = null;
 		String bareme = null;
+						
+				
+		//chaque questions[i] contient la question
+		//Une question contient les réponses et le bareme
 		
-		boolean multicols = false;
-				
-				
-				//chaque questions[i] contient la question
-				//Une question contient les réponses et le bareme
-				
-				for (int i=0 ; i<questionnaire.getQuestions().length ; i++){//pour chaque question
-					
-					if (questionnaire.getQuestions()[i].getNbBonnes() >= 2 ){
-						//s'il y a plusieurs bonnes reponses
-						typeQuestion = "questionmult";
-					}
-					else {
-						typeQuestion = "question";
-					}
-					
-					bareme = "\\bareme{b" 
-							+ questionnaire.getQuestions()[i].getBareme() 
-							+ "=" 
-							+ questionnaire.getQuestions()[i].getBareme() 
-							+"}";
-					
-					
-					questionnaireBody += "\t\\begin{"+typeQuestion+"}{Q"+i+"}"+bareme+"\n";
-					questionnaireBody += "\t\t"+questionnaire.getQuestions()[i].getTexte()+"\n";
-					
-					if(questionnaire.getQuestions()[i].isColonnes()){
-						questionnaireBody += "\t\t\\begin{multicols}{2}\n";
-					}
-					questionnaireBody += "\t\t\\begin{reponses}\n";
-					
-					for (int j=0 ; j<questionnaire.getQuestions()[i].getReponses().length ; j++){
-						if (questionnaire.getQuestions()[i].getReponses()[j].isCorrecte()){
-							//si la reponse est bonne
-							questionnaireBody += "\t\t\t\\bonne{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
-						}
-						else {
-							questionnaireBody += "\t\t\t\\mauvaise{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
-						}
-						
-						
-					}
-					questionnaireBody +="\t\t\\end{reponses}\n";
-					if(questionnaire.getQuestions()[i].isColonnes()){
-						questionnaireBody += "\t\t\\end{multicols}\n";
-					}
-					questionnaireBody += "\t\\end{"+typeQuestion+"}\n\n";
-					
-					
-					
+		for (int i=0 ; i<questionnaire.getQuestions().length ; i++){//pour chaque question
+			
+			if (questionnaire.getQuestions()[i].getNbBonnes() >= 2 ){
+				//s'il y a plusieurs bonnes reponses
+				typeQuestion = "questionmult";
+			}
+			else {
+				typeQuestion = "question";
+			}
+			
+			bareme = "\\bareme{b" 
+					+ questionnaire.getQuestions()[i].getBareme() 
+					+ "=" 
+					+ questionnaire.getQuestions()[i].getBareme() 
+					+"}";
+			
+			
+			questionnaireBody += "\t\\begin{"+typeQuestion+"}{Q"+i+"}"+bareme+"\n";
+			questionnaireBody += "\t\t"+questionnaire.getQuestions()[i].getTexte()+"\n";
+			
+			if(questionnaire.getQuestions()[i].isColonnes()){
+				questionnaireBody += "\t\t\\begin{multicols}{2}\n";
+			}
+			questionnaireBody += "\t\t\\begin{reponses}\n";
+			
+			for (int j=0 ; j<questionnaire.getQuestions()[i].getReponses().length ; j++){
+				if (questionnaire.getQuestions()[i].getReponses()[j].isCorrecte()){
+					//si la reponse est bonne
+					questionnaireBody += "\t\t\t\\bonne{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
+				}
+				else {
+					questionnaireBody += "\t\t\t\\mauvaise{"+questionnaire.getQuestions()[i].getReponses()[j].getTexte()+"}\n";
 				}
 				
+				
+			}
+			questionnaireBody +="\t\t\\end{reponses}\n";
+			if(questionnaire.getQuestions()[i].isColonnes()){
+				questionnaireBody += "\t\t\\end{multicols}\n";
+			}
+			questionnaireBody += "\t\\end{"+typeQuestion+"}\n\n";
 			
 			
-	questionnaireBody += "\t\\clearpage\n\n";
-	questionnaireBody += "\t%%% Fin du questionnaire\n\n";
+			
+		}
+				
+			
+			
+		questionnaireBody += "\t\\clearpage\n\n";
+		questionnaireBody += "\t%%% Fin du questionnaire\n\n";
 		
 		return decode(questionnaireBody);
 	
@@ -398,7 +393,7 @@ public Response getTextFile() {
 @Path("modification")
 @Produces(MediaType.APPLICATION_JSON)
 public static String modifierQuestionnaire(){
-	Questionnaire questionnaire = ImportProjet();
+	Questionnaire questionnaire = importProjet();
 	Gson gson = new Gson();
 	String json = gson.toJson(questionnaire);
 	return json;
@@ -408,7 +403,7 @@ public static String modifierQuestionnaire(){
  * Permet d'exporter l'objet questionnaire au format binaire
  * @param questionnaire
  */
-public static void ExportProjet(Questionnaire questionnaire){
+public static void exportProjet(Questionnaire questionnaire){
 	try {
 		FileOutputStream fos = new FileOutputStream(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.bin");
 		ObjectOutputStream oos= new ObjectOutputStream(fos);
@@ -431,7 +426,7 @@ public static void ExportProjet(Questionnaire questionnaire){
  * Permet d'importer le fichier binaire du questionnaire du projet
  * @return
  */
-public static Questionnaire ImportProjet(){
+public static Questionnaire importProjet(){
 	Questionnaire questionnaire = null;
 	try {
 		FileInputStream fis = new FileInputStream(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.bin");
@@ -453,4 +448,75 @@ public static Questionnaire ImportProjet(){
 	}
 	return questionnaire;
 }
+
+public static Questionnaire importFichier(){
+	
+	Questionnaire quest = null;
+	String matiere = null;
+	String date = null;
+	int nbCopies = 0;
+	String header = null;
+	String body = null;
+	ArrayList<Question> questions = new ArrayList<Question>();
+	
+	
+	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+		
+	try (
+		BufferedReader br = new BufferedReader(new FileReader(file))) {
+	    String line;
+	    while ((line = br.readLine()) != null) {
+	       
+	    	if (line.contains("\\exemplaire{")){
+	    		nbCopies = Integer.parseInt(line.substring(12,line.length()-2));
+	    	}
+	    	else if (line.contains("\\centering\\large\\bf")){
+	    		matiere = line.split(" ")[1].substring(0, line.split(" ")[1].length()-2);
+	    		date = line.split(" ")[4].substring(0, 10);
+	    	}
+	    	
+	    	if (line.contains("\\begin{question")){	    		
+	    		String texte = "";
+	    		int bareme = 0;
+	    		boolean col = false;
+	    		ArrayList<Reponse> reponses = new ArrayList<Reponse>() ;
+	    		
+	    		if (line.contains("\\bareme{")){
+	    			bareme=Integer.parseInt(line.split("bareme")[1].split("b")[1].split("=")[0]);
+	    		}
+	    		else {
+	    			bareme=1;
+	    		}
+	    		texte = br.readLine().replace("\t", "");
+	    		while (!line.contains("\\end{reponses}")){
+	    			if (line.contains("\\begin{multicols}")){
+	    				col = true;
+	    			}
+		    		if (line.contains("\\bonne{") || line.contains("\\mauvaise{")){
+			    		reponses.add(new Reponse(line.split("\\{")[1].split("\\}")[0],line.contains("\\bonne{")));
+		    		}
+		    		line = br.readLine();
+	    		}
+	    		
+	    		Reponse[] rep = new Reponse[reponses.size()];
+	    		questions.add(new Question(texte, reponses.toArray(rep),bareme,col));
+	    	}
+	    	
+	    	
+	    }
+	    System.out.println("nbC: "+nbCopies+", matiere: "+matiere+", date: "+date);
+	    
+	    Question[] questionslist = new Question[questions.size()];
+	    quest = new Questionnaire(matiere, date, questions.toArray(questionslist) ,nbCopies);
+	    quest.setHeader(QuestionnaireTools.createHeader(quest));
+		quest.setBody(QuestionnaireTools.createBody(quest));
+		QuestionnaireTools.exportProjet(quest);
+	    br.close();
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	return quest;
+}
+
 }

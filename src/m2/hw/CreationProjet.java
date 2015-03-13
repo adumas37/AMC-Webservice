@@ -101,8 +101,10 @@ public class CreationProjet {
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
 				saveFile(uploadedInputStream, uploadedFileLocation);
-				CommandesAMC.prepareProject (nom, "questionnaire.tex");
-		
+				CommandesAMC.prepareProject ("questionnaire.tex");
+				
+				QuestionnaireTools.importFichier();
+				
 				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")
 						.build("Projet.html");

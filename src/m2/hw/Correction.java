@@ -171,20 +171,6 @@ public class Correction {
 	    catch(Exception e){
 	        e.printStackTrace();
 	    }
-	    			
-		//TODO recupererClasseCSV(classe);
-		System.out.println("Layout");
-		CommandesAMC.creationLayout(projectPath);
-		System.out.println("generationImagesCopies");
-		CommandesAMC.generationImagesCopies(projectPath);
-		System.out.println("analyseReponses");
-		CommandesAMC.analyseReponses(projectPath);
-		System.out.println("notation");
-		CommandesAMC.notation(projectPath);
-		//System.out.println("associationAuto");
-		//CommandesAMC.associationAuto(projectPath);
-		System.out.println("extractionNotesEleves");
-		CommandesAMC.extractionNotesEleves(projectPath);
 		
 
 		String url = context.getBaseUri().toString();
@@ -311,4 +297,11 @@ public class Correction {
 	        e.printStackTrace();
 	    }
 	}	
+	
+	@Path("LancerCorrection")
+	@POST
+	public void lancerCorrection(){
+		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+		CommandesAMC.lancerCorrection(projectPath);
+	}
 }

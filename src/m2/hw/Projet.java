@@ -19,7 +19,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCopies() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"sujet.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"sujet.pdf");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 			response.header("Content-Disposition",
@@ -40,7 +40,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCatalog() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"catalog.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"catalog.pdf");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 			response.header("Content-Disposition",
@@ -61,7 +61,7 @@ public class Projet {
 	@GET
 	@Produces({"application/pdf"})
 	public Response getCorrige() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+Utilisateurs.getCurrentUser().getProjectPath().replace("/", "")+"corrige.pdf");
+		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"corrige.pdf");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 			response.header("Content-Disposition",
