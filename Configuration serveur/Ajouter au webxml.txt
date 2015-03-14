@@ -1,3 +1,7 @@
+<!-- Ajouter les lignes suivantes à l'intérieur du fichier web.xml du serveur, entre les balises <web-app> et </web-app> -->
+
+
+
 <listener><listener-class>php.java.servlet.ContextLoaderListener</listener-class></listener>
 <servlet>
 	<servlet-name>PhpJavaServlet</servlet-name><servlet-class>php.java.servlet.PhpJavaServlet</servlet-class>
@@ -28,5 +32,5 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-<!-- A ajouter à l'intérieur du fichier web.xml du serveur -->
+
 
