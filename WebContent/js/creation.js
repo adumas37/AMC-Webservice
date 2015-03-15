@@ -71,18 +71,19 @@ function ajoutQuestion(elmnt){
 
 	//Canvas for image upload stuff
 	//Question part
+	question.getElementsByClassName("imgUpload")[0].id="newImgQ"+questionNb;
 	question.getElementsByClassName("openImgUpload")[0].onclick= function() { uploadImg('newImgQ'+questionNb);return false } ;
 	question.getElementsByClassName("previewcanvas")[0].id="previewcanvasQ"+questionNb;
 	question.getElementsByClassName("uploadfileselection")[0].onchange= function() { return ShowImagePreview( this.files, 'Q'+ questionNb); } ;
 	question.getElementsByClassName("previewclearbutton")[0].onclick= function() { ClearImagePreview( 'Q'+ questionNb ); return false; } ;
-	reponses.getElementsByClassName("openImgUpload")[0].onclick=function() { uploadImg('newImgQ' + questionNb );return false } ;
+	reponses.getElementsByClassName("openImgUpload")[0].onclick=function() { uploadImg('newImg' + stringNameReponsePreview );return false } ;
 
 	//Answer part
 	reponses.getElementsByClassName("imgUpload")[0].id="newImg"+stringNameReponsePreview;
 	reponses.getElementsByClassName("previewcanvas")[0].id="previewcanvas"+stringNameReponsePreview;
 	reponses.getElementsByClassName("uploadfileselection")[0].id="uploadfileselection"+stringNameReponsePreview;
-	reponses.getElementsByClassName("uploadfileselection")[0].onchange=function() { return ShowImagePreview( this.files, stringNameReponsePreview); };
-	reponses.getElementsByClassName("previewclearbutton")[0].onclick= function() { ClearImagePreview( stringNameReponsePreview ); return false; } ;
+	reponses.getElementsByClassName("uploadfileselection")[0].onchange=function() { return ShowImagePreview( this.files, "newImg"+stringNameReponsePreview); };
+	reponses.getElementsByClassName("previewclearbutton")[0].onclick= function() { ClearImagePreview( "newImg"+stringNameReponsePreview ); return false; } ;
 
 	document.getElementById("questionnaire").appendChild(question);
 
