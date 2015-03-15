@@ -219,7 +219,8 @@ options {
 	height: 25px;
 	margin-bottom: -5px;
 }
-#previewcanvas{ 
+
+#previewcanvascontainer{ 
 	position: relative; 
 	visibility: visible; 
 	width: 150; 

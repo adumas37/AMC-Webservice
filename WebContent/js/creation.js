@@ -5,16 +5,43 @@ function ajoutReponse(elmnt){
 	var reponseNb = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].childElementCount+1;
 	stringNameReponse = stringNameReponse.substring(0, stringNameReponse.length-1);
 	stringNameReponse += reponseNb;
+
+	// Change input for image upload
+	var stringNameReponsePreview = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].getElementsByClassName("imgUpload")[0].id;
+	var reponseNb = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].childElementCount+1;
+	stringNameReponsePreview = stringNameReponsePreview.substring(stringNameReponsePreview.length-3, stringNameReponsePreview.length-1);
+	stringNameReponsePreview = "R"+ stringNameReponsePreview + reponseNb;
+
+	//console.log(stringNameReponsePreview);
 	
 	var reponse = document.getElementsByClassName("reponse")[0];
 	var reponse2 = reponse.cloneNode(true);
 	reponse2.getElementsByClassName("reponseInput")[0].value="";
 	reponse2.getElementsByTagName("span")[0].getElementsByTagName("input")[0].checked=false;
-	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
 
 	// Change input id for latex formula (input id and href for latex formula button)
 	reponse2.getElementsByClassName("reponseInput")[0].id = stringNameReponse;
 	reponse2.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('"+stringNameReponse+"','latex','fr-fr')";
+
+	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
+
+	//console.log(reponse2.getElementsByClassName("openImgUpload")[0]);
+
+	var reponse3 = reponse.parentNode.getElementsByClassName("imgUpload")[0];
+
+	var reponse4 = reponse3.cloneNode(true);
+
+	// Change input for image upload
+	reponse2.getElementsByClassName("openImgUpload")[0].onclick= function() { uploadImg('newImg'+ stringNameReponsePreview);return false } ;
+	reponse4.setAttribute("style", "display: none;");
+	reponse4.id = "newImg"+ stringNameReponsePreview;
+	reponse4.getElementsByClassName("previewcanvas")[0].id = "previewcanvas"+ stringNameReponsePreview;
+	reponse4.getElementsByClassName("uploadfileselection")[0].id = "uploadfileselection"+ stringNameReponsePreview;
+	reponse4.getElementsByClassName("uploadfileselection")[0].onchange = function() { return ShowImagePreview( this.files, stringNameReponsePreview ); } ;
+	reponse4.getElementsByClassName("previewclearbutton")[0].onclick = function() { ClearImagePreview( stringNameReponsePreview ); return false; } ;
+
+	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse4);
+
 };
 
 function ajoutQuestion(elmnt){
@@ -22,6 +49,7 @@ function ajoutQuestion(elmnt){
 	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
 	var questionNb = document.getElementById("questionnaire").childElementCount;
 	var stringNameReponse = "reponse "+questionNb+",1";
+	var stringNameReponsePreview = "R"+questionNb+",1";
 
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
@@ -29,7 +57,7 @@ function ajoutQuestion(elmnt){
 	question.getElementsByTagName("input")[0].value="";
 	var reponses = question.getElementsByTagName("reponses")[0];
 	if (reponses.childElementCount > 1 ) {
-		while (reponses.childNodes.length >=2){
+		while (reponses.childNodes.length >=2){ // To check
 			reponses.removeChild(reponses.firstChild);
 		}
 	}	
@@ -40,6 +68,21 @@ function ajoutQuestion(elmnt){
 	question.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('question"+questionNb+"','latex','fr-fr')";
 	reponses.getElementsByClassName("reponseInput")[0].id = stringNameReponse;
 	reponses.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('"+stringNameReponse+"','latex','fr-fr')";
+
+	//Canvas for image upload stuff
+	//Question part
+	question.getElementsByClassName("openImgUpload")[0].onclick= function() { uploadImg('newImgQ'+questionNb);return false } ;
+	question.getElementsByClassName("previewcanvas")[0].id="previewcanvasQ"+questionNb;
+	question.getElementsByClassName("uploadfileselection")[0].onchange= function() { return ShowImagePreview( this.files, 'Q'+ questionNb); } ;
+	question.getElementsByClassName("previewclearbutton")[0].onclick= function() { ClearImagePreview( 'Q'+ questionNb ); return false; } ;
+	reponses.getElementsByClassName("openImgUpload")[0].onclick=function() { uploadImg('newImgQ' + questionNb );return false } ;
+
+	//Answer part
+	reponses.getElementsByClassName("imgUpload")[0].id="newImg"+stringNameReponsePreview;
+	reponses.getElementsByClassName("previewcanvas")[0].id="previewcanvas"+stringNameReponsePreview;
+	reponses.getElementsByClassName("uploadfileselection")[0].id="uploadfileselection"+stringNameReponsePreview;
+	reponses.getElementsByClassName("uploadfileselection")[0].onchange=function() { return ShowImagePreview( this.files, stringNameReponsePreview); };
+	reponses.getElementsByClassName("previewclearbutton")[0].onclick= function() { ClearImagePreview( stringNameReponsePreview ); return false; } ;
 
 	document.getElementById("questionnaire").appendChild(question);
 
@@ -351,4 +394,110 @@ function creationValide(){
 function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
 };
+
+function uploadImg(balise){
+	if (document.getElementById(balise).style.display=="none"){
+		document.getElementById(balise).setAttribute("style", "display: block;");
+	}
+	else
+	{
+		document.getElementById(balise).setAttribute("style", "display: none;");
+	}
+}
+
+function ShowImagePreview( files, selection )
+{
+    if( !( window.File && window.FileReader && window.FileList && window.Blob ) )
+    {
+      alert('The File APIs are not fully supported in this browser.');
+      return false;
+    }
+
+    if( typeof FileReader === "undefined" )
+    {
+        alert( "Filereader undefined!" );
+        return false;
+    }
+
+    var file = files[0];
+
+    if( !( /image/i ).test( file.type ) )
+    {
+        alert( "File is not an image." );
+        return false;
+    }
+
+    reader = new FileReader();
+    reader.onload = function(event) 
+            { var img = new Image;
+                img.onload = function (){
+                    UpdatePreviewCanvas(img, selection);
+                }
+                img.src = event.target.result;  }
+    reader.readAsDataURL( file );
+}
+
+function UpdatePreviewCanvas(image, selection)
+{
+    var img = image;
+
+    var canvas = document.getElementById( "previewcanvas" + selection );
+
+    if( typeof canvas === "undefined" 
+        || typeof canvas.getContext === "undefined" )
+        return;
+
+    var context = canvas.getContext( '2d' );
+
+    var world = new Object();
+    world.width = canvas.offsetWidth;
+    world.height = canvas.offsetHeight;
+
+    canvas.width = world.width;
+    canvas.height = world.height;
+
+    if( typeof img === "undefined" )
+        return;
+
+    var WidthDif =  - world.width;
+    var HeightDif = img.height - world.height;
+
+    var Scale = 0.0;
+    if( WidthDif > HeightDif )
+    {
+        Scale = world.width / img.width;
+    }
+    else
+    {
+        Scale = world.height / img.height;
+    }
+    if( Scale > 1 )
+        Scale = 1;
+
+    var UseWidth = Math.floor( img.width * Scale );
+    var UseHeight = Math.floor( img.height * Scale );
+
+    var x = Math.floor( ( world.width - UseWidth ) / 2 );
+    var y = Math.floor( ( world.height - UseHeight ) / 2 );
+
+    context.drawImage( img, x, y, UseWidth, UseHeight );  
+}
+
+function ClearImagePreview( selection )
+{
+    var UploadForm = document.getElementById( "uploadfileselection" + selection);
+    if( UploadForm !== undefined && UploadForm != null )
+    {
+        document.getElementById("uploadfileselection" + selection).value = "";
+        
+        var canvas = document.getElementById( "previewcanvas" + selection );
+            
+        if( canvas === "undefined" )
+            return;
+
+        var context = canvas.getContext( '2d' );
+
+        context.clearRect( 0, 0, canvas.width, canvas.height );     
+    }
+}
 

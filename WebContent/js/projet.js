@@ -75,13 +75,3 @@ function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
 
 }
-
-function uploadImg(balise){
-	if (document.getElementById(balise).style.display=="none"){
-		document.getElementById(balise).setAttribute("style", "display: block;");
-	}
-	else
-	{
-		document.getElementById(balise).setAttribute("style", "display: none;");
-	}
-}

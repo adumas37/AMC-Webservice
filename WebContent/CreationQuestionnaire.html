@@ -54,36 +54,37 @@
 					<span id="nbCopies">Nombre d'exemplaires de copies:<input id="nbCopiesImput" name="nbCopies" type="number" min="1" max="10" value="1" class="inputText inputButton"/></span>
 				</p>
 				<blocQR class="blocQR">
-					<p class="question">
+					<div class="question">
 						Question: <input type="text" id="question1" name="question" class="questionInput inputText inputButton"/>
 						<a class="linkLatex" href="javascript:OpenLatexEditor('question1','latex','fr-fr')"><img src="src/formula_icon.png"></a>
-						<a href="" onclick="uploadImg('newImgQ1');return false"><img class="linkPicture" src="src/img.png"></a>
-					</p>
-					<div id="newImgQ1" style="display: none;">
-						<div class="previewcanvascontainer" style="width: 282px;">
-			                <canvas id="previewcanvasQ1" class="previewcanvas" style="width: 282px;">
-			                </canvas>
-			            </div>
-		                <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, 'Q1' );" />
-					    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( 'Q1' ); return false;" value="Effacer"/>
+						<a href="" class="openImgUpload" onclick="uploadImg('newImgQ1');return false"><img class="linkPicture" src="src/img.png"></a>
+
+						<div id="newImgQ1" class="imgUpload" style="display: none;">
+							<div class="previewcanvascontainer" style="width: 282px;">
+				                <canvas id="previewcanvasQ1" class="previewcanvas" style="width: 282px;">
+				                </canvas>
+				            </div>
+			                <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, 'Q1' );" />
+						    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( 'Q1' ); return false;" value="Effacer"/>
+						</div>
 					</div>
-					
 					<reponses>
-						<p class="reponse">
+						<div class="reponse">
 							Reponse: <input type="text" id="reponse 1,1" name="reponse" class="reponseInput inputText inputButton"/>
 							<a class="linkLatex" href="javascript:OpenLatexEditor('reponse 1,1','latex','fr-fr')"><img src="src/formula_icon.png"></a> 
-							<a href=""  onclick="uploadImg('newImgR1,1');return false"><img class="linkPicture" src="src/img.png"></a>
+							<a href=""  class="openImgUpload" onclick="uploadImg('newImgR1,1');return false"><img class="linkPicture" src="src/img.png"></a>
 							<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne" checked/></span>
 							<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span>
-						</p>
-					<div id="newImgR1,1" style="display: none;">
-						<div class="previewcanvascontainer" style="width: 282px;">
-			                <canvas id="previewcanvasR1,1" class="previewcanvas" style="width: 282px;">
-			                </canvas>
-			            </div>
-		                <input type="file" id="uploadfileselectionR1,1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, 'R1,1' );" />
-					    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( 'R1,1' ); return false;" value="Effacer"/>
-					</div>
+							
+							<div id="newImgR1,1" class="imgUpload" style="display: none;">
+								<div class="previewcanvascontainer" style="width: 282px;">
+					                <canvas id="previewcanvasR1,1" class="previewcanvas" style="width: 282px;">
+					                </canvas>
+					            </div>
+				                <input type="file" id="uploadfileselectionR1,1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, 'R1,1' );" />
+							    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( 'R1,1' ); return false;" value="Effacer"/>
+							</div>
+						</div>
 					</reponses>
 					
 					<options>
