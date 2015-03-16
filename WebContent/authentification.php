@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['loginFailed']=false;
 if (isset($_POST['username'])){
 	/*$Serveur = "ldap://rldap.ec-nantes.fr";
 	$Liaison_LDAP = ldap_connect($Serveur);
@@ -24,10 +25,8 @@ if (isset($_POST['username'])){
 	}
 	else {
 			// Utilisateur non authentifie
-			session_destroy();
-			echo '<script>console.log("OK");</script>';
+			$_SESSION['loginFailed']=true;
 			header('location: identification.php');
-			echo '<script>document.getElementById("wrongPassword").innerHTML="Mauvais login ou password";</script>';
 		}
 	
 }
@@ -36,7 +35,7 @@ elseif (isset ($_SESSION['username'])){
 }
 else
 {
-			session_destroy();
+			$_SESSION['loginFailed']=true;
 			header('location: identification.php');
 }
 ?>
