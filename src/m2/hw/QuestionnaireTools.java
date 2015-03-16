@@ -473,7 +473,7 @@ public static Questionnaire importFichier(){
 	    while ((line = br.readLine()) != null) {
 	       
 	    	if (line.contains("\\exemplaire{")){
-	    		nbCopies = Integer.parseInt(line.substring(12,line.length()-2));
+	    		nbCopies = Integer.parseInt(line.substring(line.indexOf("{")+1, line.indexOf("}")));
 	    	}
 	    	else if (line.contains("\\centering\\large\\bf")){
 	    		matiere = line.split(" ")[1].substring(0, line.split(" ")[1].length()-2);
