@@ -21,10 +21,14 @@ if (isset($_SESSION['username'])){
 		<div id="tableau">
 			tableau des resultats
 		</div>
+		<div id="indicateurs"></div>
 	</div>
 		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
 		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>
 		<input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>
+		<!-- <form id="correct" method="post" action="rest/correction/LancerCorrection">-->
+			<input type="button" value="Relancer la correction" class="inputButton greenButton" onclick='lancerCorrection(getCorrectionStatus)'/>
+		<!-- </form> -->
 		<form id="DownloadResults" method="get" action="rest/correction/download">
 			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</form>		
@@ -32,7 +36,7 @@ if (isset($_SESSION['username'])){
 		<a href="index.php"><input type="button" value="Accueil" class="inputButton orangeButton"/></a>
 	</div>
 	<div id="baremePopup" style="display: none;">
-		<form id="changerBareme" method="post" action="rest/creationQuestionnaire/setBareme" enctype="multipart/form-data">
+		<form id="changerBareme" method="post" action="rest/questionnaireTools/setBareme" enctype="multipart/form-data">
 			<div id="bareme">
 			</div>
 			<p>
@@ -46,7 +50,7 @@ if (isset($_SESSION['username'])){
 			<div id="oldFiles">
 			</div>
 			<div id="newFiles">
-				<form id=uploadCopies method=post action="rest/correction/ajouterCopies" enctype="multipart/form-data" onsubmit="return verificationFichier();">
+				<form id=uploadCopies enctype="multipart/form-data"">
 					<div id="upload">
 						<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file" onchange="chooseFile()"> 
 							<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
@@ -54,10 +58,10 @@ if (isset($_SESSION['username'])){
 					</div>
 					<p id="alertText" style="display:none;">		</p>
 					<div>
-						<input id="submitFichiers" type="submit" value="Changer les fichiers et calculer les notes"  class="inputButton orangeButton"/>
 						<input id="cancelFichiers" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideFichiers()"/>
 					</div>
 				</form>
+				<input id="submitFichiers" type="button" value="Changer les fichiers et calculer les notes"  class="inputButton orangeButton" onclick="uploadCopies(getUploadStatusThenCorrect)"/>
 			</div>
 		</div>
 	</div>
@@ -67,7 +71,7 @@ if (isset($_SESSION['username'])){
 			</div>
 			<div id="newClasses">
 				<input type="button" value="Ajouter une classe" onclick="ajouterClasse()"/>
-				<form id=uploadClasses method=post action="rest/correction/ajouterClasses" enctype="multipart/form-data" onsubmit="return verificationClasses();">
+				<form id=uploadClasses enctype="multipart/form-data">
 					<div id="upload2">
 						<p class="choixClasse">Classe: <select class="classeInput" name="classe">
 							<option value="EI3-INFO">EI3-INFO</option>
@@ -79,10 +83,10 @@ if (isset($_SESSION['username'])){
 					</div>
 					<p id="alertTextClasses" style="display:none;">		</p>
 					<div>
-						<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton"/>
 						<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
 					</div>
 				</form>
+				<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton" onclick="uploadClasses(getUploadStatusThenCorrect)"/>
 			</div>
 		</div>
 	</div>
@@ -90,6 +94,8 @@ if (isset($_SESSION['username'])){
 	
 	<script src="js/correction.js"></script>
 	<script src="js/projet.js"></script>
+	<script src="js/erreurs.js"></script>
+
 </body>
 </html>
 <?php 

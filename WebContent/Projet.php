@@ -20,7 +20,7 @@ if (isset($_SESSION['username'])){
 			<table>
 				<tr>
 				<td>Questionnaire :</td>
-				<td><a href="CreationQuestionnaire.html" >
+				<td><a href="CreationQuestionnaire.php" >
 					<input type="button" value="Edition questionnaire" class="inputButton orangeButton"/>
 				</a></td>
 				<td>
@@ -52,12 +52,12 @@ if (isset($_SESSION['username'])){
 			</table>
 		</div>
 		<p>
-		<a href="UploadCopies.html">
+		<a href="UploadCopies.php">
 			<input type="button" value="Debuter la correction" class="inputButton orangeButton"/>
 		</a>
 		</p>
 		<p>
-			<a href="index.html">
+			<a href="index.php">
 				<input type="button" value="Accueil" class="inputButton orangeButton"/>
 			</a>
 		</p>
