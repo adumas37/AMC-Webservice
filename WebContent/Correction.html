@@ -1,0 +1,92 @@
+<!DOCTYPE html >
+<html lang="fr">
+<head>
+	<title>AMC - Correction des copies</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="description" content="Correction des copies">
+    <meta name="author" content="Alexis DUMAS && Erwan Briand">
+	
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body onload="chargerNotes(this)">
+	
+	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>	
+	<div id="content" class="contenu correction">
+	<input type="button" value="Afficher Notes" onclick="afficherNotes(this)" class="inputButton blueButton"/>
+	<div id="resultats"> 
+		<div id="tableau">
+			tableau des resultats
+		</div>
+	</div>
+		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
+		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>
+		<input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>
+		<form id="DownloadResults" method="get" action="rest/correction/download">
+			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
+		</form>		
+		<input type="button" value="Envoi des mails aux eleves" class="inputButton orangeButton"/>
+		<a href="index.html"><input type="button" value="Accueil" class="inputButton orangeButton"/></a>
+	</div>
+	<div id="baremePopup" style="display: none;">
+		<form id="changerBareme" method="post" action="rest/creationQuestionnaire/setBareme" enctype="multipart/form-data">
+			<div id="bareme">
+			</div>
+			<p>
+				<input id="submitBareme" type="submit" value="Changer le bareme et calculer les notes" onclick="hideBareme()" class="inputButton orangeButton"/>
+				<input id="cancelBareme" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideBareme()"/>
+			</p>
+		</form>
+	</div>
+	<div id="fichiers" style="display: none;">
+		<div id="gestionFichiers">
+			<div id="oldFiles">
+			</div>
+			<div id="newFiles">
+				<form id=uploadCopies method=post action="rest/correction/ajouterCopies" enctype="multipart/form-data" onsubmit="return verificationFichier();">
+					<div id="upload">
+						<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file" onchange="chooseFile()"> 
+							<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
+						</p>
+					</div>
+					<p id="alertText" style="display:none;">		</p>
+					<div>
+						<input id="submitFichiers" type="submit" value="Changer les fichiers et calculer les notes"  class="inputButton orangeButton"/>
+						<input id="cancelFichiers" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideFichiers()"/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="classes" style="display: none;">
+		<div id="gestionClasses">
+			<div id="oldClasses">
+			</div>
+			<div id="newClasses">
+				<input type="button" value="Ajouter une classe" onclick="ajouterClasse()"/>
+				<form id=uploadClasses method=post action="rest/correction/ajouterClasses" enctype="multipart/form-data" onsubmit="return verificationClasses();">
+					<div id="upload2">
+						<p class="choixClasse">Classe: <select class="classeInput" name="classe">
+							<option value="EI3-INFO">EI3-INFO</option>
+							<option value="EI3-PROD">EI3-PROD</option>
+							<option value="EI3-GC">EI3-GC</option>
+							</select>
+							<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
+						</p>
+					</div>
+					<p id="alertTextClasses" style="display:none;">		</p>
+					<div>
+						<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton"/>
+						<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+		<div id="footer">
+	<div class="modal-footer">AMC-Webservice Briand Dumas Langlois
+		Meyer Nguyen-Quoc Vielzeuf</div>
+	
+	<script src="js/correction.js"></script>
+	<script src="js/projet.js"></script>
+</body>
+</html>

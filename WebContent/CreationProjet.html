@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<title>AMC-Webservice Création d'un projet</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/Stylebis.css" rel="stylesheet">
+</head>
+
+<!-- Wrap all page content here -->
+<div id="wrap">
+
+	<!--Navbar -->
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">AMC-Webservice</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="index.html">Accueil</a></li>
+					<li class="active"><a href="APropos.html">A propos</a></li>
+					<li class="active"><a href="NousContacter.html">Nous
+							contacter</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+	<!-- Contenu de la page -->
+	<div class="jumbotron text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col col-lg-12 col-sm-12">
+          <h2>Création d'un projet</h2>
+          <p></p>
+          
+        </div>
+      </div>
+    </div> 
+</div>
+
+<!-- /header container-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12"><div class="well"><p><div id="content" class="contenu index">
+		<form id="creationProjet" method="post" action="rest/creationProjet"
+			enctype="multipart/form-data" onsubmit="return creationValide();">
+			<h2 id="nomProjet" class="text-center">
+				Nom du projet: <input id="nomProjetInput" name="nom" type="text"
+					class="inputButton inputText" />
+			</h2></form></div></div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><div class="well"><p id="fichierTex" class="text-center">
+				Questionnaire (.tex) : <input id="fichierTexInput" name="file"
+					type="file" class="inputButton"></div></div>
+        <div class="col-md-6"><div class="well"><p><input type="button"
+					value="Supprimer le fichier" onclick="eraseFile()"/></p></div></div>
+    </div>
+    <div class="row">
+		<div class="col-md-12"><div class="well">
+			 <input id="submit" type="submit" value="Creer Projet"
+				class="" />
+			</div>
+		</div>	
+	</div>
+</div>
+	<div id="footer">
+		<div class="modal-footer">AMC-Webservice Briand Dumas Langlois
+			Meyer Nguyen-Quoc Vielzeuf</div>
+
+		<script src="js/creation.js"></script>
+	</div>
+</div>
