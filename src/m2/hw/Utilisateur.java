@@ -37,7 +37,7 @@ public class Utilisateur {
      */
     public void setProject(String project){
     	this.project=project;
-    	this.projectPath=PATH+project+"/";
+    	this.projectPath=PATH+userName+"/"+project+"/";
     }
     /**
      * Getter du chemin du projet sous la forme: "chemin/du/projet/"
@@ -65,7 +65,7 @@ public class Utilisateur {
      * @return
      */
     public String getProjectsPath(){
-    	return this.PATH;
+    	return this.PATH+userName+"/";
     }
     
 }
