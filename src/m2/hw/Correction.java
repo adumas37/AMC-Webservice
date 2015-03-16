@@ -179,7 +179,7 @@ public class Correction {
 		url = url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
 		URI uri = UriBuilder.fromUri(url)
 				.path("{a}")
-				.build("Correction.html");
+				.build("Correction.php");
 		
 		return Response.seeOther(uri).build();*/
 	    return "1";

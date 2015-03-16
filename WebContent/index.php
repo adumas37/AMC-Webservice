@@ -1,3 +1,7 @@
+<?php
+session_start();
+if (isset($_SESSION['username'])){
+?>
 <!DOCTYPE html >
 <html lang="fr">
 <head>
@@ -5,13 +9,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="description" content="Page d'accueil">
     <meta name="author" content="Alexis DUMAS && Erwan Briand">
-	
     <link href="css/styles.css" rel="stylesheet">
 
 </head>
 
 <body>
-
+	
 	<div class="main-header">AMC Webservice</div>
 	
 
@@ -19,19 +22,19 @@
 	<div id="content" class="contenu index">
 		<!-- 	<a href="rest/first">coucou</a> 	<p/> <a href="html/test2.html">test</a>	<p/> <form action="rest/first" method="GET"><input type="submit" value="Get HelloWorld"></form> -->
 		<ul id="homeNavList">
-			<li class="homeLi"><a class="homeHref" href="CreationProjet.html">
+			<li class="homeLi"><a class="homeHref" href="CreationProjet.php">
 					<img class="homeImg" height="50" src="src/bookmark-new.png" alt="creation">
 					<span class="homeText">Creation d'un projet</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.html" onclick="return ouverture();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return ouverture();">
 				<img class="homeImg" height="50" src="src/document-open.png" alt="open">
 				<span class="homeText">Ouverture d'un projet</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.html" onclick="return correction();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return correction();">
 				<img class="homeImg" height="50" src="src/document-open.png" alt="open">
 				<span class="homeText">Correction de copies</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.html"  onclick="return suppression();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php"  onclick="return suppression();">
 				<img class="homeImg" height="50" src="src/edit-delete.png" alt="delete">
 				<span class="homeText"> Suppression d'un projet </span>
 			</a>
@@ -41,9 +44,15 @@
 	</div> <!-- /content -->
 
 	
-	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
+	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS <a href="logout.php">Log Out</a></footer>
 	
 	<script src="js/navigation.js"></script>
 
 </body>
 </html>
+<?php 
+}
+else {
+	header('location: identification.php');
+}
+?>
