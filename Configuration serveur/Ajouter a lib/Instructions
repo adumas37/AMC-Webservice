@@ -1,1 +1,0 @@
-Les 3 archives JAR sont à ajouter aux librairies du serveur tomcat (Répertoire d'installation de Tomcat/lib). Elles seront amorcées via les modifications à apporter au fichier web.xml.

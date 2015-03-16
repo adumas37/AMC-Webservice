@@ -1,7 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['username'])){
-?>
 <!DOCTYPE html >
 <html lang="fr">
 <head>
@@ -22,7 +18,7 @@ if (isset($_SESSION['username'])){
 			<input type="button" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</div>
 		<p>
-			<a href="CorrectionCopies.php">
+			<a href="CorrectionCopies.html">
 				<input type="button" class="inputButton orangeButton" value="retour"/>
 			</a>
 		</p>
@@ -32,9 +28,3 @@ if (isset($_SESSION['username'])){
 
 </body>
 </html>
-<?php 
-}
-else {
-	header('location: identification.php');
-}
-?>

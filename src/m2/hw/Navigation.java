@@ -74,7 +74,7 @@ public class Navigation {
 		url=url.substring(0,url.length()-5);
 		URI uri = UriBuilder.fromUri(url)
 				.path("{a}")
-				.build("UploadCopies.php");;
+				.build("UploadCopies.html");;
 		try{ //Ecriture du fichier contenant la liste des fichiers des copies
 			File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
 			FileWriter fw = new FileWriter(file,true);
@@ -82,7 +82,7 @@ public class Navigation {
 				if(file.length()>3)
 					uri = UriBuilder.fromUri(url)
 						.path("{a}")
-						.build("Correction.php");
+						.build("Correction.html");
 			}
 			fw.close();
 		}
