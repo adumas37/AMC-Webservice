@@ -18,10 +18,10 @@ if (isset($_SESSION['username'])){
 	
 		<p> Veuillez uploader les copies scannées au format PDF </p>
 		
-		<form id=uploadCopies method=post action="rest/uploadCopies" enctype="multipart/form-data" onsubmit="return uploadValide();">
+		<form id="uploadCopies" enctype="multipart/form-data">
 			<copies id="copies">
 				<input type="button" value="Ajouter fichier" onclick="addFile()"/>
-				<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file"> 
+				<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" accept=".pdf" type="file"> 
 					<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
 				</p>
 			</copies>
@@ -35,11 +35,10 @@ if (isset($_SESSION['username'])){
 					<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
 				</p>
 			</classes>
-				
-			<input id="submit" type="submit" value="Correction Copies" class="inputButton orangeButton"/>
 		</form>
+		<input id="submit" type="button" value="Correction Copies" class="inputButton orangeButton" onclick="uploadFichiers(getUploadStatusThenCorrect)"/>
 		<p>
-			<a href="index.php">
+			<a href="index.html">
 				<input type="button" value="Accueil" class="inputButton orangeButton"/>
 			</a>
 		</p>
@@ -50,6 +49,7 @@ if (isset($_SESSION['username'])){
 	
 	<script src="js/projet.js"></script>
 	<script src="js/upload.js"></script>
+	<script src="js/erreurs.js"></script>
 	
 </body>
 </html>

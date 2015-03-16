@@ -20,7 +20,7 @@ if (isset($_SESSION['username'])){
 			<table>
 				<tr>
 				<td>Questionnaire :</td>
-				<td><a href="CreationQuestionnaire.php" >
+				<td><a href="CreationQuestionnaire.html" >
 					<input type="button" value="Edition questionnaire" class="inputButton orangeButton"/>
 				</a></td>
 				<td>
@@ -52,12 +52,12 @@ if (isset($_SESSION['username'])){
 			</table>
 		</div>
 		<p>
-		<a href="UploadCopies.php">
+		<a href="UploadCopies.html">
 			<input type="button" value="Debuter la correction" class="inputButton orangeButton"/>
 		</a>
 		</p>
 		<p>
-			<a href="index.php">
+			<a href="index.html">
 				<input type="button" value="Accueil" class="inputButton orangeButton"/>
 			</a>
 		</p>
@@ -68,8 +68,7 @@ if (isset($_SESSION['username'])){
 		<form id="creationProjet" method="post" action="rest/creationProjet" enctype="multipart/form-data" onsubmit="return creationValide();">
 			<p>Choisissez un nouveau fichier latex pour votre projet:</p>
 			<p id="nomProjet"  style="display:none;">Nom du projet: <input id="nomProjetInput" name="nom" type="text" class="inputButton inputText"/></p>
-			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" class="inputButton"> <input type="button" value="Supprimer le fichier" onclick="eraseFile()"/></p>
-			<p id="alertText" style="display:none;"></p>
+			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" accept=".tex" class="inputButton"> <input type="button" value="Supprimer le fichier" onclick="eraseFile()"/></p>
 			<p>
 				<input id="submit" type="submit" value="Creer Projet" class="inputButton orangeButton"/>
 				<input id="cancel" type="button" value="Annuler" class="inputButton orangeButton" onclick="hide()"/>
@@ -77,6 +76,7 @@ if (isset($_SESSION['username'])){
 		</form>
 	</div>
 	<script src="js/projet.js"></script>
+	<script src="js/erreurs.js"></script>
 </body>
 </html>
 <?php 
