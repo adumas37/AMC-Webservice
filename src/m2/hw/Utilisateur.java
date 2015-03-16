@@ -1,5 +1,7 @@
 package m2.hw;
 
+import java.io.File;
+
 public class Utilisateur {
 
 	private final String PATH=System.getProperty("user.home")+"/Projets-QCM/";
@@ -14,6 +16,9 @@ public class Utilisateur {
 	 */
     public Utilisateur(String username) {
     	userName=username;
+    	
+    	File dir = new File(PATH+userName);
+        boolean isCreated = dir.mkdirs();
     	//TODO intialiser les autres variables avec un projet existant au cas ou l'utilisateur fasse
     	//n'importe quoi...
     }
