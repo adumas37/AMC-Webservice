@@ -38,7 +38,7 @@ if (isset($_SESSION['username'])){
 		</form>
 		<input id="submit" type="button" value="Correction Copies" class="inputButton orangeButton" onclick="uploadFichiers(getUploadStatusThenCorrect)"/>
 		<p>
-			<a href="index.html">
+			<a href="index.php">
 				<input type="button" value="Accueil" class="inputButton orangeButton"/>
 			</a>
 		</p>
