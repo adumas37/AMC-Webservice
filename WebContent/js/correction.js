@@ -419,7 +419,7 @@ function lancerCorrection(callback){
 };
 function getCorrectionStatus(code){
 	if(code=='1'){
-		 document.location.href="Correction.html";
+		 document.location.href="Correction.php";
 	}else{
 		showMessage("error",code);
 	}
