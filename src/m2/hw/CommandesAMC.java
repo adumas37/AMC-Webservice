@@ -19,10 +19,9 @@ public class CommandesAMC {
 	public static void prepareProject(String fileName){
 
 			String filePath = Utilisateurs.getCurrentUser().getProjectPath()+ fileName;
-			String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
 			String username = Utilisateurs.getCurrentUser().getUserName();
 	        
-	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};
+	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", filePath};
 
 	        executerCommande(cmd, username);
 	}
@@ -151,9 +150,9 @@ public class CommandesAMC {
 		try{
 			ProcessBuilder pb = null;
 	        Process p = null;
-	        /*TODO comment this to work with docker
-	        String[] dockerCmd = { "sudo", "docker", "run", "-d", "-v", 
-	        					   "/home/user/Projects:/media/"+username, "dockeramc:v1"};
+	        //TODO comment this to work with docker
+	        String[] dockerCmd = { "docker", "run", "-d", "-v", 
+	        					   "/home/sae/Projets-QCM:/home/sae/Projets-QCM", "dockeramc:v1"};
 	        String[] completeCmd = new String[dockerCmd.length+amcCmd.length];
 	        System.arraycopy(dockerCmd, 0, completeCmd, 0, dockerCmd.length);
 	        System.arraycopy(amcCmd, 0, completeCmd, dockerCmd.length, amcCmd.length);
@@ -161,7 +160,7 @@ public class CommandesAMC {
 	        pb = new ProcessBuilder(completeCmd);
 	        pb.directory(new File("/media"));//*/
 	        
-	        //*TODO comment this to work without docker
+	        /*TODO comment this to work without docker
 	        String[] completeCmd = amcCmd;
 	        pb = new ProcessBuilder(completeCmd);
 	        pb.directory(new File(System.getProperty("user.dir")));//*/
