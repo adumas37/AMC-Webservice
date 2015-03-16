@@ -14,8 +14,8 @@ function afficherDossiers(elmnt){
 				directories.forEach( function(directory){
 					var linkNode = document.createElement("a");
 					if (action == "Suppression"){
-						linkNode.setAttribute("href","");
-						linkNode.setAttribute("onclick","return delProject(\""+directory+"\");");
+						linkNode.setAttribute("href","#");
+						linkNode.setAttribute("onclick","delProject(\""+directory+"\");");
 					}
 					else if (action == "correction"){
 						linkNode.setAttribute("href","rest/navigation/correctionLien/" + directory);
@@ -80,16 +80,13 @@ function setProject(directory){
 };
 
 function delProject(directory){
-	
-	if (confirm("Voulez vous vraiment supprimer le projet "+directory+"?\nCe changement est irreversible!") == true) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/suppressionProjet",false);
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhr.send(directory);
-    } 
-	else {
-		return false;
-	}
-
-	return true;
+	showMessage("question","Voulez vous vraiment supprimer le projet <b>"+directory+"</b> ?" +
+			"</br>Ce changement est irreversible!","xhrDelProject('"+directory+"')");
+};
+function xhrDelProject(directory){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/suppressionProjet",false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.send(directory);
+	location.reload();
 };

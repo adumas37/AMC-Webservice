@@ -14,7 +14,7 @@
 	
 		<p> Veuillez uploader les copies scannées au format PDF </p>
 		
-		<form id=uploadCopies method=post action="rest/uploadCopies" enctype="multipart/form-data" onsubmit="return uploadValide();">
+		<form id="uploadCopies" enctype="multipart/form-data">
 			<copies id="copies">
 				<input type="button" value="Ajouter fichier" onclick="addFile()"/>
 				<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" accept=".pdf" type="file"> 
@@ -31,9 +31,8 @@
 					<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
 				</p>
 			</classes>
-				
-			<input id="submit" type="submit" value="Correction Copies" class="inputButton orangeButton"/>
 		</form>
+		<input id="submit" type="button" value="Correction Copies" class="inputButton orangeButton" onclick="uploadFichiers(getUploadStatusThenCorrect)"/>
 		<p>
 			<a href="index.html">
 				<input type="button" value="Accueil" class="inputButton orangeButton"/>
