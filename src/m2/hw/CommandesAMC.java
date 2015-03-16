@@ -20,8 +20,8 @@ public class CommandesAMC {
 
 			String filePath = Utilisateurs.getCurrentUser().getProjectPath()+ fileName;
 			String username = Utilisateurs.getCurrentUser().getUserName();
-	        
-	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", filePath};
+	        String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};
 
 	        executerCommande(cmd, username);
 	}
@@ -31,19 +31,15 @@ public class CommandesAMC {
 	 * @param projectPath
 	 */
 	public static void creationLayout(String projectPath){
-		if (projectPath.contains("/")){
-			String path[] = projectPath.split("/");
-			String username = projectPath.split("/")[0];
-			String projectsDirectory = path[path.length-2];
-			String project = path[path.length-1];
+			String username = Utilisateurs.getCurrentUser().getUserName();
 	
 			String[] cmd = { "auto-multiple-choice", "meptex", "--src",
-							 projectPath + projectsDirectory + project+ "calage.xy",
+							 projectPath + "calage.xy",
 							 "--data",
 							 projectPath+"data/" };
 			
 			executerCommande(cmd, username);
-		}
+		
 		
 	}
 	/**
@@ -54,7 +50,7 @@ public class CommandesAMC {
 	 */
 	public static void generationImagesCopies(String projectPath){
 		if (projectPath.contains("/")){
-			String username = projectPath.split("/")[0];
+			String username = Utilisateurs.getCurrentUser().getUserName();
 
 			String[] cmd = { "auto-multiple-choice", "getimages", "--copy-to",
 							 projectPath+"scans/",
@@ -72,7 +68,7 @@ public class CommandesAMC {
 	 */
 	public static void analyseReponses(String projectPath){
 		if (projectPath.contains("/")){
-			String username = projectPath.split("/")[0];
+			String username = Utilisateurs.getCurrentUser().getUserName();
 
 			String[] cmd = { "auto-multiple-choice", "analyse", "--projet",
 							 projectPath,
@@ -90,7 +86,7 @@ public class CommandesAMC {
 	 */
 	public static void notation(String projectPath){
 		if (projectPath.contains("/")){
-			String username = projectPath.split("/")[0];
+			String username = Utilisateurs.getCurrentUser().getUserName();
 	
 			String[] cmd = { "auto-multiple-choice", "note", "--data",
 							 projectPath+"data/",
@@ -150,7 +146,7 @@ public class CommandesAMC {
 		try{
 			ProcessBuilder pb = null;
 	        Process p = null;
-	        //TODO comment this to work with docker
+	        //TODO comment this to work with docker    remplacer sae par le nom de là ou est installé le webservice
 	        String[] dockerCmd = { "docker", "run", "-d", "-v", 
 	        					   "/home/sae/Projets-QCM:/home/sae/Projets-QCM", "dockeramc:v1"};
 	        String[] completeCmd = new String[dockerCmd.length+amcCmd.length];
@@ -198,14 +194,14 @@ public class CommandesAMC {
 		System.out.println("Layout");
 		CommandesAMC.creationLayout(projectPath);
 		System.out.println("generationImagesCopies");
-		CommandesAMC.generationImagesCopies(projectPath);
+	//	CommandesAMC.generationImagesCopies(projectPath);
 		System.out.println("analyseReponses");
-		CommandesAMC.analyseReponses(projectPath);
+	//	CommandesAMC.analyseReponses(projectPath);
 		System.out.println("notation");
-		CommandesAMC.notation(projectPath);
+	//	CommandesAMC.notation(projectPath);
 		//System.out.println("associationAuto");
 		//CommandesAMC.associationAuto(projectPath);
 		System.out.println("extractionNotesEleves");
-		CommandesAMC.extractionNotesEleves(projectPath);
+	//	CommandesAMC.extractionNotesEleves(projectPath);
 	}
 }
