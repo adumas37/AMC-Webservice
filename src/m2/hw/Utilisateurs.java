@@ -35,7 +35,8 @@ public class Utilisateurs {
 	@Path("add")
 	@POST
     public Response addUtilisateur(String username){
-
+		String[] s = username.split("=");
+		username=s[1];
     	Utilisateur u = new Utilisateur(username);
     	utilisateurs.put(username,u);
     	Utilisateurs.currentUser=u;
