@@ -59,7 +59,7 @@ function afficherDossiers(elmnt){
 				document.getElementById("action").innerHTML = "Suppression de projet";
 			}
 			else {
-				action = "Projet.php";
+				action = "Projet.html";
 			}
 
 			xhr2.send(null);

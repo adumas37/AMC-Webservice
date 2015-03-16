@@ -42,7 +42,7 @@ public class Utilisateurs {
     	
     	URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
 				.path("{a}")
-				.build("index.php");
+				.build("index.html");
 		
 		return Response.seeOther(uri).build();
     }

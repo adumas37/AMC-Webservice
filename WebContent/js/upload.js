@@ -156,7 +156,7 @@ function lancerCorrection(callback){
 };
 function getCorrectionStatus(code){
 	if(code=='1'){
-		 document.location.href="Correction.php";
+		 document.location.href="Correction.html";
 	}else{
 		showMessage("error",code);
 	}
