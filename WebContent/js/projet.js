@@ -29,8 +29,6 @@ function upload(){
 
 function hide(){
 	document.getElementById("newTex").setAttribute("style", "visibility:hidden;");
-	document.getElementById("alertText").innerHTML="";
-	document.getElementById("alertText").setAttribute("style", "display:none;");
 }
 
 function creationValide(){
@@ -44,7 +42,7 @@ function creationValide(){
 		name = true;
 	}
 	else {
-		alertText = "Erreur lors de l'import du nom de projet.";
+		alertText = "Erreur lors de l'import du nom de projet.</br>";
 	}
 	
 	if (filename != ""){
@@ -55,20 +53,17 @@ function creationValide(){
 		}
 		else {
 			file = false;
-			if (alertText != ""){ alertText += "\n"; }
 			document.getElementById("fichierTexInput").value = "";
-			alertText += "Le fichier fournit n'est pas au bon format. Le fichier doit etre un fichier Latex (.tex)."; 
+			alertText += "Le fichier fournit n'est pas au bon format. Le fichier doit etre un fichier Latex (.tex).</br>"; 
 		}
 	}
 	else {
-		if (alertText != ""){ alertText += "\n"; }
-		alertText += "Vous devez specifier un fichier.";
+		alertText += "Vous devez specifier un fichier.</br>";
 		file = false;
 	}
 		
 	if (name == false || file == false){
-		document.getElementById("alertText").innerHTML=alertText;
-		document.getElementById("alertText").setAttribute("style", "");
+		showMessage("error",alertText);
 		return false;
 	}
 	else {
@@ -78,6 +73,4 @@ function creationValide(){
 
 function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
-	document.getElementById("alertText").innerHTML="";
-	document.getElementById("alertText").setAttribute("style", "display:none;");
 }

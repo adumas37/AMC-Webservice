@@ -134,7 +134,8 @@ public class Correction {
 	@Path("ajouterCopies")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response ajouterCopies(
+	@Produces("text/plain")
+	public String ajouterCopies(
 		FormDataMultiPart formParams,
 		@Context UriInfo context) {
 
@@ -166,39 +167,28 @@ public class Correction {
 	        		pw.println(files.get(i).getContentDisposition().getFileName());
 	        	}
 	        }
+	        pw.close();
 	        fw.close();
 	    }
 	    catch(Exception e){
 	        e.printStackTrace();
 	    }
-	    			
-		//TODO recupererClasseCSV(classe);
-		System.out.println("Layout");
-		CommandesAMC.creationLayout(projectPath);
-		System.out.println("generationImagesCopies");
-		CommandesAMC.generationImagesCopies(projectPath);
-		System.out.println("analyseReponses");
-		CommandesAMC.analyseReponses(projectPath);
-		System.out.println("notation");
-		CommandesAMC.notation(projectPath);
-		//System.out.println("associationAuto");
-		//CommandesAMC.associationAuto(projectPath);
-		System.out.println("extractionNotesEleves");
-		CommandesAMC.extractionNotesEleves(projectPath);
 		
 
-		String url = context.getBaseUri().toString();
+		/*String url = context.getBaseUri().toString();
 		url = url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
 		URI uri = UriBuilder.fromUri(url)
 				.path("{a}")
 				.build("Correction.php");
 		
-		return Response.seeOther(uri).build();
+		return Response.seeOther(uri).build();*/
+	    return "1";
 	}	
 	
 	@Path("supprimerCopie/{name}")
 	@POST
-	public void supprimerCopie( @PathParam("name") String name) {
+	@Produces("text/plain")
+	public String supprimerCopie( @PathParam("name") String name) {
 
 		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() + "/copies/"+ name);
 		if (file.exists()){
@@ -233,6 +223,7 @@ public class Correction {
 	    catch(Exception e){
 	        e.printStackTrace();
 	    }
+		return "1";
 	}	
 	
 	
@@ -280,7 +271,8 @@ public class Correction {
 	
 	@Path("supprimerClasse/{name}")
 	@POST
-	public void supprimerClasse( @PathParam("name") String name) {
+	@Produces("text/plain")
+	public String supprimerClasse( @PathParam("name") String name) {
 		
 		try{	//Modification du fichier contenant la liste des classes
 
@@ -310,5 +302,52 @@ public class Correction {
 	    catch(Exception e){
 	        e.printStackTrace();
 	    }
+		return "1";
 	}	
+	
+	@Path("ajouterClasses")
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces("text/plain")
+	public String ajouterClasses(
+		FormDataMultiPart formParams,
+		@Context UriInfo context) {
+		
+	    List<FormDataBodyPart> classes = formParams.getFields("classe");
+	    
+	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
+	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
+		    FileWriter fw = new FileWriter(file,true);
+		    PrintWriter pw = new PrintWriter(fw);
+		    String classe="";
+	        for (int i = 0; i < classes.size(); i++){
+	        	classe=classes.get(i).getValue();
+        		System.out.println("filename: "+classe);
+        		pw.println(classes.get(i).getValue());
+	        }
+	        pw.close();
+	        fw.close();
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }
+	    
+	    /*String url = context.getBaseUri().toString();
+		url = url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
+		URI uri = UriBuilder.fromUri(url)
+				.path("{a}")
+				.build("Correction.html");
+		
+		return Response.seeOther(uri).build();*/
+	    return "1";
+	}
+	
+	@Path("LancerCorrection")
+	@POST
+	@Produces("text/plain")
+	public String lancerCorrection(){
+		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+		CommandesAMC.lancerCorrection(projectPath);
+		return "1";
+	}
 }

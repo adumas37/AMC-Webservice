@@ -76,7 +76,7 @@ function afficherNotes(elmnt){
  */
 function changerBareme(){
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET","rest/creationQuestionnaire/getBareme",false);
+	xhr.open("GET","rest/questionnaireTools/getBareme",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	
 	xhr.onreadystatechange = function (aEvt){
@@ -100,6 +100,7 @@ function hideBareme(){
  * 
  * 
  */
+var globalElement;
 function changerFichiers(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/correction/getFilesNames",true);
@@ -119,7 +120,7 @@ function changerFichiers(){
 			var supprButton = document.createElement("input");
 			supprButton.setAttribute("type", "button");
 			supprButton.setAttribute("value", "Supprimer fichier");
-			supprButton.setAttribute("onclick", "delFileRest(this)");
+			supprButton.setAttribute("onclick", "delFileExistant(this)");
 			textNode.appendChild(fileName);
 			newNode.appendChild(textNode);
 			newNode.appendChild(supprButton);
@@ -149,6 +150,7 @@ function changerFichiers(){
 		document.getElementById("fichiers").style.display="block";
 		
 	};
+	
 	xhr.send();
 };
 
@@ -161,28 +163,26 @@ function delFile(elmnt){
 	element.parentNode.removeChild(element);
 	chooseFile();
 };
-
-function delFileRest(elmnt){
+function delFileExistant(elmnt){
 	
 	var filename = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
-	if (confirm("Voulez vous vraiment supprimer le fichier "+filename+"?\nCe changement est irreversible!") == true) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/correction/supprimerCopie/"+filename,false);
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		
-		xhr.onreadystatechange = function (aEvt){
-			var element = elmnt.parentNode;
-			element.parentNode.removeChild(element);
-		};
-		xhr.send();
-    } 
-	else {
-		return false;
-	}
-		
-	
+	globalElement=elmnt;
+	showMessage("question","Voulez vous vraiment supprimer le fichier <b>"+filename+"</b> ?" +
+			"</br>Ce changement est irreversible!","delFileRest(getUploadStatusThenNothing,'"+filename+"')");	
 };
-
+function delFileRest(callback,filename){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/supprimerCopie/"+filename,true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			var element = globalElement.parentNode;
+			element.parentNode.removeChild(element);
+			callback(xhr.responseText);
+		}
+	};
+	xhr.send();
+};
 function chooseFile(){
 	var fichiersUploades = document.getElementsByClassName("copiesPDFInput");
 	for (var i=0; i< fichiersUploades.length;i++){
@@ -302,7 +302,7 @@ function changerClasses(){
 			var supprButton = document.createElement("input");
 			supprButton.setAttribute("type", "button");
 			supprButton.setAttribute("value", "Supprimer classe");
-			supprButton.setAttribute("onclick", "delClasseRest(this)");
+			supprButton.setAttribute("onclick", "delClasseExistante(this)");
 			textNode.appendChild(fileName);
 			newNode.appendChild(textNode);
 			newNode.appendChild(supprButton);
@@ -327,27 +327,24 @@ function delClasse(elmnt){
 	}
 	
 };
-
-function delClasseRest(elmnt){
-	
+function delClasseExistante(elmnt){
 	var classeName = elmnt.parentNode.getElementsByTagName("span")[0].innerHTML;
-	if (confirm("Voulez vous vraiment supprimer la classe "+classeName+"?") == true) {
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST","rest/correction/supprimerClasse/"+classeName,false);
-		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		
-		xhr.onreadystatechange = function (aEvt){
-			var element = elmnt.parentNode;
-			element.parentNode.removeChild(element);
-		};
-		xhr.send();
-    } 
-	else {
-		return false;
-	}
-		
+	globalElement=elmnt;
+	showMessage("question","Voulez vous vraiment supprimer la classe <b>"+classeName+"</b> ?","delClasseRest(getUploadStatusThenNothing,'"+classeName+"');");	
 };
-
+function delClasseRest(callback,classeName){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/supprimerClasse/"+classeName,false);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			var element = globalElement.parentNode;
+			element.parentNode.removeChild(element);
+			callback(xhr.responseText);
+		}
+	};
+	xhr.send();
+};
 function ajouterClasse(){
 	var node = document.getElementsByClassName("choixClasse")[0];
 	var newNode = node.cloneNode(true);
@@ -356,23 +353,97 @@ function ajouterClasse(){
 };
 
 function verificationClasses(){
-	
 	var classes = document.getElementById("upload2").getElementsByClassName("classeInput");
-	
 	for (var i = 0; i < classes.length; i++) {
 		var classe = classes[i].value;
-
 		for (var j=0;j<classes.length;j++){
 			if (j!=i){
 				if (classe==classes[j].value){
-					delClasse(classes[j]);
-					j--;
+					showMessage("error", "Vous voulez ajouter plusieurs fois une même classe !");
+					return false;
 				}
 			}
 		}	
-
+	}
+	var oldClasses=document.getElementById("oldClasses").getElementsByClassName("classeName");
+	for (var i = 0; i < classes.length; i++) {
+		for (var j=0;j<oldClasses.length;j++){
+			if (oldClasses[j].innerHTML==classes[i].value){
+				showMessage("error", "Vous voulez ajouter une classe qui existe déjà !");
+				return false;
+			}
+		}
 	}
 	return true;
-	
 };
-
+function uploadClasses(callback){
+	if(verificationClasses()){
+		var form=document.getElementById("uploadClasses");
+		var formData = new FormData(form);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/ajouterClasses",true);
+		xhr.onreadystatechange = function (){
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+				callback(xhr.responseText);
+			}
+		};
+		xhr.send(formData);
+	}
+};
+function uploadCopies(callback){
+	if(verificationFichier()){
+		var form=document.getElementById("uploadCopies");
+		var formData = new FormData(form);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/ajouterCopies",true);
+		xhr.onreadystatechange = function (){
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+				callback(xhr.responseText);
+			}
+		};
+		showMessage("wait","Upload des copies en cours...");
+		xhr.send(formData);
+	}
+};
+function lancerCorrection(callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/LancerCorrection",true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+			callback(xhr.responseText);
+		}
+	};
+	showMessage("wait","Correction en cours...");
+	xhr.send(null);
+};
+function getCorrectionStatus(code){
+	if(code=='1'){
+		 document.location.href="Correction.html";
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenCorrect(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on lance la correction
+		lancerCorrection(getCorrectionStatus);
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenReload(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on recharge la page
+		location.reload();
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenNothing(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on ne fait rien
+	}else{
+		showMessage("error",code);
+	}
+};

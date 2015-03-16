@@ -73,19 +73,91 @@ function uploadValide(){
 
 	if ( (file == 0) || (erreursExtension > 0) ){
 		if (file == 0){
-			alertText = "Au moins un fichier contenant les copies des étudiants est necessaire pour la correction." +
-					"\nVeuillez selectionner un fichier pdf.";
+			showMessage("error","Au moins un fichier contenant les copies des étudiants est necessaire pour la correction.</br>" +
+					"<i>Veuillez selectionner un fichier pdf.</i>");
 		}
 		if (erreursExtension > 0 ){
-			alertText = "L'un des fichiers fourni n'est pas au bon format et n'a pas été pris en compte.\n" +
-					"Verifiez que l'ensemble des fichiers nécessaires sont présents.\n" +
-					"Les fichiers doivent etre au format pdf (.pdf).";
+			showMessage("error","L'un des fichiers fourni n'est pas au bon format et n'a pas été pris en compte.</br>" +
+					"<i>Verifiez que l'ensemble des fichiers nécessaires sont présents.</br>" +
+					"Les fichiers doivent etre au format pdf (.pdf).</i>");
 		}
-		alert(alertText);
 		return false;
 	}
 	else {
 		return true;
 	}
 	
-}
+};
+function verificationClasses(){
+	var classes = document.getElementById("classes").getElementsByClassName("classeInput");
+	console.log(classes);
+	for (var i = 0; i < classes.length; i++) {
+		var classe = classes[i].value;
+		for (var j=0;j<classes.length;j++){
+			if (j!=i){
+				if (classe==classes[j].value){
+					showMessage("error", "Vous voulez ajouter plusieurs fois une même classe !");
+					return false;
+				}
+			}
+		}	
+	}
+	return true;
+};
+function uploadFichiers(callback){
+	if(uploadValide() && verificationClasses()){
+		var form=document.getElementById("uploadCopies");
+		var formData = new FormData(form);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/uploadCopies",true);
+		xhr.onreadystatechange = function (){
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+				callback(xhr.responseText);
+			}
+		};
+		showMessage("wait","Upload des copies en cours...");
+		xhr.send(formData);
+	}
+};
+function getUploadStatusThenCorrect(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on lance la correction
+		lancerCorrection(getCorrectionStatus);
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenReload(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on recharge la page
+		location.reload();
+	}else{
+		showMessage("error",code);
+	}
+};
+function getUploadStatusThenNothing(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on ne fait rien
+	}else{
+		showMessage("error",code);
+	}
+};
+function lancerCorrection(callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","rest/correction/LancerCorrection",true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+			callback(xhr.responseText);
+		}
+	};
+	showMessage("wait","Correction en cours...");
+	xhr.send(null);
+};
+function getCorrectionStatus(code){
+	if(code=='1'){
+		 document.location.href="Correction.html";
+	}else{
+		showMessage("error",code);
+	}
+};
