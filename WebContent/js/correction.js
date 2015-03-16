@@ -359,9 +359,6 @@ function verificationClasses(){
 		for (var j=0;j<classes.length;j++){
 			if (j!=i){
 				if (classe==classes[j].value){
-					alert("LLLL");
-					/*delClasse(classes[j]);
-					j--;*/
 					showMessage("error", "Vous voulez ajouter plusieurs fois une même classe !");
 					return false;
 				}

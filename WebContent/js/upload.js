@@ -88,9 +88,24 @@ function uploadValide(){
 	}
 	
 };
-
+function verificationClasses(){
+	var classes = document.getElementById("classes").getElementsByClassName("classeInput");
+	console.log(classes);
+	for (var i = 0; i < classes.length; i++) {
+		var classe = classes[i].value;
+		for (var j=0;j<classes.length;j++){
+			if (j!=i){
+				if (classe==classes[j].value){
+					showMessage("error", "Vous voulez ajouter plusieurs fois une même classe !");
+					return false;
+				}
+			}
+		}	
+	}
+	return true;
+};
 function uploadFichiers(callback){
-	if(uploadValide()){
+	if(uploadValide() && verificationClasses()){
 		var form=document.getElementById("uploadCopies");
 		var formData = new FormData(form);
 		var xhr = new XMLHttpRequest();
