@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>AMC-Webservice Identification</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  
+<body onload="Load()">
+<div id="content" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h1 class="text-center">Identification</h1>
+      </div>
+      <div class="modal-body">
+          <form class="form col-md-12 center-block" action="rest/utilisateurs/add" method="post">
+            <div id="identification" class="form-group">
+              <input id="usernameInput" type="text" class="form-control input-lg" placeholder="Identifiant">              
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-lg" placeholder="Mot de passe">
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-lg btn-block" value="Connexion">S'identifier </button>
+                  <span><a href="#">Besoin d'aide ?</a></span>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+		  </div>	
+      </div>
+      <div> <!-- /content -->
+			<div><!-- /bloc -->
+			<div class="modal-footer">
+		AMC-Webservice _ Briand, Dumas, Langlois, Meyer, Vielzeuf</div>
+
+		</div><!-- page -->
+		
+	<script>
+		function Load(){var xhr2 = new XMLHttpRequest();
+		xhr2.open("POST","rest/utilisateurs/load",false);
+		xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr2.send();
+		console.log("send");};
+	</script>
+	
+  </div>
+  </div>
+</div>
+</div>				
+				
+
