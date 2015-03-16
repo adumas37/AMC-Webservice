@@ -52,11 +52,7 @@ function afficherDossiers(elmnt){
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 			
 			if (xhr.responseText == "correction"){
-<<<<<<< HEAD
-				action = "UploadCopies.php";
-=======
 				action = "correction";
->>>>>>> refs/heads/master
 			}
 			else if (xhr.responseText == "suppression"){
 				action = "Suppression";

@@ -22,7 +22,7 @@ if (isset($_SESSION['username'])){
 			<p id="fichierTex">Questionnaire (.tex): <input id="fichierTexInput" name="file" type="file" accept=".tex" class="inputButton"> <input type="button" value="Supprimer le fichier" onclick="eraseFile()"/></p>
 		</form>
 		<input id="submit" type="button" value="Creer Projet" class="inputButton orangeButton" onclick="creationValide()"/>
-		<p><a href="index.html">
+		<p><a href="index.php">
 			<input type="button" value="Accueil" class="inputButton orangeButton"/>
 		</a></p>
 	</div>
