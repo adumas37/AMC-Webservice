@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<title>AMC-Webservice Accueil</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/Stylebis.css" rel="stylesheet">
+</head>
+
+<!-- Wrap all page content here -->
+<div id="wrap">
+
+	<!--Navbar -->
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">AMC-Webservice</a>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="index.html">Accueil</a></li>
+					<li class="active"><a href="APropos.html">A propos</a></li>
+					<li class="active"><a href="NousContacter.html">Nous contacter</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<!-- Begin page content -->
+	<div class="center-container">
+		<div class="center-row">
+			<div class="col-lg-6 bg-one text-center">
+				<a class="homeHref" href="CreationProjet.html"><h2>Creation
+						d'un projet</h2> <img src="src/bookmark-new.png" alt="creation" width="30%"> </a>
+			</div>
+			<div class="col-lg-6 bg-two text-center">
+				<a class="homeHref" href="Ouverture.html"
+					onclick="return ouverture();"><h2>Ouverture d'un projet</h2> <img
+					src="src/document-open.png" alt="open" width="30%"> </a>
+			</div>
+		</div>
+		<div class="center-row">
+			<div class="col-lg-6 bg-three text-center">
+				<a class="homeHref" href="Correction.html" onclick="return correction();"><h2>Correction de copie</h2>
+				<img src="src/document-open.png" alt="open" width="30%"></a>
+			</div>
+			<div class="col-lg-6 bg-four text-center">
+				<a class="homeHref" href="Ouverture.html"
+					onclick="return suppression();"><h2>Suppression d'un
+						projet</h2> <img src="src/edit-delete.png" alt="delete" width="30%"></a>
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+	<div class="modal-footer">AMC-Webservice Briand Dumas Langlois
+		Meyer Nguyen-Quoc Vielzeuf</div>
+</div>
+</div>
