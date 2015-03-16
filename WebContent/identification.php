@@ -16,6 +16,7 @@
 					
 						<h2>Saisir votre nom d'utilisateur et mot de passe</h2>
 						<p>	<form id="identification" action="authentification.php" method="post">
+							<p id="wrongPassword"></p>
 							<p>Nom d'utilisateur <input id="usernameInput" type="text" name="username" value="" class="inputButton inputText"/></p>
 							<p>Mot de passe <input id="passwordInput" type="password" name="password" class="inputButton inputText"/></p>
 							<input type="submit" value="submit" value="Connexion" class="orangeButton inputButton"/>

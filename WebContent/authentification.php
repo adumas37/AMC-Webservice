@@ -25,7 +25,9 @@ if (isset($_POST['username'])){
 	else {
 			// Utilisateur non authentifie
 			session_destroy();
+			echo '<script>console.log("OK");</script>';
 			header('location: identification.php');
+			echo '<script>document.getElementById("wrongPassword").innerHTML="Mauvais login ou password";</script>';
 		}
 	
 }
