@@ -56,7 +56,7 @@ public class UploadCopies {
 		    FileWriter fw = new FileWriter(file);
 		    PrintWriter pw = new PrintWriter(fw);
 	        for (int i = 0; i < files.size(); i++){
-	        	pw.println(files.get(i).getContentDisposition().getFileName());
+	        	pw.println(Utilisateurs.getCurrentUser().getProjectPath()+"copies/"+files.get(i).getContentDisposition().getFileName());
 	        }
 	        pw.close();
 	        fw.close();
