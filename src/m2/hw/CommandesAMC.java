@@ -30,13 +30,23 @@ public class CommandesAMC {
 	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
 	 * @param projectPath
 	 */
+	
+	public static void correctionConcatenee(String projectPath){
+		String username = Utilisateurs.getCurrentUser().getUserName();
+		
+		String[] cmd = { "sh", "-c","sleep 5 && auto-multiple-choice meptex --src "+
+						 projectPath + "calage.xy --data "+projectPath+"data/ && auto-multiple-choice getimages --copy-to "+
+							 projectPath+"scans/ --list "+
+					projectPath+"copies/listeCopies.txt  && auto-multiple-choice analyse --projet "+
+							 projectPath + " --list "+ projectPath+"copies/listeCopies.txt" };
+		
+		executerCommande(cmd, username);
+	}
 	public static void creationLayout(String projectPath){
 			String username = Utilisateurs.getCurrentUser().getUserName();
 	
-			String[] cmd = { "auto-multiple-choice", "meptex", "--src",
-							 projectPath + "calage.xy",
-							 "--data",
-							 projectPath+"data/" };
+			String[] cmd = { "sh", "-c","sleep 5 && auto-multiple-choice meptex --src "+
+							 projectPath + "calage.xy --data "+projectPath+"data/" };
 			
 			executerCommande(cmd, username);
 		
@@ -52,10 +62,9 @@ public class CommandesAMC {
 		if (projectPath.contains("/")){
 			String username = Utilisateurs.getCurrentUser().getUserName();
 
-			String[] cmd = { "auto-multiple-choice", "getimages", "--copy-to",
-							 projectPath+"scans/",
-							 //projectPath+"copies.pdf",
-							 "--list", projectPath+"copies/listeCopies.txt"};
+			String[] cmd = { "sh", "-c","sleep 15 && auto-multiple-choice getimages --copy-to "+
+							 projectPath+"scans/ --list "+
+					projectPath+"copies/listeCopies.txt"};
 			
 			executerCommande(cmd, username);
 		}
@@ -70,10 +79,9 @@ public class CommandesAMC {
 		if (projectPath.contains("/")){
 			String username = Utilisateurs.getCurrentUser().getUserName();
 
-			String[] cmd = { "auto-multiple-choice", "analyse", "--projet",
-							 projectPath,
-							 //projectPath+"scans/*" ,
-							 "--list","list-file", projectPath+"copies/listeCopies.txt"};
+			String[] cmd = { "sh", "-c","sleep 40 && auto-multiple-choice analyse --projet"+
+							 projectPath + " --list "+ projectPath+"copies/listeCopies.txt"
+							 };
 			
 			executerCommande(cmd, username);
 		}
@@ -88,9 +96,9 @@ public class CommandesAMC {
 		if (projectPath.contains("/")){
 			String username = Utilisateurs.getCurrentUser().getUserName();
 	
-			String[] cmd = { "auto-multiple-choice", "note", "--data",
-							 projectPath+"data/",
-							 projectPath+"cr" };
+			String[] cmd = { "sh", "-c","sleep 5 && auto-multiple-choice note --data "+
+							 projectPath+"data/ "+
+							 projectPath+"cr/" };
 			
 			executerCommande(cmd, username);
 		}
@@ -191,16 +199,21 @@ public class CommandesAMC {
 	public static void lancerCorrection(String projectPath){
 		
 		//TODO recupererClasseCSV(classe);
+		CommandesAMC.correctionConcatenee(projectPath);
+		
+		/* Version non concaténée : non fonctionnelle sans vérification de la bonne terminaison des conteneurs
 		System.out.println("Layout");
 		CommandesAMC.creationLayout(projectPath);
 		System.out.println("generationImagesCopies");
 		CommandesAMC.generationImagesCopies(projectPath);
 		System.out.println("analyseReponses");
-	//	CommandesAMC.analyseReponses(projectPath);
+		CommandesAMC.analyseReponses(projectPath);
 		System.out.println("notation");
-	//	CommandesAMC.notation(projectPath);
-		//System.out.println("associationAuto");
-		//CommandesAMC.associationAuto(projectPath);
+		
+		 
+		CommandesAMC.notation(projectPath);*/
+		//System.out.println("associationAuto"); 
+		//CommandesAMC.associationAuto(projectPath); 
 		System.out.println("extractionNotesEleves");
 	//	CommandesAMC.extractionNotesEleves(projectPath);
 	}
