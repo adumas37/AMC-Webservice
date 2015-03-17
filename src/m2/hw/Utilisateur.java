@@ -18,7 +18,10 @@ public class Utilisateur {
     	userName=username;
     	
     	File dir = new File(PATH+userName);
-        boolean isCreated = dir.mkdirs();
+    	if(!dir.exists()){
+    		boolean isCreated = dir.mkdirs();
+    	}
+        
     	//TODO intialiser les autres variables avec un projet existant au cas ou l'utilisateur fasse
     	//n'importe quoi...
     }

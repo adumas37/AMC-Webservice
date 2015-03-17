@@ -55,7 +55,7 @@ public class CommandesAMC {
 			String[] cmd = { "auto-multiple-choice", "getimages", "--copy-to",
 							 projectPath+"scans/",
 							 //projectPath+"copies.pdf",
-							 "--list","list-file", projectPath+"copies/listeCopies.txt"};
+							 "--list", projectPath+"copies/listeCopies.txt"};
 			
 			executerCommande(cmd, username);
 		}
@@ -194,7 +194,7 @@ public class CommandesAMC {
 		System.out.println("Layout");
 		CommandesAMC.creationLayout(projectPath);
 		System.out.println("generationImagesCopies");
-	//	CommandesAMC.generationImagesCopies(projectPath);
+		CommandesAMC.generationImagesCopies(projectPath);
 		System.out.println("analyseReponses");
 	//	CommandesAMC.analyseReponses(projectPath);
 		System.out.println("notation");
