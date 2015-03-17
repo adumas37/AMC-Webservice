@@ -38,7 +38,9 @@ public class CommandesAMC {
 						 projectPath + "calage.xy --data "+projectPath+"data/ && auto-multiple-choice getimages --copy-to "+
 							 projectPath+"scans/ --list "+
 					projectPath+"copies/listeCopies.txt  && auto-multiple-choice analyse --projet "+
-							 projectPath + " --list "+ projectPath+"copies/listeCopies.txt" };
+							 projectPath + " --list "+ projectPath+"copies/listeCopies.txt && auto-multiple-choice note --data "+
+							 projectPath+"data/ "+
+							 projectPath+"cr/"  };
 		
 		executerCommande(cmd, username);
 	}
@@ -96,7 +98,7 @@ public class CommandesAMC {
 		if (projectPath.contains("/")){
 			String username = Utilisateurs.getCurrentUser().getUserName();
 	
-			String[] cmd = { "sh", "-c","sleep 5 && auto-multiple-choice note --data "+
+			String[] cmd = { "sh", "-c","sleep 70 && auto-multiple-choice note --data "+
 							 projectPath+"data/ "+
 							 projectPath+"cr/" };
 			
@@ -115,11 +117,9 @@ public class CommandesAMC {
 		if (projectPath.contains("/")){
 			String username = projectPath.split("/")[0];
 	
-			String[] cmd = { "auto-multiple-choice", "association-auto", "--data",
-							 projectPath+"data/",
-							 "--notes-id", "numero", "--liste",
-							 projectPath+"student.csv",
-							 "--liste-key", "numero" };
+			String[] cmd = { "sh", "-c","sleep 70 && auto-multiple-choice association-auto --data "+
+							 projectPath+"data/  --notes-id  numero  --liste "+
+							 projectPath+"student.csv --liste-key  numero" };
 			
 			executerCommande(cmd, username);
 		}
