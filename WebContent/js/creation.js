@@ -1,3 +1,5 @@
+var imageIndex=0;
+
 function ajoutReponse(elmnt){
 
 	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
@@ -124,7 +126,6 @@ function demanderQuestionnaire(callback){
 	xhr.send(null);
 };
 function chargerQuestionnaire(json){
-	
 	var html='';
 	html+='<p id="entete"> \
 		<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \
@@ -162,8 +163,9 @@ function chargerQuestionnaire(json){
 		Question: <input type="text" id="question'+i+'" name="question" class="questionInput inputText inputButton" value="'+json.questions[i].texte+'"/> \
 		<a class="linkLatex" href="javascript:OpenLatexEditor(\'question'+i+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
 		<a href="" class="openImgUpload" onclick="uploadImg(\'newImgQ1\');return false"><img class="linkPicture" src="src/img.png"></a> \
+		<img class="imageChargee" style="display:block;max-width:282px;max-height:141px;"/> \
 		<div id="newImgQ1" class="imgUpload" style="display: none;"> \
-			<span class="imgNb"></span> \
+			<span class="imgNb">'+json.questions[i].image+'</span> \
 			<div class="previewcanvascontainer" style="width: 282px;"> \
                 <canvas id="previewcanvasQ1" class="previewcanvas" style="width: 282px;"> \
                 </canvas> \
@@ -171,6 +173,11 @@ function chargerQuestionnaire(json){
             <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="uploadImageOnServer(this);ShowImagePreview( this.files,\'Q1\');" /> \
 		    <input class="previewclearbutton" type="button" onclick="deleteImageOnServer(this);ClearImagePreview(\'Q1\');return false;" value="Effacer"/> \
 		</div></div><reponses>';
+		if(parseInt(json.questions[i].image.split(".")[0])>imageIndex){
+			imageIndex=parseInt(json.questions[i].image.split(".")[0]);
+		}
+		getImages(json.questions[i].image,"question",i);
+		
 		for(j=0;j<json.questions[i].reponses.length;j++){
 			html += '<p class="reponse"> \
 			Reponse: <input type="text" id="reponse '+i+','+j+'" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
@@ -193,7 +200,7 @@ function chargerQuestionnaire(json){
 	}
 	
 	document.getElementById("questionnaire").innerHTML = html;
-	document.getElementById("dureeInput").value=json.duree;
+	document.getElementById("dureeInput").value=json.duree;	
 };
 
 function questionnaireValide(){
@@ -515,11 +522,14 @@ function ClearImagePreview( selection )
         context.clearRect( 0, 0, canvas.width, canvas.height );     
     }
 };
-var imageIndex=0;
-
 function uploadImageOnServer(element){
 	showMessage("wait","Upload de l'image sur le serveur...");
-	imageIndex=imageIndex+1;
+	if(element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML!=""){
+		imageIndex=parseInt(element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML.split(".")[0]);
+		deleteImageOnServer(element);
+	}else{
+		imageIndex=imageIndex+1;
+	}
 	var file=element.files[0];
 	var fd=new FormData();
 	
@@ -537,6 +547,7 @@ function uploadImageOnServer(element){
 	    	//Status d'upload?
 	    	//Ajout du div contenant l'index de l'image
 	    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML=imageIndex+"."+extension;
+	    	element.parentNode.parentNode.getElementsByClassName("imageChargee")[0].src="";
 	    	setMessageVisible(false);
 	    }
 	};
@@ -552,9 +563,22 @@ function deleteImageOnServer(element){
 		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 		    	//Disparition du wait
 		    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML="";
+
 		    	setMessageVisible(false);
 		    }
 		};
 		xhr.send(fileName);
+	}
+}
+function getImages(imgName,element,i){
+	if(imgName!=""){
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'rest/questionnaireTools/getImage', true);
+		xhr.onload = function() {
+		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+		    	document.getElementsByClassName(element)[i].getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
+	        };    
+		};
+		xhr.send(imgName);
 	}
 }

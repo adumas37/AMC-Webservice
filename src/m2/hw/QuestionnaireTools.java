@@ -1,7 +1,12 @@
 package m2.hw;
 
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.activation.MimetypesFileTypeMap;
+import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,6 +35,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.jersey.core.util.Base64;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.FormDataParam;
@@ -53,6 +61,7 @@ public class QuestionnaireTools {
 		quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
 		QuestionnaireTools.ecrireFichier(quest);
+		sortImagesFromQuestionnaire(quest);
 		CommandesAMC.prepareProject("questionnaire.tex");
 		//ATTENDRE LA FIN DE COMPILATION ?
 		QuestionnaireTools.exportProjet(quest);
@@ -60,7 +69,31 @@ public class QuestionnaireTools {
 		//Ici 1 nous informe que tout est OK
         return "1";
 	}
-	
+	/**
+	 * Permet de mettre à jour les images dans le dossier client pour un questionnaire
+	 * @param questionnaire
+	 */
+	public static void sortImagesFromQuestionnaire(Questionnaire questionnaire){
+	    //Normalement le nom de l'image des questions a été déjà mis à jour
+	    //Il faut donc supprimer les anciennes images au profit des nouvelles
+	    for(int i=0;i<questionnaire.getQuestions().length;i++){
+	        String newUpload = Utilisateurs.getCurrentUser().getProjectPath()+"N"+questionnaire.getQuestions()[i].getImage();
+	        String oldUpload = Utilisateurs.getCurrentUser().getProjectPath()+questionnaire.getQuestions()[i].getImage();
+	        File fNew = new File(newUpload);
+	        File fOld = new File(oldUpload);
+	        if(fNew.exists()){
+	            //On a une nouvelle image pour cette question
+	            if(fOld.exists()){
+	                //Il y en avait une ancienne, on la supprime
+	                fOld.delete();
+	            }
+	            //On change son nom
+	            fNew.renameTo(fOld);
+	        }
+	       
+	    }
+	    
+	}
 	/**
 	 * Permet de créer le header latex
 	 * @param questionnaire
@@ -628,7 +661,7 @@ public static Questionnaire importFichier(){
 	public static String uploadImage(@FormDataParam("imageData") InputStream uploadedInputStream,@FormDataParam("imageNb") String imgName){
 	    
 	    System.out.println(imgName);
-	    String uploadedFileLocation = Utilisateurs.getCurrentUser().getProjectPath()+"/"+imgName;
+	    String uploadedFileLocation = Utilisateurs.getCurrentUser().getProjectPath()+"N"+imgName;
 	    CreationProjet.saveFile(uploadedInputStream, uploadedFileLocation);
 	    return "1";
 	}
@@ -637,7 +670,7 @@ public static Questionnaire importFichier(){
     @Consumes("text/plain")
     public static String deleteImage(String imgName){
         try{
-            File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"/"+imgName);
+            File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"N"+imgName);
             if(file.delete()){
                 return "1";
             }
@@ -646,4 +679,24 @@ public static Questionnaire importFichier(){
         }
         return "0";
     }
+	@POST
+	@Path("getImage")
+	@Consumes("text/plain")
+	@Produces("image/*")
+	public static Response getImage(String imgName){
+	    
+	    File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+imgName);
+	    try {
+            BufferedImage image = ImageIO.read(file);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", baos);
+            byte[] imageData= Base64.encode(baos.toByteArray());
+            //byte[] imageData = baos.toByteArray();
+            return Response.ok(imageData).build();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	    return null;
+	  
+	}
 }
