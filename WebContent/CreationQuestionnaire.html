@@ -64,7 +64,7 @@
 				                <canvas id="previewcanvasQ1" class="previewcanvas" style="width: 282px;">
 				                </canvas>
 				            </div>
-			                <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, 'Q1' );" />
+			                <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, 'Q1' );uploadImageOnServer(this);" />
 						    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( 'Q1' ); return false;" value="Effacer"/>
 						</div>
 					</div>

@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.FormDataParam;
 
 @Path("questionnaireTools")
 public class QuestionnaireTools {
@@ -46,6 +48,7 @@ public class QuestionnaireTools {
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject obj =parser.parse(data).getAsJsonObject();
+		System.out.println(obj.get("questions"));
 		Questionnaire quest=gson.fromJson(obj,Questionnaire.class);
 		quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
@@ -619,5 +622,14 @@ public static Questionnaire importFichier(){
 			}
 		}
 	}
-	
+	@POST
+	@Path("uploadImage")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+	public static String uploadImage(@FormDataParam("imageData") InputStream uploadedInputStream,@FormDataParam("imageNb") String imgName){
+	    
+	    System.out.println(imgName);
+	    String uploadedFileLocation = Utilisateurs.getCurrentUser().getProjectPath()+"/"+imgName;
+	    CreationProjet.saveFile(uploadedInputStream, uploadedFileLocation);
+	    return "1";
+	}
 }

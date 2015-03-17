@@ -8,6 +8,7 @@ public class Question implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String texte;
+	private String image;
 	private Reponse[] reponses;
 	private int bareme;
 	private int nbBonnes;
@@ -83,6 +84,14 @@ public class Question implements Serializable{
 	public void setColonnes(boolean colonnes) {
 		this.colonnes = colonnes;
 	}
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 	
 
 }
