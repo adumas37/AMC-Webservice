@@ -179,14 +179,23 @@ function chargerQuestionnaire(json){
 		getImages(json.questions[i].image,"question",i);
 		
 		for(j=0;j<json.questions[i].reponses.length;j++){
-			html += '<p class="reponse"> \
+			html += '<div class="reponse"> \
 			Reponse: <input type="text" id="reponse '+i+','+j+'" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
 			<a class="linkLatex" href="javascript:OpenLatexEditor(\'reponse '+i+','+j+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
+			<a href=""  class="openImgUpload" onclick="uploadImg(\'newImgR1,1\');return false"><img class="linkPicture" src="src/img.png"></a> \
 			<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne"';
 			if(json.questions[i].reponses[j].correcte){html+=' checked="true"';}
 			html+='"/></span> \
 			<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span> \
-			</p>';
+				<div id="newImgR1,1" class="imgUpload" style="display: none;"> \
+				<div class="previewcanvascontainer" style="width: 282px;"> \
+	                <canvas id="previewcanvasR1,1" class="previewcanvas" style="width: 282px;"> \
+	                </canvas> \
+	            </div> \
+                <input type="file" id="uploadfileselectionR1,1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, \'R1,1\' );" /> \
+			    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( \'R1,1\' ); return false;" value="Effacer"/> \
+			</div> \
+			</div>';
 		}
 		html += '</reponses> \
 		<options> \
