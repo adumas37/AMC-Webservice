@@ -42,7 +42,7 @@ function ajoutReponse(elmnt){
 	reponse4.getElementsByClassName("uploadfileselection")[0].onchange = function() { return ShowImagePreview( this.files, stringNameReponsePreview ); } ;
 	reponse4.getElementsByClassName("previewclearbutton")[0].onclick = function() { ClearImagePreview( stringNameReponsePreview ); return false; } ;
 
-	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse4);
+	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses").firstChild.appendChild(reponse4);
 
 };
 
