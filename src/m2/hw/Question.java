@@ -2,7 +2,6 @@ package m2.hw;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 public class Question implements Serializable{
 	/**
 	 * 
@@ -14,10 +13,11 @@ public class Question implements Serializable{
 	private int nbBonnes;
 	private boolean colonnes;
 	
-	public Question(String texte, Reponse[] reponses, int bareme){
+	public Question(String texte, Reponse[] reponses, int bareme, boolean colonnes){
 		setTexte(texte);
 		setReponses(reponses);
 		setBareme(bareme);
+		setColonnes(colonnes);
 		for(int i=0;i<reponses.length;i++){
 			if(reponses[i].isCorrecte()){
 				setNbBonnes(getNbBonnes()+1);

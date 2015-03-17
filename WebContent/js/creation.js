@@ -159,11 +159,13 @@ function chargerQuestionnaire(json){
 	for(i=0;i<json.questions.length;i++){
 		html += '<blocQR class="blocQR"> \
 		<p class="question"> \
-		Question: <input type="text" name="question" class="questionInput inputText inputButton" value="'+json.questions[i].texte+'"/> \
+		Question: <input type="text" id="question'+i+'" name="question" class="questionInput inputText inputButton" value="'+json.questions[i].texte+'"/> \
+		<a class="linkLatex" href="javascript:OpenLatexEditor(\'question'+i+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
 		</p><reponses>';
 		for(j=0;j<json.questions[i].reponses.length;j++){
 			html += '<p class="reponse"> \
-			Reponse: <input type="text" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
+			Reponse: <input type="text" id="reponse '+i+','+j+'" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
+			<a class="linkLatex" href="javascript:OpenLatexEditor(\'reponse '+i+','+j+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
 			<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne"';
 			if(json.questions[i].reponses[j].correcte){html+=' checked="true"';}
 			html+='"/></span> \
@@ -270,14 +272,14 @@ function questionnaireValide(){
 			if(i>0){
 				jsonData+=',';
 			}
-			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value+'", \
+			jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value.replace(/\\/g,"\\\\")+'", \
 			"bareme":"2","reponses": \
 		            	  	[';
 			for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
 				if(j>0){
 					jsonData+=',';
 				}
-				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value+'", \
+				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value.replace(/\\/g,"\\\\")+'", \
 				"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
 			}
 			jsonData+=']}';

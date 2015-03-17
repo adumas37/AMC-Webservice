@@ -16,11 +16,10 @@ public class CommandesAMC {
 	 * @param nom
 	 * @param fileName
 	 */
-	public static void prepareProject(String nom, String fileName){
+	public static void prepareProject(String fileName){
 
-			String filePath = Utilisateurs.getCurrentUser().getProjectsPath() + nom + "/" + fileName;
-			String projectPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
-					Utilisateurs.getCurrentUser().getProjectsPath().length()-1) + nom;
+			String filePath = Utilisateurs.getCurrentUser().getProjectPath()+ fileName;
+			String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
 			String username = Utilisateurs.getCurrentUser().getUserName();
 	        
 	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};

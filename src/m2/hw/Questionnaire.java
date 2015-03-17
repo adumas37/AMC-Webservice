@@ -10,14 +10,16 @@ public class Questionnaire implements Serializable{
 	private String matiere;
 	private String date;
 	private int nbCopies;
+	private String duree;
 	private String header;
 	private String body;
 	private Question[] questions;
 	
 	
-	public Questionnaire(String matiere, String date, Question[] questions, boolean colonnes, int nbCopies){
+	public Questionnaire(String matiere, String date, String duree, Question[] questions, int nbCopies){
 		setDate(date);
 		setMatiere(matiere);
+		setDuree(duree);
 		setQuestions(questions);
 		setNbCopies(nbCopies);
 		setHeader(QuestionnaireTools.createHeader(this));
@@ -43,7 +45,7 @@ public class Questionnaire implements Serializable{
 	@Override
 	public String toString(){
 		String result="";
-		result+= "MATIERE :"+getMatiere()+"  DATA : "+getDate()+"  copies : "+getNbCopies();
+		result+= "MATIERE: "+getMatiere()+", DATA: "+getDate()+", DUREE: "+ getDuree()+ ", copies :"+getNbCopies();
 		result+="  Questions : \n";
 		for(int i=0;i<getQuestions().length;i++){
 			result+="Question"+i+" : "+getQuestions()[i].toString()+"\n";
@@ -81,5 +83,13 @@ public class Questionnaire implements Serializable{
 
 	public void setNbCopies(int nbCopies) {
 		this.nbCopies = nbCopies;
+	}
+	
+	public String getDuree() {
+		return duree;
+	}
+
+	public void setDuree(String duree) {
+		this.duree = duree;
 	}
 }
