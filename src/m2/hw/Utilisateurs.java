@@ -35,16 +35,29 @@ public class Utilisateurs {
 	@Path("add")
 	@POST
     public Response addUtilisateur(String username){
-
-    	Utilisateur u = new Utilisateur(username);
-    	utilisateurs.put(username,u);
-    	Utilisateurs.currentUser=u;
-    	
+		if (utilisateurs.get(username)==null){
+	    	Utilisateur u = new Utilisateur(username);
+	    	utilisateurs.put(username,u);
+	    	Utilisateurs.currentUser=u;
+		}
+		else {
+			Utilisateurs.currentUser=utilisateurs.get(username);
+		}
     	URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
 				.path("{a}")
 				.build("index.php");
 		
 		return Response.seeOther(uri).build();
+    }
+	/*
+	 * @param username 
+	 */
+	@Path("currentUser")
+	@POST
+    public void setCurrentUser(String username){
+		if (utilisateurs.get(username)!=null){
+			Utilisateurs.currentUser=utilisateurs.get(username);
+		}
     }
     /**
      * Permet d'obtenir l'utilisateur a partir de son username

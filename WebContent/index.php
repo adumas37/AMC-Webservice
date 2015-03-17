@@ -26,15 +26,15 @@ if (isset($_SESSION['username'])){
 					<img class="homeImg" height="50" src="src/bookmark-new.png" alt="creation">
 					<span class="homeText">Creation d'un projet</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return ouverture();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return ouverture('<?php echo ($_SESSION['username']); ?>');">
 				<img class="homeImg" height="50" src="src/document-open.png" alt="open">
 				<span class="homeText">Ouverture d'un projet</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return correction();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php" onclick="return correction('<?php echo ($_SESSION['username']); ?>');">
 				<img class="homeImg" height="50" src="src/document-open.png" alt="open">
 				<span class="homeText">Correction de copies</span>
 			</a></li>
-			<li class="homeLi"><a class="homeHref" href="Ouverture.php"  onclick="return suppression();">
+			<li class="homeLi"><a class="homeHref" href="Ouverture.php"  onclick="return suppression('<?php echo ($_SESSION['username']); ?>');">
 				<img class="homeImg" height="50" src="src/edit-delete.png" alt="delete">
 				<span class="homeText"> Suppression d'un projet </span>
 			</a>
