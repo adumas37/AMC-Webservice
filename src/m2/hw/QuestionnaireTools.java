@@ -632,4 +632,18 @@ public static Questionnaire importFichier(){
 	    CreationProjet.saveFile(uploadedInputStream, uploadedFileLocation);
 	    return "1";
 	}
+	@POST
+    @Path("deleteImage")
+    @Consumes("text/plain")
+    public static String deleteImage(String imgName){
+        try{
+            File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"/"+imgName);
+            if(file.delete()){
+                return "1";
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "0";
+    }
 }

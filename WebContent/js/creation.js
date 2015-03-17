@@ -163,12 +163,13 @@ function chargerQuestionnaire(json){
 		<a class="linkLatex" href="javascript:OpenLatexEditor(\'question'+i+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
 		<a href="" class="openImgUpload" onclick="uploadImg(\'newImgQ1\');return false"><img class="linkPicture" src="src/img.png"></a> \
 		<div id="newImgQ1" class="imgUpload" style="display: none;"> \
+			<span class="imgNb"></span> \
 			<div class="previewcanvascontainer" style="width: 282px;"> \
                 <canvas id="previewcanvasQ1" class="previewcanvas" style="width: 282px;"> \
                 </canvas> \
             </div> \
-            <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="ShowImagePreview( this.files,\'Q1\');uploadImageOnServer(this);" /> \
-		    <input class="previewclearbutton" type="button" onclick="ClearImagePreview(\'Q1\'); return false;" value="Effacer"/> \
+            <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="uploadImageOnServer(this);ShowImagePreview( this.files,\'Q1\');" /> \
+		    <input class="previewclearbutton" type="button" onclick="deleteImageOnServer(this);ClearImagePreview(\'Q1\');return false;" value="Effacer"/> \
 		</div></div><reponses>';
 		for(j=0;j<json.questions[i].reponses.length;j++){
 			html += '<p class="reponse"> \
@@ -517,7 +518,7 @@ function ClearImagePreview( selection )
 var imageIndex=0;
 
 function uploadImageOnServer(element){
-	alert(element);
+	showMessage("wait","Upload de l'image sur le serveur...");
 	imageIndex=imageIndex+1;
 	var file=element.files[0];
 	var fd=new FormData();
@@ -535,12 +536,25 @@ function uploadImageOnServer(element){
 	    	//Disparition du wait
 	    	//Status d'upload?
 	    	//Ajout du div contenant l'index de l'image
-	    	var imgNb=document.createElement("span");
-	    	imgNb.setAttribute("class","imgNb");
-	    	imgNb.innerHTML=imageIndex+"."+extension;
-	    	element.parentNode.parentNode.appendChild(imgNb);
+	    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML=imageIndex+"."+extension;
+	    	setMessageVisible(false);
 	    }
 	};
 	xhr.send(fd);
-
+}
+function deleteImageOnServer(element){
+	var fileName=element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML;
+	if(fileName!=""){
+		showMessage("wait","Suppression de l'image sur le serveur...");
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'rest/questionnaireTools/deleteImage', true);
+		xhr.onload = function() {
+		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+		    	//Disparition du wait
+		    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML="";
+		    	setMessageVisible(false);
+		    }
+		};
+		xhr.send(fileName);
+	}
 }
