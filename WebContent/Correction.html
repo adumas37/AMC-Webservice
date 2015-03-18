@@ -21,7 +21,8 @@
 	</div>
 		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
 		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>
-		<input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>
+		<!-- TODO <input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>  -->
+		<input type="button" value="Gerer le csv" class="inputButton orangeButton" onclick='changerClasses()'/>
 		<!-- <form id="correct" method="post" action="rest/correction/LancerCorrection">-->
 			<input type="button" value="Relancer la correction" class="inputButton greenButton" onclick='lancerCorrection(getCorrectionStatus)'/>
 		<!-- </form> -->
@@ -63,7 +64,7 @@
 	</div>
 	<div id="classes" style="display: none;">
 		<div id="gestionClasses">
-			<div id="oldClasses">
+			<!--  <div id="oldClasses">
 			</div>
 			<div id="newClasses">
 				<input type="button" value="Ajouter une classe" onclick="ajouterClasse()"/>
@@ -84,6 +85,13 @@
 				</form>
 				<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton" onclick="uploadClasses(getUploadStatusThenCorrect)"/>
 			</div>
+			-->
+			<form action="rest/correction/csv" method="post" enctype="multipart/form-data">
+				<p class="fichierCsv">CSV de la classe (.csv): <input id="csvInput" name="csv" accept=".csv" type="file">
+				</p>
+				<input id="submitCSV" type="submit" value="Changer le fichier csv"  class="inputButton orangeButton"/>
+			</form>
+			<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
 		</div>
 	</div>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
