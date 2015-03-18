@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -41,7 +42,7 @@ public class QuestionnaireTools {
 	@Path("creation")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/plain")
-	public String creation(String data){
+	public String creation(String data, @CookieParam("username") String username){
 		
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
@@ -49,10 +50,10 @@ public class QuestionnaireTools {
 		Questionnaire quest=gson.fromJson(obj,Questionnaire.class);
 		quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
-		QuestionnaireTools.ecrireFichier(quest);
-		CommandesAMC.prepareProject("questionnaire.tex");
+		QuestionnaireTools.ecrireFichier(quest,username);
+		CommandesAMC.prepareProject("questionnaire.tex",username);
 		//ATTENDRE LA FIN DE COMPILATION ?
-		QuestionnaireTools.exportProjet(quest);
+		QuestionnaireTools.exportProjet(quest,username);
 		//On peut renvoyer les messages d'erreur de la compilation
 		//Ici 1 nous informe que tout est OK
         return "1";
@@ -329,9 +330,10 @@ public static String replace(String text, String substring, String replaceWith){
  * Permet d'ecrire le fichier latex a partir des donnees recues
  * @param data
  */
-public static void ecrireFichier(Questionnaire questionnaire){
-	System.out.println(Utilisateurs.getCurrentUser());
-	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+public static void ecrireFichier(Questionnaire questionnaire,String username){
+	Utilisateur u=Utilisateurs.getUtilisateur(username);
+	System.out.println(u);
+	File file = new File(u.getProjectPath()+"questionnaire.tex");
     FileWriter fw;
 
     try {
@@ -374,9 +376,9 @@ private static String formerImports(){
  */
 @GET
 @Produces("text/plain")
-public Response getTextFile() {
-
-	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+public Response getTextFile(@CookieParam("AMC_Webservice") String username) {
+	Utilisateur u=Utilisateurs.getUtilisateur(username);
+	File file = new File(u.getProjectPath()+"questionnaire.tex");
 	if (file.exists()){
 		ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
@@ -396,8 +398,8 @@ public Response getTextFile() {
 @GET
 @Path("modification")
 @Produces(MediaType.APPLICATION_JSON)
-public static String modifierQuestionnaire(){
-	Questionnaire questionnaire = importProjet();
+public static String modifierQuestionnaire(@CookieParam("AMC_Webservice") String username){
+	Questionnaire questionnaire = importProjet(username);
 	Gson gson = new Gson();
 	String json = gson.toJson(questionnaire);
 	return json;
@@ -407,9 +409,10 @@ public static String modifierQuestionnaire(){
  * Permet d'exporter l'objet questionnaire au format binaire
  * @param questionnaire
  */
-public static void exportProjet(Questionnaire questionnaire){
+public static void exportProjet(Questionnaire questionnaire, String username){
 	try {
-		FileOutputStream fos = new FileOutputStream(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.bin");
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		FileOutputStream fos = new FileOutputStream(u.getProjectPath()+"questionnaire.bin");
 		ObjectOutputStream oos= new ObjectOutputStream(fos);
 		try {
 			oos.writeObject(questionnaire); 
@@ -430,10 +433,11 @@ public static void exportProjet(Questionnaire questionnaire){
  * Permet d'importer le fichier binaire du questionnaire du projet
  * @return
  */
-public static Questionnaire importProjet(){
+public static Questionnaire importProjet(String username){
+	Utilisateur u=Utilisateurs.getUtilisateur(username);
 	Questionnaire questionnaire = null;
 	try {
-		FileInputStream fis = new FileInputStream(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.bin");
+		FileInputStream fis = new FileInputStream(u.getProjectPath()+"questionnaire.bin");
 		ObjectInputStream ois= new ObjectInputStream(fis);
 		try {	
 			questionnaire = (Questionnaire) ois.readObject(); 
@@ -453,7 +457,7 @@ public static Questionnaire importProjet(){
 	return questionnaire;
 }
 
-public static Questionnaire importFichier(){
+public static Questionnaire importFichier(String username){
 	
 	Questionnaire quest = null;
 	String matiere = "";
@@ -464,8 +468,8 @@ public static Questionnaire importFichier(){
 	String body = "";
 	ArrayList<Question> questions = new ArrayList<Question>();
 	
-	
-	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+	Utilisateur u=Utilisateurs.getUtilisateur(username);
+	File file = new File(u.getProjectPath()+"questionnaire.tex");
 		
 	try (
 		BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -517,7 +521,7 @@ public static Questionnaire importFichier(){
 	    quest = new Questionnaire(matiere, date, duree, questions.toArray(questionslist) ,nbCopies);
 	    quest.setHeader(QuestionnaireTools.createHeader(quest));
 		quest.setBody(QuestionnaireTools.createBody(quest));
-		QuestionnaireTools.exportProjet(quest);
+		QuestionnaireTools.exportProjet(quest,username);
 	    br.close();
 	} catch (IOException e1) {
 		e1.printStackTrace();
@@ -532,10 +536,11 @@ public static Questionnaire importFichier(){
 	*/
 	@GET
 	@Path("getBareme")
-	public static String getBareme(){
+	public static String getBareme(@CookieParam ("AMC_Webservice") String username){
 		String html="";
-		if (new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex").exists())
-		try(BufferedReader br = new BufferedReader(new FileReader(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex"))) {
+		Utilisateur u =Utilisateurs.getUtilisateur(username);
+		if (new File(u.getProjectPath()+"questionnaire.tex").exists())
+		try(BufferedReader br = new BufferedReader(new FileReader(u.getProjectPath()+"questionnaire.tex"))) {
 			String bareme = "1";
 			String question = "";
 			String line = br.readLine();
@@ -576,16 +581,16 @@ public static Questionnaire importFichier(){
 	@POST
 	@Path("setBareme")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public static void setBareme(FormDataMultiPart formParams){
-		
-		Questionnaire quest = importProjet();
+	public static void setBareme(FormDataMultiPart formParams, @CookieParam("AMC_Webservice") String username){
+		Utilisateur u =Utilisateurs.getUtilisateur(username);
+		Questionnaire quest = importProjet(username);
 		Question[] questions = quest.getQuestions();
 		int i=0;
 		
 		List<FormDataBodyPart> baremes = formParams.getFields("bareme");
 		ListIterator<FormDataBodyPart> baremeIterator = baremes.listIterator();
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
-		File file2 = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire2.tex");
+		File file = new File(u.getProjectPath()+"questionnaire.tex");
+		File file2 = new File(u.getProjectPath()+"questionnaire2.tex");
 		
 		if (file.exists()){
 			try(BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -610,7 +615,7 @@ public static Questionnaire importFichier(){
 					fw.write(line+"\n");
 					line = br.readLine();
 				}
-				exportProjet(quest);
+				exportProjet(quest,username);
 				br.close();
 				fw.close();
 				file2.renameTo(file);

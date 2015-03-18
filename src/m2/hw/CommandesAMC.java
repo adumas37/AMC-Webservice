@@ -16,15 +16,15 @@ public class CommandesAMC {
 	 * @param nom
 	 * @param fileName
 	 */
-	public static void prepareProject(String fileName){
-
-			String filePath = Utilisateurs.getCurrentUser().getProjectPath()+ fileName;
-			String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
-			String username = Utilisateurs.getCurrentUser().getUserName();
+	public static void prepareProject(String fileName,String username){
+			Utilisateur u = Utilisateurs.getUtilisateur(username);
+			String filePath = u.getProjectPath()+ fileName;
+			String projectPath = u.getProjectPath();
+			String name = u.getUserName();
 	        
 	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};
 
-	        executerCommande(cmd, username);
+	        executerCommande(cmd, name);
 	}
 	/**
 	 * Fonction permettant de mettre en forme la commande d'AMC afin de creer les Layouts.

@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
@@ -32,8 +33,9 @@ public class CreationProjet {
 
 	private String projectsPath = "Projets-QCM";
 
-	public CreationProjet(){
-		projectsPath=Utilisateurs.getCurrentUser().getProjectsPath();
+	public CreationProjet(@CookieParam ("AMC_Webservice") String username){
+		Utilisateur u =Utilisateurs.getUtilisateur(username);
+		projectsPath=u.getProjectsPath();
 		
 	}
 	
@@ -82,7 +84,8 @@ public class CreationProjet {
 		@FormDataParam("nom") String nom,
 		@FormDataParam("file") InputStream uploadedInputStream,
 		@FormDataParam("file") FormDataContentDisposition fileDetail,
-		@Context UriInfo context) {
+		@Context UriInfo context,
+		@CookieParam("AMC_Webservice") String username) {
 
 		String fileName = fileDetail.getFileName();
 		String url = context.getBaseUri().toString();
@@ -101,9 +104,9 @@ public class CreationProjet {
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
 				saveFile(uploadedInputStream, uploadedFileLocation);
-				CommandesAMC.prepareProject ("questionnaire.tex");
+				CommandesAMC.prepareProject ("questionnaire.tex", username);
 				
-				QuestionnaireTools.importFichier();
+				QuestionnaireTools.importFichier(username);
 				
 				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")

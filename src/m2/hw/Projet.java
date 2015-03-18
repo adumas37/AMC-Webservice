@@ -1,9 +1,10 @@
 package m2.hw;
 
 import java.io.File;
+
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -18,8 +19,9 @@ public class Projet {
 	@Path("copies")
 	@GET
 	@Produces({"application/pdf"})
-	public Response getCopies() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"sujet.pdf");
+	public Response getCopies(@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath()+"sujet.pdf");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 			response.header("Content-Disposition",
@@ -39,8 +41,9 @@ public class Projet {
 	@Path("catalog")
 	@GET
 	@Produces({"application/pdf"})
-	public Response getCatalog() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"catalog.pdf");
+	public Response getCatalog(@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath()+"catalog.pdf");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 			response.header("Content-Disposition",
@@ -60,8 +63,9 @@ public class Projet {
 	@Path("corrige")
 	@GET
 	@Produces({"application/pdf"})
-	public Response getCorrige() {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"corrige.pdf");
+	public Response getCorrige(@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath()+"corrige.pdf");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 			response.header("Content-Disposition",
@@ -81,9 +85,9 @@ public class Projet {
 	@Path("questionnaire")
 	@GET
     @Produces("text/plain")
-    public Response getTextFile() {
-
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"questionnaire.tex");
+    public Response getTextFile(@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath()+"questionnaire.tex");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
 	        response.header("Content-Disposition", "attachment; filename=\"questionnaire.tex\"");
@@ -100,8 +104,9 @@ public class Projet {
 	@Path("nomProjet")
 	@GET
 	@Produces("text/plain")
-	public Response getProjectName(){
-		ResponseBuilder response = Response.ok(Utilisateurs.getCurrentUser().getProject());
+	public Response getProjectName(@CookieParam("AMC_Webservice") String username){
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		ResponseBuilder response = Response.ok(u.getProject());
         return response.build();
 	}
 	

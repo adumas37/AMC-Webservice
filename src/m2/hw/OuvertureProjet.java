@@ -3,6 +3,7 @@ package m2.hw;
 import java.io.File;
 import java.io.IOException;
 
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
@@ -18,8 +19,9 @@ public class OuvertureProjet {
 	 * @throws IOException
 	 */
 	@POST
-	public Response getDirectory() throws IOException {
-		File directory = new File(Utilisateurs.getCurrentUser().getProjectsPath());
+	public Response getDirectory(@CookieParam("AMC_Webservice") String username) throws IOException {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File directory = new File(u.getProjectsPath());
 		File[] subdirs = directory.listFiles();
 		String directoryList = new String();
 		
