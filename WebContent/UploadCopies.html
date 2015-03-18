@@ -31,6 +31,10 @@
 					<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
 				</p>
 			</classes>
+			<csv id ="csv">
+			<!-- TODO enlever ce div et faire fonctionner l'appel avec les classes du div precedent -->
+				<p class="fichierCsv">CSV de la classe (.csv): <input id="csvInput" name="csv" accept=".csv" type="file">
+			</csv>
 		</form>
 		<input id="submit" type="button" value="Correction Copies" class="inputButton orangeButton" onclick="uploadFichiers(getUploadStatusThenCorrect)"/>
 		<p>
