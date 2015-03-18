@@ -38,6 +38,19 @@ public class UploadCopies {
 		
 	    List<FormDataBodyPart> files = formParams.getFields("file");
 	    List<FormDataBodyPart> classes = formParams.getFields("classe");
+	    List<FormDataBodyPart> csvs = formParams.getFields("csv");
+
+	    for (FormDataBodyPart csv : csvs){	//Recuperer et enregistrer les fichiers csv
+	    	
+	    	String fileName =  csv.getContentDisposition().getFileName();
+	    	if (!fileName.equals("") && /*!classe.equals("") &&*/ fileName.contains(".csv")){
+		    	InputStream fileInputStream = csv.getValueAs(InputStream.class);
+		    	String uploadedFileLocation = projectPath + "students.csv";
+				CreationProjet.saveFile(fileInputStream, uploadedFileLocation);
+				System.out.println("Ajout de csv ici: "+projectPath + "students.csv");
+	    	}
+	    	
+	    }
 	    
 	    for (FormDataBodyPart file : files){	//Recuperer et enregistrer les fichiers de copies
 	    	
