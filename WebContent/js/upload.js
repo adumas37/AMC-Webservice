@@ -105,7 +105,7 @@ function verificationClasses(){
 	return true;
 };
 function uploadFichiers(callback){
-	if(uploadValide() && verificationClasses()){
+	if(uploadValide() && /*TODO verificationClasses() && */document.getElementById("csvInput").value!=""){
 		var form=document.getElementById("uploadCopies");
 		var formData = new FormData(form);
 		var xhr = new XMLHttpRequest();

@@ -284,7 +284,7 @@ function verificationFichier(){
 
 function changerClasses(){
 
-	var xhr = new XMLHttpRequest();
+	/*var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/correction/getClasses",true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	
@@ -308,11 +308,12 @@ function changerClasses(){
 			newNode.appendChild(supprButton);
 			document.getElementById("oldClasses").appendChild(newNode);
 		});
+		*/
 		
 		document.getElementById("classes").style.display="block";
-		
+		/*
 	};
-	xhr.send();
+	xhr.send();*/
 };
 
 
