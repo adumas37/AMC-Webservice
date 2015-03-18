@@ -13,7 +13,7 @@ if (isset($_POST['username'])){
 			// Utilisateur authentifie sur le serveur LDAP
 			//ldap_close($Liaison_LDAP); Enlever le comment losque le serveur sera sur le réseau ECN
 			session_set_cookie_params('86400');
-			setcookie('AMC_Webservice',$_POST['username'],time()+86400);
+			setcookie('AMC_Webservice',$_POST['username'],time()+2*86400);
 			session_regenerate_id(true); 
 			$_SESSION['username']=$_POST['username'];
 			echo '<script>
