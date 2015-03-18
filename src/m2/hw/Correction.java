@@ -350,4 +350,28 @@ public class Correction {
 		CommandesAMC.lancerCorrection(projectPath);
 		return "1";
 	}
+	
+	@Path("csv")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@POST
+	@Produces("text/plain")
+	public String uploaderCSV(FormDataMultiPart formParams,@Context UriInfo context){
+		
+		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+		
+	    List<FormDataBodyPart> csvs = formParams.getFields("csv");
+
+	    for (FormDataBodyPart csv : csvs){	//Recuperer et enregistrer les fichiers csv
+	    	
+	    	String fileName =  csv.getContentDisposition().getFileName();
+	    	if (!fileName.equals("") && /*!classe.equals("") &&*/ fileName.contains(".csv")){
+		    	InputStream fileInputStream = csv.getValueAs(InputStream.class);
+		    	String uploadedFileLocation = projectPath + "students.csv";
+				CreationProjet.saveFile(fileInputStream, uploadedFileLocation);
+				System.out.println("Ajout de csv ici: "+projectPath + "students.csv");
+	    	}
+	    	
+	    }
+	    return "1";
+	}
 }
