@@ -47,7 +47,7 @@
 			<div id="oldFiles">
 			</div>
 			<div id="newFiles">
-				<form id=uploadCopies enctype="multipart/form-data"">
+				<form id=uploadCopies enctype="multipart/form-data">
 					<div id="upload">
 						<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file" onchange="chooseFile()"> 
 							<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
@@ -86,12 +86,14 @@
 				<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton" onclick="uploadClasses(getUploadStatusThenCorrect)"/>
 			</div>
 			-->
-			<form action="rest/correction/csv" method="post" enctype="multipart/form-data">
+			<form id="csvForm" action="rest/correction/csv" method="post" enctype="multipart/form-data">
 				<p class="fichierCsv">CSV de la classe (.csv): <input id="csvInput" name="csv" accept=".csv" type="file">
 				</p>
-				<input id="submitCSV" type="submit" value="Changer le fichier csv"  class="inputButton orangeButton"/>
 			</form>
-			<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
+			<p>
+				<input id="submitCSV" type="submit" value="Changer le fichier csv"  class="inputButton orangeButton"  onclick="uploadCsv(getUploadStatusCSVThenCorrect)"/>
+				<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
+			</p>
 		</div>
 	</div>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
