@@ -104,8 +104,15 @@ function verificationClasses(){
 	}
 	return true;
 };
+function verificationCSV(){
+	if(document.getElementById("csvInput").value==""){
+		showMessage("error", "Il faut un fichier CSV comprenant la compositions de la classe !");
+		return false;
+	}
+	return true;
+};
 function uploadFichiers(callback){
-	if(uploadValide() && /*TODO verificationClasses() && */document.getElementById("csvInput").value!=""){
+	if(uploadValide() && verificationCSV()/*TODO verificationClasses() && */){
 		var form=document.getElementById("uploadCopies");
 		var formData = new FormData(form);
 		var xhr = new XMLHttpRequest();
