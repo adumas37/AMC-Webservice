@@ -1,13 +1,4 @@
-function setCurrentUser(username){
-	var xhr = new XMLHttpRequest();
-	console.log("test");
-	xhr.open("POST","rest/utilisateurs/currentUser",false);
-	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhr.send(username);
-}
-
-function ouverture(username){
-	setCurrentUser(username);
+function ouverture(){
 	var xhr2 = new XMLHttpRequest();
 	console.log("test2");
 	xhr2.open("POST","rest/navigation/ouverture",false);
@@ -15,16 +6,14 @@ function ouverture(username){
 	xhr2.send(null);
 	return true;
 }
-function correction(username){
-	setCurrentUser(username);
+function correction(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST","rest/navigation/correction",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.send(null);
 	return true;
 }
-function suppression(username){
-	setCurrentUser(username);
+function suppression(){
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST","rest/navigation/suppression",false);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

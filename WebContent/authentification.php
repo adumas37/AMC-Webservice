@@ -13,6 +13,7 @@ if (isset($_POST['username'])){
 			// Utilisateur authentifie sur le serveur LDAP
 			//ldap_close($Liaison_LDAP); Enlever le comment losque le serveur sera sur le réseau ECN
 			session_set_cookie_params('86400');
+			setcookie('AMC_Webservice',$_POST['username'],time()+86400);
 			session_regenerate_id(true); 
 			$_SESSION['username']=$_POST['username'];
 			echo '<script>
@@ -30,9 +31,11 @@ if (isset($_POST['username'])){
 		}
 	
 }
+//Utilisateur déjà authéntifié pendant les dernières 24 heures
 elseif (isset ($_SESSION['username'])){
 	header('location: index.php');
 }
+//Utilisateur qui tente d'accéder à la page sans passer par identification.php
 else
 {
 			$_SESSION['loginFailed']=true;
