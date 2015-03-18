@@ -407,7 +407,7 @@ function uploadCopies(callback){
 	}
 };
 function uploadCsv(callback){
-	if(verificationFichier()){
+	if(document.getElementById("csvInput").value!=""){
 		var form=document.getElementById("csvForm");
 		var formData = new FormData(form);
 		var xhr = new XMLHttpRequest();
@@ -419,6 +419,10 @@ function uploadCsv(callback){
 		};
 		showMessage("wait","Upload du csv en cours...");
 		xhr.send(formData);
+	}
+	else {
+		showMessage("error","Il faut un fichier csv...");
+
 	}
 }
 function lancerCorrection(callback){
