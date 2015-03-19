@@ -42,7 +42,7 @@ public class QuestionnaireTools {
 	@Path("creation")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/plain")
-	public String creation(String data, @CookieParam("username") String username){
+	public String creation(String data, @CookieParam("AMC_Webservice") String username){
 		
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
