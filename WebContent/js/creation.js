@@ -1,5 +1,3 @@
-var imageIndex=0;
-
 function ajoutReponse(elmnt){
 
 	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
@@ -7,43 +5,16 @@ function ajoutReponse(elmnt){
 	var reponseNb = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].childElementCount+1;
 	stringNameReponse = stringNameReponse.substring(0, stringNameReponse.length-1);
 	stringNameReponse += reponseNb;
-
-	// Change input for image upload
-	var stringNameReponsePreview = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].getElementsByClassName("imgUpload")[0].id;
-	var reponseNb = elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].childElementCount+1;
-	stringNameReponsePreview = stringNameReponsePreview.substring(stringNameReponsePreview.length-3, stringNameReponsePreview.length-1);
-	stringNameReponsePreview = "R"+ stringNameReponsePreview + reponseNb;
-
-	//console.log(stringNameReponsePreview);
 	
 	var reponse = document.getElementsByClassName("reponse")[0];
 	var reponse2 = reponse.cloneNode(true);
 	reponse2.getElementsByClassName("reponseInput")[0].value="";
 	reponse2.getElementsByTagName("span")[0].getElementsByTagName("input")[0].checked=false;
+	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
 
 	// Change input id for latex formula (input id and href for latex formula button)
 	reponse2.getElementsByClassName("reponseInput")[0].id = stringNameReponse;
 	reponse2.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('"+stringNameReponse+"','latex','fr-fr')";
-
-	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
-
-	//console.log(reponse2.getElementsByClassName("openImgUpload")[0]);
-
-	var reponse3 = reponse.parentNode.getElementsByClassName("imgUpload")[0];
-
-	var reponse4 = reponse3.cloneNode(true);
-
-	// Change input for image upload
-	reponse2.getElementsByClassName("openImgUpload")[0].onclick= function() { uploadImg('newImg'+ stringNameReponsePreview);return false } ;
-	reponse4.setAttribute("style", "display: none;");
-	reponse4.id = "newImg"+ stringNameReponsePreview;
-	reponse4.getElementsByClassName("previewcanvas")[0].id = "previewcanvas"+ stringNameReponsePreview;
-	reponse4.getElementsByClassName("uploadfileselection")[0].id = "uploadfileselection"+ stringNameReponsePreview;
-	reponse4.getElementsByClassName("uploadfileselection")[0].onchange = function() { return ShowImagePreview( this.files, stringNameReponsePreview ); } ;
-	reponse4.getElementsByClassName("previewclearbutton")[0].onclick = function() { ClearImagePreview( stringNameReponsePreview ); return false; } ;
-
-	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses").firstChild.appendChild(reponse4);
-
 };
 
 function ajoutQuestion(elmnt){
@@ -51,15 +22,16 @@ function ajoutQuestion(elmnt){
 	// To change input id for latex formula : Which input is created, tag it to target it for Latex Formula Button
 	var questionNb = document.getElementById("questionnaire").childElementCount;
 	var stringNameReponse = "reponse "+questionNb+",1";
-	var stringNameReponsePreview = "R"+questionNb+",1";
 
 	var question1 = document.getElementsByClassName("blocQR")[0];
 	var question = question1.cloneNode(true);
 
 	question.getElementsByTagName("input")[0].value="";
+	question.getElementsByClassName("imageChargee")[0].src="";
+	question.getElementsByClassName("imgNb")[0].innerHTML="";
 	var reponses = question.getElementsByTagName("reponses")[0];
 	if (reponses.childElementCount > 1 ) {
-		while (reponses.childNodes.length >=2){ // To check
+		while (reponses.childNodes.length >=2){
 			reponses.removeChild(reponses.firstChild);
 		}
 	}	
@@ -70,22 +42,6 @@ function ajoutQuestion(elmnt){
 	question.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('question"+questionNb+"','latex','fr-fr')";
 	reponses.getElementsByClassName("reponseInput")[0].id = stringNameReponse;
 	reponses.getElementsByClassName("linkLatex")[0].href="javascript:OpenLatexEditor('"+stringNameReponse+"','latex','fr-fr')";
-
-	//Canvas for image upload stuff
-	//Question part
-	question.getElementsByClassName("imgUpload")[0].id="newImgQ"+questionNb;
-	question.getElementsByClassName("openImgUpload")[0].onclick= function() { uploadImg('newImgQ'+questionNb);return false } ;
-	question.getElementsByClassName("previewcanvas")[0].id="previewcanvasQ"+questionNb;
-	question.getElementsByClassName("uploadfileselection")[0].onchange= function() { return ShowImagePreview( this.files, 'Q'+ questionNb); } ;
-	question.getElementsByClassName("previewclearbutton")[0].onclick= function() { ClearImagePreview( 'Q'+ questionNb ); return false; } ;
-	reponses.getElementsByClassName("openImgUpload")[0].onclick=function() { uploadImg('newImg' + stringNameReponsePreview );return false } ;
-
-	//Answer part
-	reponses.getElementsByClassName("imgUpload")[0].id="newImg"+stringNameReponsePreview;
-	reponses.getElementsByClassName("previewcanvas")[0].id="previewcanvas"+stringNameReponsePreview;
-	reponses.getElementsByClassName("uploadfileselection")[0].id="uploadfileselection"+stringNameReponsePreview;
-	reponses.getElementsByClassName("uploadfileselection")[0].onchange=function() { return ShowImagePreview( this.files, "newImg"+stringNameReponsePreview); };
-	reponses.getElementsByClassName("previewclearbutton")[0].onclick= function() { ClearImagePreview( "newImg"+stringNameReponsePreview ); return false; } ;
 
 	document.getElementById("questionnaire").appendChild(question);
 
@@ -126,6 +82,7 @@ function demanderQuestionnaire(callback){
 	xhr.send(null);
 };
 function chargerQuestionnaire(json){
+	
 	var html='';
 	html+='<p id="entete"> \
 		<span id="matiere">Matiere:<input id="matiereInput" name="matiere" type="text" class="inputText inputButton" value="'+json.matiere+'"/></span> \
@@ -159,43 +116,36 @@ function chargerQuestionnaire(json){
 		</p>';
 	for(i=0;i<json.questions.length;i++){
 		html += '<blocQR class="blocQR"> \
-		<div class="question"> \
+		<p class="question"> \
 		Question: <input type="text" id="question'+i+'" name="question" class="questionInput inputText inputButton" value="'+json.questions[i].texte+'"/> \
 		<a class="linkLatex" href="javascript:OpenLatexEditor(\'question'+i+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
-		<a href="" class="openImgUpload" onclick="uploadImg(\'newImgQ1\');return false"><img class="linkPicture" src="src/img.png"></a> \
-		<img class="imageChargee" style="display:block;max-width:282px;max-height:141px;"/> \
-		<div id="newImgQ1" class="imgUpload" style="display: none;"> \
-			<span class="imgNb">'+json.questions[i].image+'</span> \
-			<div class="previewcanvascontainer" style="width: 282px;"> \
-                <canvas id="previewcanvasQ1" class="previewcanvas" style="width: 282px;"> \
-                </canvas> \
-            </div> \
-            <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="uploadImageOnServer(this);ShowImagePreview( this.files,\'Q1\');" /> \
-		    <input class="previewclearbutton" type="button" onclick="deleteImageOnServer(this);ClearImagePreview(\'Q1\');return false;" value="Effacer"/> \
-		</div></div><reponses>';
-		if(parseInt(json.questions[i].image.split(".")[0])>imageIndex){
-			imageIndex=parseInt(json.questions[i].image.split(".")[0]);
+		<a class="linkImage" href="#" onclick="showUploadImageFunctions(this.parentNode);" > \
+		<img class="linkPicture" src="src/img.png"></a> \
+		<img class="imageChargee" style="display:block;margin:auto;max-width:300px;max-height:150px;" src=""/> \
+		<a class="delImage" style="visibility:hidden;" href="#" onclick="deleteImageOnServer(this);" > \
+		<img class="linkPicture" src="src/img.png">Supprimer</a> \
+		<input type="file" onchange="uploadImageOnServer(this);" class="uploadImage" name="uploadImage" style="visibility: hidden; width: 1px; height: 1px"/> \
+		<span class="imgNb">';
+		if(typeof json.questions[i].image!= "undefined"){
+			html+=json.questions[i].image;
+			if(parseInt(json.questions[i].image.split(".")[0])>imageIndex){
+				imageIndex=parseInt(json.questions[i].image.split(".")[0]);
+			}
 		}
-		getImages(json.questions[i].image,"question",i);
+		html+='</span> \
+		</p><reponses>';
+		getImages(json.questions[i].image,document.getElementsByClassName("question"),i);
 		
 		for(j=0;j<json.questions[i].reponses.length;j++){
-			html += '<div class="reponse"> \
+			html += '<p class="reponse"> \
 			Reponse: <input type="text" id="reponse '+i+','+j+'" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
 			<a class="linkLatex" href="javascript:OpenLatexEditor(\'reponse '+i+','+j+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
-			<a href=""  class="openImgUpload" onclick="uploadImg(\'newImgR1,1\');return false"><img class="linkPicture" src="src/img.png"></a> \
 			<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne"';
+			
 			if(json.questions[i].reponses[j].correcte){html+=' checked="true"';}
 			html+='"/></span> \
 			<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span> \
-				<div id="newImgR1,1" class="imgUpload" style="display: none;"> \
-				<div class="previewcanvascontainer" style="width: 282px;"> \
-	                <canvas id="previewcanvasR1,1" class="previewcanvas" style="width: 282px;"> \
-	                </canvas> \
-	            </div> \
-                <input type="file" id="uploadfileselectionR1,1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, \'R1,1\' );" /> \
-			    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( \'R1,1\' ); return false;" value="Effacer"/> \
-			</div> \
-			</div>';
+			</p>';
 		}
 		html += '</reponses> \
 		<options> \
@@ -206,10 +156,12 @@ function chargerQuestionnaire(json){
 		</options> \
 		</blocQR>';
 		
+		
+		
 	}
 	
 	document.getElementById("questionnaire").innerHTML = html;
-	document.getElementById("dureeInput").value=json.duree;	
+	document.getElementById("dureeInput").value=json.duree;
 };
 
 function questionnaireValide(){
@@ -297,21 +249,23 @@ function questionnaireValide(){
 			if(i>0){
 				jsonData+=',';
 			}
-				var imgName="";
-				if(typeof blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("imgNb")[0]!= "undefined"){
-					imgName=blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("imgNb")[0].innerHTML;
+			var imgName="";
+
+			if(blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("imgNb")[0].innerHTML!=""){
+				imgName=blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("imgNb")[0].innerHTML;
+			}
+			jsonData+='{"image":"'+imgName+'","texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value.replace(/\\/g,"\\\\")+'", \
+			"bareme":"2","reponses": \
+		            	  	[';
+			for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
+				if(j>0){
+					jsonData+=',';
 				}
-				jsonData+='{"image":"'+imgName+'","texte":"'+blocsQR[i].getElementsByClassName("question")[0].getElementsByClassName("questionInput")[0].value.replace(/\\/g,"\\\\")+'", \
-				"bareme":"2","reponses": \
-			            	  	[';
-				for(j=0;j<blocsQR[i].getElementsByClassName("reponse").length;j++){
-					if(j>0){
-						jsonData+=',';
-					}
-					jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value.replace(/\\/g,"\\\\")+'", \
-					"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
-				}
-				jsonData+=']}';
+				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value.replace(/\\/g,"\\\\")+'", \
+				"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
+			}
+			jsonData+=']}';
+	
 		}
 		jsonData+=']}';
 		showMessage("wait","Création du questionnaire...");
@@ -345,7 +299,7 @@ function sendQuestionnaire(callback, data){
 };
 function stateQuestionnaireCompilation(code){
 	if(code=='1'){
-		 document.location.href="Projet.html";
+		 document.location.href="Projet.php";
 	}else{
 		showMessage("error",code);
 	}
@@ -426,119 +380,23 @@ function eraseFile(){
 	document.getElementById("fichierTexInput").value = "";
 };
 
-function uploadImg(balise){
-	if (document.getElementById(balise).style.display=="none"){
-		document.getElementById(balise).setAttribute("style", "display: block;");
-	}
-	else
-	{
-		document.getElementById(balise).setAttribute("style", "display: none;");
-	}
+
+
+var imageIndex=0;
+
+function showUploadImageFunctions(element){
+	element.getElementsByClassName('uploadImage')[0].click();
+	console.log("coucou");
 }
-
-function ShowImagePreview( files, selection )
-{
-    if( !( window.File && window.FileReader && window.FileList && window.Blob ) )
-    {
-      alert('The File APIs are not fully supported in this browser.');
-      return false;
-    }
-
-    if( typeof FileReader === "undefined" )
-    {
-        alert( "Filereader undefined!" );
-        return false;
-    }
-
-    var file = files[0];
-
-    if( !( /image/i ).test( file.type ) )
-    {
-        alert( "File is not an image." );
-        return false;
-    }
-
-    reader = new FileReader();
-    reader.onload = function(event) { var img = new Image;
-                img.onload = function (){
-                    UpdatePreviewCanvas(img, selection);
-                }
-                img.src = event.target.result;  
-            };
-    reader.readAsDataURL( file );
-}
-
-function UpdatePreviewCanvas(image, selection)
-{
-    var img = image;
-
-    var canvas = document.getElementById( "previewcanvas" + selection );
-
-    if( typeof canvas === "undefined" 
-        || typeof canvas.getContext === "undefined" )
-        return;
-
-    var context = canvas.getContext( '2d' );
-
-    var world = new Object();
-    world.width = canvas.offsetWidth;
-    world.height = canvas.offsetHeight;
-
-    canvas.width = world.width;
-    canvas.height = world.height;
-
-    if( typeof img === "undefined" )
-        return;
-
-    var WidthDif =  - world.width;
-    var HeightDif = img.height - world.height;
-
-    var Scale = 0.0;
-    if( WidthDif > HeightDif )
-    {
-        Scale = world.width / img.width;
-    }
-    else
-    {
-        Scale = world.height / img.height;
-    }
-    if( Scale > 1 )
-        Scale = 1;
-
-    var UseWidth = Math.floor( img.width * Scale );
-    var UseHeight = Math.floor( img.height * Scale );
-
-    var x = Math.floor( ( world.width - UseWidth ) / 2 );
-    var y = Math.floor( ( world.height - UseHeight ) / 2 );
-
-    context.drawImage( img, x, y, UseWidth, UseHeight );  
-};
-
-function ClearImagePreview( selection )
-{
-    var UploadForm = document.getElementById( "uploadfileselection" + selection);
-    if( UploadForm !== undefined && UploadForm != null )
-    {
-        document.getElementById("uploadfileselection" + selection).value = "";
-        
-        var canvas = document.getElementById( "previewcanvas" + selection );
-            
-        if( canvas === "undefined" )
-            return;
-
-        var context = canvas.getContext( '2d' );
-
-        context.clearRect( 0, 0, canvas.width, canvas.height );     
-    }
-};
 function uploadImageOnServer(element){
-	showMessage("wait","Upload de l'image sur le serveur...");
-	if(element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML!=""){
+
+	if(element.parentNode.getElementsByClassName("imgNb")[0].innerHTML!=""){
 		imageIndex=parseInt(element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML.split(".")[0]);
 		deleteImageOnServer(element);
 	}else{
 		imageIndex=imageIndex+1;
-	}
+	}	
+	showMessage("wait","Upload de l'image sur le serveur...");
 	var file=element.files[0];
 	var fd=new FormData();
 	
@@ -552,11 +410,9 @@ function uploadImageOnServer(element){
 	xhr.open('POST', 'rest/questionnaireTools/uploadImage', true);
 	xhr.onload = function() {
 	    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-	    	//Disparition du wait
-	    	//Status d'upload?
-	    	//Ajout du div contenant l'index de l'image
 	    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML=imageIndex+"."+extension;
 	    	element.parentNode.parentNode.getElementsByClassName("imageChargee")[0].src="";
+	    	getImages("N"+imageIndex+"."+extension,element.parentNode.parentNode,-1);
 	    	setMessageVisible(false);
 	    }
 	};
@@ -570,22 +426,28 @@ function deleteImageOnServer(element){
 		xhr.open('POST', 'rest/questionnaireTools/deleteImage', true);
 		xhr.onload = function() {
 		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-		    	//Disparition du wait
 		    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML="";
-
+		    	element.parentNode.parentNode.getElementsByClassName("imageChargee")[0].src="";
+		    	element.parentNode.parentNode.getElementsByClassName("delImage")[0].style.visibility="hidden";
 		    	setMessageVisible(false);
 		    }
 		};
 		xhr.send(fileName);
 	}
 }
-function getImages(imgName,element,i){
+function getImages(imgName,elementCharge,i){
 	if(imgName!=""){
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', 'rest/questionnaireTools/getImage', true);
 		xhr.onload = function() {
 		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-		    	document.getElementsByClassName(element)[i].getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
+		    	if(i>=0){
+		    		elementCharge[i].getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
+		    		elementCharge[i].getElementsByClassName("delImage")[0].style.visibility="visible";
+		    	}else{
+		    		elementCharge.getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
+		    		elementCharge.getElementsByClassName("delImage")[0].style.visibility="visible";
+		    	}
 	        };    
 		};
 		xhr.send(imgName);

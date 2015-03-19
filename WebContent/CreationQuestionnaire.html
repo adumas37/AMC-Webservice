@@ -57,16 +57,10 @@
 					<div class="question">
 						Question: <input type="text" id="question1" name="question" class="questionInput inputText inputButton"/>
 						<a class="linkLatex" href="javascript:OpenLatexEditor('question1','latex','fr-fr')"><img src="src/formula_icon.png"></a>
-						<a href="" class="openImgUpload" onclick="uploadImg('newImgQ1');return false"><img class="linkPicture" src="src/img.png"></a>
-
-						<div id="newImgQ1" class="imgUpload" style="display: none;">
-							<div class="previewcanvascontainer" style="width: 282px;">
-				                <canvas id="previewcanvasQ1" class="previewcanvas" style="width: 282px;">
-				                </canvas>
-				            </div>
-			                <input type="file" id="uploadfileselectionQ1" class="uploadfileselection" onchange="return ShowImagePreview( this.files, 'Q1' );uploadImageOnServer(this);" />
-						    <input class="previewclearbutton" type="button" onclick="ClearImagePreview( 'Q1' ); return false;" value="Effacer"/>
-						</div>
+						<a class="linkImage" href="#" onclick="showUploadImageFunctions(this.parentNode);"><img class="linkPicture" src="src/img.png"></a>
+						<img class="imageChargee" style="display:block;margin:auto;max-width:300px;max-height:150px;" src=""/>
+						<input type="file" onchange="uploadImageOnServer(this);" class="uploadImage" name="uploadImage" style="visibility: hidden; width: 1px; height: 1px"/>
+						<span class="imgNb"></span>
 					</div>
 					<reponses>
 						<div class="reponse">
