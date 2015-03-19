@@ -23,6 +23,20 @@ body {
   	padding: 20px 0;
   	background: #717171;
 }
+.ID {
+	font-size: 15px;
+	color:white;
+  	text-align: left;
+  	padding: 0 0;
+  	background: #717171;
+}
+.logout {
+	font-size: 15px;
+	color:white;
+  	text-align: left;
+  	padding: 0 0;
+  	background: #717171;
+}
 
 .contenu {
  	width:640px;	

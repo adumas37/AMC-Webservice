@@ -8,6 +8,7 @@ import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -32,9 +33,9 @@ public class UploadCopies {
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces("text/plain")
-	public String Correction(FormDataMultiPart formParams,@Context UriInfo context) {
-
-		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+	public String Correction(FormDataMultiPart formParams,@Context UriInfo context,@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		String projectPath = u.getProjectPath();
 		
 	    List<FormDataBodyPart> files = formParams.getFields("file");
 	    List<FormDataBodyPart> classes = formParams.getFields("classe");
@@ -65,7 +66,7 @@ public class UploadCopies {
 	    }
 	    
 	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
-	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
+	    	File file = new File(u.getProjectPath()+"copies/listeCopies.txt");
 		    FileWriter fw = new FileWriter(file);
 		    PrintWriter pw = new PrintWriter(fw);
 	        for (int i = 0; i < files.size(); i++){
@@ -79,7 +80,7 @@ public class UploadCopies {
 	    }
 	    
 	    try{	//Ecriture du fichier contenant la liste des classes
-	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
+	    	File file = new File(u.getProjectPath()+"copies/classes.txt");
 		    FileWriter fw = new FileWriter(file);
 		    PrintWriter pw = new PrintWriter(fw);
 	        for (int i = 0; i < classes.size(); i++){

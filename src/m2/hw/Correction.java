@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
 import com.google.gson.Gson;
 import com.sun.jersey.multipart.FormDataBodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
@@ -34,9 +36,9 @@ public class Correction {
 	@Path("download")
 	@GET
     @Produces("text/plain")
-    public Response getTextFile() {
-		
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() +
+    public Response getTextFile(@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath() +
 							 "/exports/notes.csv");
 		if (file.exists()){
 			ResponseBuilder response = Response.ok((Object) file);
@@ -52,8 +54,9 @@ public class Correction {
 	@Path("notes")
 	@POST
     @Produces("text/plain")
-    public Response getNotes() throws IOException {
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"/exports/notes.csv");
+    public Response getNotes(@CookieParam("AMC_Webservice") String username) throws IOException {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath()+"/exports/notes.csv");
 		String notesHTML = new String("<table>");
 		if (file.exists()){
 			try{
@@ -93,9 +96,9 @@ public class Correction {
 	@Path("getFilesNames")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-    public String getCopies() {
-		
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() +
+    public String getCopies(@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath() +
 							 "/copies/listeCopies.txt");
 		ArrayList<String> listFiles = new ArrayList<String>();
 		String json = null;
@@ -137,9 +140,9 @@ public class Correction {
 	@Produces("text/plain")
 	public String ajouterCopies(
 		FormDataMultiPart formParams,
-		@Context UriInfo context) {
-
-		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+		@Context UriInfo context,@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		String projectPath = u.getProjectPath();
 		
 	    List<FormDataBodyPart> files = formParams.getFields("file");
 	    
@@ -156,7 +159,7 @@ public class Correction {
 	    }
 	    
 	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
-	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
+	    	File file = new File(u.getProjectPath()+"copies/listeCopies.txt");
 		    FileWriter fw = new FileWriter(file,true);
 		    PrintWriter pw = new PrintWriter(fw);
 		    String fileName="";
@@ -188,17 +191,17 @@ public class Correction {
 	@Path("supprimerCopie/{name}")
 	@POST
 	@Produces("text/plain")
-	public String supprimerCopie( @PathParam("name") String name) {
-
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() + "/copies/"+ name);
+	public String supprimerCopie( @PathParam("name") String name,@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath() + "/copies/"+ name);
 		if (file.exists()){
 			file.delete();
 		}
 		
 		try{	//Modification du fichier contenant la liste des fichiers des copies
 
-			File inputFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt");
-			File tempFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/listeCopies.txt~");
+			File inputFile = new File(u.getProjectPath()+"copies/listeCopies.txt");
+			File tempFile = new File(u.getProjectPath()+"copies/listeCopies.txt~");
 
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		    PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
@@ -230,9 +233,9 @@ public class Correction {
 	@Path("getClasses")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-    public String getClasses() {
-		
-		File file = new File(Utilisateurs.getCurrentUser().getProjectPath() +
+    public String getClasses(@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		File file = new File(u.getProjectPath() +
 							 "/copies/classes.txt");
 		ArrayList<String> listFiles = new ArrayList<String>();
 		String json = null;
@@ -272,12 +275,12 @@ public class Correction {
 	@Path("supprimerClasse/{name}")
 	@POST
 	@Produces("text/plain")
-	public String supprimerClasse( @PathParam("name") String name) {
+	public String supprimerClasse(@PathParam("name") String name,@CookieParam("AMC_Webservice") String username) {
 		
 		try{	//Modification du fichier contenant la liste des classes
-
-			File inputFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
-			File tempFile = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt~");
+			Utilisateur u = Utilisateurs.getUtilisateur(username);
+			File inputFile = new File(u.getProjectPath()+"copies/classes.txt");
+			File tempFile = new File(u.getProjectPath()+"copies/classes.txt~");
 
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		    PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
@@ -311,12 +314,13 @@ public class Correction {
 	@Produces("text/plain")
 	public String ajouterClasses(
 		FormDataMultiPart formParams,
-		@Context UriInfo context) {
-		
+		@Context UriInfo context,
+		@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
 	    List<FormDataBodyPart> classes = formParams.getFields("classe");
 	    
 	    try{	//Ecriture du fichier contenant la liste des fichiers des copies
-	    	File file = new File(Utilisateurs.getCurrentUser().getProjectPath()+"copies/classes.txt");
+	    	File file = new File(u.getProjectPath()+"copies/classes.txt");
 		    FileWriter fw = new FileWriter(file,true);
 		    PrintWriter pw = new PrintWriter(fw);
 		    String classe="";
@@ -345,8 +349,9 @@ public class Correction {
 	@Path("LancerCorrection")
 	@POST
 	@Produces("text/plain")
-	public String lancerCorrection(){
-		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+	public String lancerCorrection(@CookieParam("AMC_Webservice") String username){
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		String projectPath = u.getProjectPath();
 		CommandesAMC.lancerCorrection(projectPath);
 		return "1";
 	}

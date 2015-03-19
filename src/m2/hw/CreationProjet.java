@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
@@ -32,8 +33,9 @@ public class CreationProjet {
 
 	private String projectsPath = "Projets-QCM";
 
-	public CreationProjet(){
-		projectsPath=Utilisateurs.getCurrentUser().getProjectsPath();
+	public CreationProjet(@CookieParam ("AMC_Webservice") String username){
+		Utilisateur u =Utilisateurs.getUtilisateur(username);
+		projectsPath=u.getProjectsPath();
 		
 	}
 	
@@ -41,9 +43,10 @@ public class CreationProjet {
      * Fonction permettant de creer les dossiers pour le nouveau projet
      * @param data
      */
-    public static void creationRepertoire(String nom){
-        String projectsPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
-                Utilisateurs.getCurrentUser().getProjectsPath().length()-1)+"/"+nom;
+    public static void creationRepertoire(String nom,String username){
+    	Utilisateur u=Utilisateurs.getUtilisateur(username);
+        String projectsPath = u.getProjectsPath().substring(0,
+        u.getProjectsPath().length()-1)+"/"+nom;
         File dir = new File(projectsPath);
         boolean isCreated = dir.mkdirs();
         dir = new File(projectsPath+"/cr");
@@ -82,8 +85,9 @@ public class CreationProjet {
 		@FormDataParam("nom") String nom,
 		@FormDataParam("file") InputStream uploadedInputStream,
 		@FormDataParam("file") FormDataContentDisposition fileDetail,
-		@Context UriInfo context) {
-
+		@Context UriInfo context,
+		@CookieParam("AMC_Webservice") String username) {
+		Utilisateur u =Utilisateurs.getUtilisateur(username);
 		String fileName = fileDetail.getFileName();
 		String url = context.getBaseUri().toString();
 		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
@@ -96,25 +100,25 @@ public class CreationProjet {
 			}
 
 			String uploadedFileLocation = projectsPath + "/" + nom + "/questionnaire.tex";
-			creationRepertoire(nom);
-			Utilisateurs.getCurrentUser().setProject(nom);
+			creationRepertoire(nom,username);
+			u.setProject(nom);
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
 				saveFile(uploadedInputStream, uploadedFileLocation);
-				CommandesAMC.prepareProject ("questionnaire.tex");
+				CommandesAMC.prepareProject ("questionnaire.tex", username);
 				
-				QuestionnaireTools.importFichier();
+				QuestionnaireTools.importFichier(username);
 				
 				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")
-						.build("Projet.html");
+						.build("Projet.php");
 				
 				return Response.seeOther(uri).build();
 			}
 			else if (fileName.equals("")){
 				URI uri = UriBuilder.fromUri(url)
 						.path("{a}")
-						.build("CreationQuestionnaire.html");
+						.build("CreationQuestionnaire.php");
 				return Response.seeOther(uri).build();
 			}
 			else{

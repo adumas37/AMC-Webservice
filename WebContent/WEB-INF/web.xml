@@ -30,7 +30,37 @@
     <servlet-name>Jersey REST Service Test</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
-  <welcome-file-list>
-        <welcome-file>identification.html</welcome-file>
+    <welcome-file-list>
+        <welcome-file>index.php</welcome-file>
     </welcome-file-list>
+<listener><listener-class>php.java.servlet.ContextLoaderListener</listener-class></listener>
+<servlet>
+	<servlet-name>PhpJavaServlet</servlet-name><servlet-class>php.java.servlet.PhpJavaServlet</servlet-class>
+</servlet>
+<servlet>
+	<servlet-name>PhpCGIServlet</servlet-name><servlet-class>php.java.servlet.fastcgi.FastCGIServlet</servlet-class>
+	<init-param><param-name>prefer_system_php_exec</param-name><param-value>On</param-value></init-param>
+	<init-param><param-name>php_include_java</param-name><param-value>Off</param-value></init-param>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PhpJavaServlet</servlet-name><url-pattern>*.phpjavabridge</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+	<servlet-name>PhpCGIServlet</servlet-name><url-pattern>*.php</url-pattern>
+</servlet-mapping>
+
+    <servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>listings</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
 </web-app>
