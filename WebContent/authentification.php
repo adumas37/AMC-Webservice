@@ -9,18 +9,18 @@ if (isset($_POST['username'])){
 		$LDAP_DN="uid=$login, ou=people, dc=ec-nantes, dc=fr";
 		$LDAPBind_User = ldap_bind($Liaison_LDAP, $LDAP_DN, $password);
 		if ($LDAPBind_User)*/
-	if ($_POST['username']=="AMC" && $_POST['password']=="AMC"){
+	if (($_POST['username']=="AMC"||$_POST['username']=="AMC2") && $_POST['password']=="AMC"){
 			// Utilisateur authentifie sur le serveur LDAP
 			//ldap_close($Liaison_LDAP); Enlever le comment losque le serveur sera sur le réseau ECN
-			session_set_cookie_params('86400');
-			setcookie('AMC_Webservice',$_POST['username'],time()+2*86400);
+			session_set_cookie_params('31536000');
+			setcookie('AMC_Webservice',$_POST['username'],time()+2*365*86400);
 			session_regenerate_id(true); 
 			$_SESSION['username']=$_POST['username'];
 			echo '<script>
 				  var xhr = new XMLHttpRequest();
 				  xhr.open("POST","rest/utilisateurs/add",false);
 				  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				  xhr.send("'.$_SESSION['username'].'");
+				  xhr.send(null);
 				  location.href="index.php";
 				  </script>';
 	}
