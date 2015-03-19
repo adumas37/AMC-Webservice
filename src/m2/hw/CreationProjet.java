@@ -43,9 +43,10 @@ public class CreationProjet {
      * Fonction permettant de creer les dossiers pour le nouveau projet
      * @param data
      */
-    public static void creationRepertoire(String nom){
-        String projectsPath = Utilisateurs.getCurrentUser().getProjectsPath().substring(0,
-                Utilisateurs.getCurrentUser().getProjectsPath().length()-1)+"/"+nom;
+    public static void creationRepertoire(String nom,String username){
+    	Utilisateur u=Utilisateurs.getUtilisateur(username);
+        String projectsPath = u.getProjectsPath().substring(0,
+        u.getProjectsPath().length()-1)+"/"+nom;
         File dir = new File(projectsPath);
         boolean isCreated = dir.mkdirs();
         dir = new File(projectsPath+"/cr");
@@ -86,7 +87,7 @@ public class CreationProjet {
 		@FormDataParam("file") FormDataContentDisposition fileDetail,
 		@Context UriInfo context,
 		@CookieParam("AMC_Webservice") String username) {
-
+		Utilisateur u =Utilisateurs.getUtilisateur(username);
 		String fileName = fileDetail.getFileName();
 		String url = context.getBaseUri().toString();
 		url=url.substring(0,url.length()-5); //Supression du "rest/" a la fin de l'url
@@ -99,8 +100,8 @@ public class CreationProjet {
 			}
 
 			String uploadedFileLocation = projectsPath + "/" + nom + "/questionnaire.tex";
-			creationRepertoire(nom);
-			Utilisateurs.getCurrentUser().setProject(nom);
+			creationRepertoire(nom,username);
+			u.setProject(nom);
 			
 			if (!fileName.equals("") && fileName.contains(".tex")){
 				saveFile(uploadedInputStream, uploadedFileLocation);
