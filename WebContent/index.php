@@ -16,7 +16,8 @@ if (isset($_SESSION['username'])){
 <body>
 	
 	<div class="main-header">AMC Webservice</div>
-	
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
 
 
 	<div id="content" class="contenu index">
@@ -44,7 +45,7 @@ if (isset($_SESSION['username'])){
 	</div> <!-- /content -->
 
 	
-	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS <a href="logout.php">Log Out</a></footer>
+	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS </footer>
 	
 	<script src="js/navigation.js"></script>
 

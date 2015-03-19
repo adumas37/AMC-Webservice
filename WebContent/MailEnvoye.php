@@ -15,6 +15,9 @@ if (isset($_SESSION['username'])){
 <body>
 
 	<header class="main-header">AMC Webservice - Envois des mails</header>	
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
+	
 	<div id="content" class="contenu index">
 		<div id="mailResultats">
 			<p>Un mail contenant les copies corrigées des étudiants ainsi que leurs notes a été envoyé.</p>

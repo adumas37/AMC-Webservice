@@ -15,6 +15,9 @@ if (isset($_SESSION['username'])){
 <body onload="afficherDossiers(this)">
 
 	<header class="main-header">AMC Webservice - <span id="action">Choix du projet</span></header>
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
+	
 	<hr>
 
 	<div id="content" class="contenu" >

@@ -18,6 +18,8 @@ if (isset($_SESSION['username'])){
 	<div class="page">
 	<div class="bloc-principal">
 	<header class="main-header">AMC Webservice - Creation questionnaire: <span id="nomProjet"></span></header>
+		<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
 	<div class="waiting" id="message" style="visibility:hidden;position:absolute;padding:10px;width:300px;height:150px;left:50%;top:50%;margin-top:-75px;margin-left:-150px;background-color:#F4F5F5;text-align:center;">
 	<p>Création du questionnaire</p>
 	<img src="src/waiting.gif"/>

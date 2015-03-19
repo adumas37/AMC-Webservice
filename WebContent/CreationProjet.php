@@ -15,7 +15,9 @@ if (isset($_SESSION['username'])){
 <body>
 
 	<header class="main-header">AMC Webservice - Creation</header>
-
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
+	
 	<div id="content" class="contenu index">
 		<form name="formulaireProjet" id="creationProjet" method="post" action="rest/creationProjet" enctype="multipart/form-data">
 			<p id="nomProjet">Nom du projet: <input id="nomProjetInput" name="nom" type="text" class="inputButton inputText"/></p>
