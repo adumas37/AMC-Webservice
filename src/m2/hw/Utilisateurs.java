@@ -34,13 +34,13 @@ public class Utilisateurs {
 	 */
 	@Path("add")
 	@POST
-<<<<<<< HEAD
+//<<<<<<< HEAD
     public void addUtilisateur(@CookieParam("AMC_Webservice") String username){
 		if (utilisateurs.get(username)==null){
 	    	Utilisateur u = new Utilisateur(username);
 	    	utilisateurs.put(username,u);
 		}
-=======
+/*=======
     public Response addUtilisateur(String username){
 
     	Utilisateur u = new Utilisateur(username);
@@ -52,7 +52,7 @@ public class Utilisateurs {
 				.build("index.html");
 		
 		return Response.seeOther(uri).build();
->>>>>>> refs/remotes/origin/master
+>>>>>>> refs/remotes/origin/master*/
     }
 	
     /**
