@@ -43,7 +43,7 @@ if (isset($_SESSION['username'])){
 			<div id="bareme">
 			</div>
 			<p>
-				<input id="submitBareme" type="submit" value="Changer le bareme et calculer les notes" onclick="hideBareme()" class="inputButton orangeButton"/>
+				<input id="submitBareme" type="submit" value="Changer le bareme" onclick="hideBareme()" class="inputButton orangeButton"/>
 				<input id="cancelBareme" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideBareme()"/>
 			</p>
 		</form>
