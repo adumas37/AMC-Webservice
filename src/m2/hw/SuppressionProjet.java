@@ -2,6 +2,7 @@ package m2.hw;
 
 import java.io.File;
 
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -13,9 +14,10 @@ public class SuppressionProjet {
 	 * @param project
 	 */
 	@POST
-	public void supprimerProjet(String project){
-		Utilisateurs.getCurrentUser().setProject(project);
-		File dir = new File(Utilisateurs.getCurrentUser().getProjectPath());
+	public void supprimerProjet(String project,@CookieParam ("AMC_Webservice") String username){
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		u.setProject(project);
+		File dir = new File(u.getProjectPath());
 		deleteDir(dir);
 	}
 	

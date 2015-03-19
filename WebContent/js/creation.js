@@ -273,7 +273,7 @@ function sendQuestionnaire(callback, data){
 };
 function stateQuestionnaireCompilation(code){
 	if(code=='1'){
-		 document.location.href="Projet.html";
+		 document.location.href="Projet.php";
 	}else{
 		showMessage("error",code);
 	}
