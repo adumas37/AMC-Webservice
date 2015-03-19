@@ -360,9 +360,9 @@ public class Correction {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@POST
 	@Produces("text/plain")
-	public String uploaderCSV(FormDataMultiPart formParams,@Context UriInfo context){
-		
-		String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+	public String uploaderCSV(FormDataMultiPart formParams,@Context UriInfo context,@CookieParam("AMC_Webservice") String username){
+	    Utilisateur u = Utilisateurs.getUtilisateur(username);
+        String projectPath = u.getProjectPath();
 		
 	    List<FormDataBodyPart> csvs = formParams.getFields("csv");
 
