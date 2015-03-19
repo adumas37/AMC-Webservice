@@ -34,11 +34,25 @@ public class Utilisateurs {
 	 */
 	@Path("add")
 	@POST
+<<<<<<< HEAD
     public void addUtilisateur(@CookieParam("AMC_Webservice") String username){
 		if (utilisateurs.get(username)==null){
 	    	Utilisateur u = new Utilisateur(username);
 	    	utilisateurs.put(username,u);
 		}
+=======
+    public Response addUtilisateur(String username){
+
+    	Utilisateur u = new Utilisateur(username);
+    	utilisateurs.put(username,u);
+    	Utilisateurs.currentUser=u;
+    	
+    	URI uri = UriBuilder.fromUri("http://localhost:8080/REST.Test/")
+				.path("{a}")
+				.build("index.html");
+		
+		return Response.seeOther(uri).build();
+>>>>>>> refs/remotes/origin/master
     }
 	
     /**
