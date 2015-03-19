@@ -14,7 +14,9 @@ if (isset($_SESSION['username'])){
 </head>
 <body onload="chargerNotes(this)">
 	
-	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>	
+	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>		
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
 	<div id="content" class="contenu correction">
 	<input type="button" value="Afficher Notes" onclick="afficherNotes(this)" class="inputButton blueButton"/>
 	<div id="resultats"> 

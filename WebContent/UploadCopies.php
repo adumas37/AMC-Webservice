@@ -14,6 +14,8 @@ if (isset($_SESSION['username'])){
 </head>
 <body>
 	<header class="main-header">AMC Webservice - Import des copies scannées: <span id="nomProjet"></span></header>	
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>		
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
 	<div id="content" class="contenu index">
 	
 		<p> Veuillez uploader les copies scannées au format PDF </p>
