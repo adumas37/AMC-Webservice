@@ -165,7 +165,7 @@ public class CommandesAMC {
 	        String[] completeCmd = amcCmd;
 	        pb = new ProcessBuilder(completeCmd);
 	        pb.directory(new File(System.getProperty("user.dir")));//*/
-	
+	        System.out.println(System.getProperty("user.dir"));
 	        try {
 	            p = pb.start();
 	        } catch (IOException ex) {
