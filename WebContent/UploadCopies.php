@@ -14,9 +14,8 @@ if (isset($_SESSION['username'])){
 </head>
 <body>
 	<header class="main-header">AMC Webservice - Import des copies scannées: <span id="nomProjet"></span></header>	
-	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>		
 	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
-	
 	<div id="content" class="contenu index">
 	
 		<p> Veuillez uploader les copies scannées au format PDF </p>
@@ -28,6 +27,7 @@ if (isset($_SESSION['username'])){
 					<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
 				</p>
 			</copies>
+			<!-- TODO  
 			<classes id="classes">
 				<input type="button" value="Ajouter classe" onclick="addClasse()"/>
 				<p class="choixClasse">Classe: <select class="classeInput" name="classe">
@@ -38,6 +38,10 @@ if (isset($_SESSION['username'])){
 					<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
 				</p>
 			</classes>
+			<csv id ="csv">
+			-->
+				<p class="fichierCsv">CSV de la classe (.csv): <input id="csvInput" name="csv" accept=".csv" type="file">
+			</csv>
 		</form>
 		<input id="submit" type="button" value="Correction Copies" class="inputButton orangeButton" onclick="uploadFichiers(getUploadStatusThenCorrect)"/>
 		<p>

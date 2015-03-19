@@ -14,10 +14,9 @@ if (isset($_SESSION['username'])){
 </head>
 <body onload="chargerNotes(this)">
 	
-	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>	
-		<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>
+	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>		
 	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
-	
 	<div id="content" class="contenu correction">
 	<input type="button" value="Afficher Notes" onclick="afficherNotes(this)" class="inputButton blueButton"/>
 	<div id="resultats"> 
@@ -28,7 +27,8 @@ if (isset($_SESSION['username'])){
 	</div>
 		<input type="button" value="Changer le barème" class="inputButton orangeButton" onclick='changerBareme()'/>	
 		<input type="button" value="Gerer les copies" class="inputButton orangeButton" onclick='changerFichiers()'/>
-		<input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>
+		<!-- TODO <input type="button" value="Gerer les classes" class="inputButton orangeButton" onclick='changerClasses()'/>  -->
+		<input type="button" value="Gerer le csv" class="inputButton orangeButton" onclick='changerClasses()'/>
 		<!-- <form id="correct" method="post" action="rest/correction/LancerCorrection">-->
 			<input type="button" value="Relancer la correction" class="inputButton greenButton" onclick='lancerCorrection(getCorrectionStatus)'/>
 		<!-- </form> -->
@@ -43,7 +43,7 @@ if (isset($_SESSION['username'])){
 			<div id="bareme">
 			</div>
 			<p>
-				<input id="submitBareme" type="submit" value="Changer le bareme et calculer les notes" onclick="hideBareme()" class="inputButton orangeButton"/>
+				<input id="submitBareme" type="submit" value="Changer le bareme" onclick="hideBareme()" class="inputButton orangeButton"/>
 				<input id="cancelBareme" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideBareme()"/>
 			</p>
 		</form>
@@ -53,7 +53,7 @@ if (isset($_SESSION['username'])){
 			<div id="oldFiles">
 			</div>
 			<div id="newFiles">
-				<form id=uploadCopies enctype="multipart/form-data"">
+				<form id=uploadCopies enctype="multipart/form-data">
 					<div id="upload">
 						<p class="fichierCopies">Copies (.pdf): <input class="copiesPDFInput" name="file" type="file" onchange="chooseFile()"> 
 							<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
@@ -70,7 +70,7 @@ if (isset($_SESSION['username'])){
 	</div>
 	<div id="classes" style="display: none;">
 		<div id="gestionClasses">
-			<div id="oldClasses">
+			<!--  <div id="oldClasses">
 			</div>
 			<div id="newClasses">
 				<input type="button" value="Ajouter une classe" onclick="ajouterClasse()"/>
@@ -91,6 +91,15 @@ if (isset($_SESSION['username'])){
 				</form>
 				<input id="submitClasses" type="submit" value="Ajouter les classes et calculer les notes"  class="inputButton orangeButton" onclick="uploadClasses(getUploadStatusThenCorrect)"/>
 			</div>
+			-->
+			<form id="csvForm" action="rest/correction/csv" method="post" enctype="multipart/form-data">
+				<p class="fichierCsv">CSV de la classe (.csv): <input id="csvInput" name="csv" accept=".csv" type="file">
+				</p>
+			</form>
+			<p>
+				<input id="submitCSV" type="submit" value="Changer le fichier csv"  class="inputButton orangeButton"  onclick="uploadCsv(getUploadStatusCSVThenCorrect)"/>
+				<input id="cancelClasses" type="button" value="Annuler" class="inputButton orangeButton" onclick="hideClasses()"/>
+			</p>
 		</div>
 	</div>
 	<footer class="footer">Work in progress - Erwan BRIAND && Alexis DUMAS</footer>
