@@ -59,8 +59,9 @@
 						<a class="linkLatex" href="javascript:OpenLatexEditor('question1','latex','fr-fr')"><img src="src/formula_icon.png"></a>
 						<a class="linkImage" href="#" onclick="showUploadImageFunctions(this.parentNode);"><img class="linkPicture" src="src/img.png"></a>
 						<img class="imageChargee" style="display:block;margin:auto;max-width:300px;max-height:150px;" src=""/>
+						<a class="delImage" style="visibility:hidden;" href="#" onclick="deleteImageOnServer(this);"><img class="linkPicture" src="src/delImg.png">Supprimer</a>
 						<input type="file" onchange="uploadImageOnServer(this);" class="uploadImage" name="uploadImage" style="visibility: hidden; width: 1px; height: 1px"/>
-						<span class="imgNb"></span>
+						<span class="imgNb" style="visibility:hidden;"></span>
 					</div>
 					<reponses>
 						<div class="reponse">

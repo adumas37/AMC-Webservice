@@ -123,9 +123,9 @@ function chargerQuestionnaire(json){
 		<img class="linkPicture" src="src/img.png"></a> \
 		<img class="imageChargee" style="display:block;margin:auto;max-width:300px;max-height:150px;" src=""/> \
 		<a class="delImage" style="visibility:hidden;" href="#" onclick="deleteImageOnServer(this);" > \
-		<img class="linkPicture" src="src/img.png">Supprimer</a> \
+		<img class="linkPicture" src="src/delImg.png">Supprimer</a> \
 		<input type="file" onchange="uploadImageOnServer(this);" class="uploadImage" name="uploadImage" style="visibility: hidden; width: 1px; height: 1px"/> \
-		<span class="imgNb">';
+		<span class="imgNb" style="visibility:hidden;">';
 		if(typeof json.questions[i].image!= "undefined"){
 			html+=json.questions[i].image;
 			if(parseInt(json.questions[i].image.split(".")[0])>imageIndex){
