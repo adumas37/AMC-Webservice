@@ -141,12 +141,27 @@ function chargerQuestionnaire(json){
 			html += '<p class="reponse"> \
 			Reponse: <input type="text" id="reponse '+i+','+j+'" name="reponse" class="reponseInput inputText inputButton" value="'+json.questions[i].reponses[j].texte+'"/> \
 			<a class="linkLatex" href="javascript:OpenLatexEditor(\'reponse '+i+','+j+'\',\'latex\',\'fr-fr\')"><img src="src/formula_icon.png"></a> \
+			<a class="linkImage" href="#" onclick="showUploadImageFunctions(this.parentNode);" > \
+			<img class="linkPicture" src="src/img.png"></a> \
+			<img class="imageChargee" style="display:block;margin:auto;max-width:300px;max-height:150px;" src=""/> \
+			<a class="delImage" style="visibility:hidden;" href="#" onclick="deleteImageOnServer(this);" > \
+			<img class="linkPicture" src="src/delImg.png">Supprimer</a> \
+			<input type="file" onchange="uploadImageOnServer(this);" class="uploadImage" name="uploadImage" style="visibility: hidden; width: 1px; height: 1px"/> \
+			<span class="imgNb" style="visibility:hidden;">';
+			if(typeof json.questions[i].reponses[j].image!= "undefined"){
+				html+=json.questions[i].reponses[j].image;
+				if(parseInt(json.questions[i].reponses[j].image.split(".")[0])>imageIndex){
+					imageIndex=parseInt(json.questions[i].reponses[j].image.split(".")[0]);
+				}
+			}
+			html+='</span> \
 			<span class="checkbox">Bonne reponse?<input class="bonneInput" type="checkbox" name="bonne"';
 			
 			if(json.questions[i].reponses[j].correcte){html+=' checked="true"';}
 			html+='"/></span> \
 			<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span> \
 			</p>';
+			getImages(json.questions[i].reponses[j].image,document.getElementsByClassName("question")[i].getElementsByClassName("reponse"),j);
 		}
 		html += '</reponses> \
 		<options> \
@@ -262,7 +277,11 @@ function questionnaireValide(){
 				if(j>0){
 					jsonData+=',';
 				}
-				jsonData+='{"texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value.replace(/\\/g,"\\\\")+'", \
+				imgName="";
+				if(blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("imgNb")[0].innerHTML!=""){
+					imgName=blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("imgNb")[0].innerHTML;
+				}
+				jsonData+='{"image":"'+imgName+'","texte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("reponseInput")[0].value.replace(/\\/g,"\\\\")+'", \
 				"correcte":"'+blocsQR[i].getElementsByClassName("reponse")[j].getElementsByClassName("bonneInput")[0].checked+'"}';
 			}
 			jsonData+=']}';
@@ -279,8 +298,6 @@ function questionnaireValide(){
 
 function sendQuestionnaire(callback, data){
 	var jsonobj=JSON.parse(data);
-	var count = Object.keys(jsonobj).length;
-
 	var xhr = new XMLHttpRequest();
 	var url = "rest/questionnaireTools/creation";
 	xhr.open("POST", url, true);
@@ -442,6 +459,7 @@ function getImages(imgName,elementCharge,i){
 		xhr.onload = function() {
 		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
 		    	if(i>=0){
+		    		alert(elementCharge[i]);
 		    		elementCharge[i].getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
 		    		elementCharge[i].getElementsByClassName("delImage")[0].style.visibility="visible";
 		    	}else{

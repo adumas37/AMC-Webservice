@@ -90,6 +90,21 @@ public class QuestionnaireTools {
 	            //On change son nom
 	            fNew.renameTo(fOld);
 	        }
+	        for(int j=0;j<questionnaire.getQuestions()[i].getReponses().length;j++){
+	            newUpload = Utilisateurs.getCurrentUser().getProjectPath()+"N"+questionnaire.getQuestions()[i].getReponses()[j].getImage();
+	            oldUpload = Utilisateurs.getCurrentUser().getProjectPath()+questionnaire.getQuestions()[i].getReponses()[j].getImage();
+	            fNew = new File(newUpload);
+	            fOld = new File(oldUpload);
+	            if(fNew.exists()){
+	                //On a une nouvelle image pour cette question
+	                if(fOld.exists()){
+	                    //Il y en avait une ancienne, on la supprime
+	                    fOld.delete();
+	                }
+	                //On change son nom
+	                fNew.renameTo(fOld);
+	            }
+	        }
 	       
 	    }
 	    

@@ -8,6 +8,7 @@ public class Reponse implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String texte;
+	private String image;
 	private boolean correcte;
 	
 	public Reponse(String texte, boolean correcte){
@@ -34,4 +35,12 @@ public class Reponse implements Serializable{
 	public void setCorrecte(boolean correcte) {
 		this.correcte = correcte;
 	}
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
