@@ -29,6 +29,7 @@ function ajoutQuestion(elmnt){
 	question.getElementsByTagName("input")[0].value="";
 	question.getElementsByClassName("imageChargee")[0].src="";
 	question.getElementsByClassName("imgNb")[0].innerHTML="";
+	question.getElementsByClassName("delImage")[0].style.visibility="hidden";
 	var reponses = question.getElementsByTagName("reponses")[0];
 	if (reponses.childElementCount > 1 ) {
 		while (reponses.childNodes.length >=2){
@@ -386,7 +387,6 @@ var imageIndex=0;
 
 function showUploadImageFunctions(element){
 	element.getElementsByClassName('uploadImage')[0].click();
-	console.log("coucou");
 }
 function uploadImageOnServer(element){
 
