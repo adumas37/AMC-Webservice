@@ -180,18 +180,22 @@ function chargerQuestionnaire(json){
 	}
 	document.getElementById("questionnaire").innerHTML = html;
 	document.getElementById("dureeInput").value=json.duree;
+	loadimage(json);
+
 	
-	for(i=0;i<json.questions.length;i++){
+};
+function loadimage(json){
+	for(i=0;i<document.getElementsByClassName("blocQR").length;i++){
 		if(typeof json.questions[i].image!= "undefined"){
-			getImages(json.questions[i].image,document.getElementsByClassName("blocQR"),i);
+			console.log(document.getElementsByClassName("blocQR")[i].getElementsByClassName("question")[0]);
+			getImages(json.questions[i].image,document.getElementsByClassName("blocQR")[i].getElementsByClassName("question")[0]);
 		}
-		for(j=0;j<json.questions[i].reponses.length;j++){
+		for(j=0;j<document.getElementsByClassName("blocQR")[i].getElementsByClassName("reponse").length;j++){
 			if(typeof json.questions[i].reponses[j].image!= "undefined"){
-				getImages(json.questions[i].reponses[j].image,document.getElementsByClassName("blocQR")[i].getElementsByClassName("reponse"),j);
+				getImages(json.questions[i].reponses[j].image,document.getElementsByClassName("blocQR")[i].getElementsByClassName("reponse")[j]);
 			}
 		}
 	}
-	
 };
 
 function questionnaireValide(){
@@ -422,7 +426,7 @@ function showUploadImageFunctions(element){
 function uploadImageOnServer(element){
 
 	if(element.parentNode.getElementsByClassName("imgNb")[0].innerHTML!=""){
-		imageIndex=parseInt(element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML.split(".")[0]);
+		imageIndex=parseInt(element.parentNode.getElementsByClassName("imgNb")[0].innerHTML.split(".")[0]);
 		deleteImageOnServer(element);
 	}else{
 		imageIndex=imageIndex+1;
@@ -441,51 +445,41 @@ function uploadImageOnServer(element){
 	xhr.open('POST', 'rest/questionnaireTools/uploadImage', true);
 	xhr.onload = function() {
 	    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-	    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML=imageIndex+"."+extension;
-	    	element.parentNode.parentNode.getElementsByClassName("imageChargee")[0].src="";
-	    	getImages("N"+imageIndex+"."+extension,element.parentNode.parentNode,-1);
+	    	element.parentNode.getElementsByClassName("imgNb")[0].innerHTML=imageIndex+"."+extension;
+	    	element.parentNode.getElementsByClassName("imageChargee")[0].src="";
+	    	getImages("N"+imageIndex+"."+extension,element.parentNode);
 	    	setMessageVisible(false);
 	    }
 	};
 	xhr.send(fd);
 }
 function deleteImageOnServer(element){
-	var fileName=element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML;
+	var fileName=element.parentNode.getElementsByClassName("imgNb")[0].innerHTML;
 	if(fileName!=""){
 		showMessage("wait","Suppression de l'image sur le serveur...");
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', 'rest/questionnaireTools/deleteImage', true);
 		xhr.onload = function() {
 		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-		    	element.parentNode.parentNode.getElementsByClassName("imgNb")[0].innerHTML="";
-		    	element.parentNode.parentNode.getElementsByClassName("imageChargee")[0].src="";
-		    	element.parentNode.parentNode.getElementsByClassName("delImage")[0].style.visibility="hidden";
+		    	element.parentNode.getElementsByClassName("imgNb")[0].innerHTML="";
+		    	element.parentNode.getElementsByClassName("imageChargee")[0].src="";
+		    	element.parentNode.getElementsByClassName("delImage")[0].style.visibility="hidden";
 		    	setMessageVisible(false);
 		    }
 		};
 		xhr.send(fileName);
 	}
 }
-function getImages(imgName,elementCharge,i){
-	console.log(elementCharge[i]);
-
+function getImages(imgName,elementCharge){
 		if(imgName!=""){
 			var xhr = new XMLHttpRequest();
 			xhr.open('POST', 'rest/questionnaireTools/getImage', true);
 			xhr.onload = function() {
 			    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-			    	if(i>=0){
-			    		
-			    		elementCharge[i].getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
-			    		elementCharge[i].getElementsByClassName("delImage")[0].style.visibility="visible";
-			    		console.log("FINI");
-			    	}else{
-			    		elementCharge.getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
-			    		elementCharge.getElementsByClassName("delImage")[0].style.visibility="visible";
-			    	}
-		        };    
+		    		elementCharge.getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
+		    		elementCharge.getElementsByClassName("delImage")[0].style.visibility="visible";
+		    	}
 			};
 			xhr.send(imgName);
 		}
-	
 }
