@@ -9,7 +9,10 @@ function ajoutReponse(elmnt){
 	var reponse = document.getElementsByClassName("reponse")[0];
 	var reponse2 = reponse.cloneNode(true);
 	reponse2.getElementsByClassName("reponseInput")[0].value="";
-	reponse2.getElementsByTagName("span")[0].getElementsByTagName("input")[0].checked=false;
+	reponse2.getElementsByClassName("imageChargee")[0].src="";
+	reponse2.getElementsByClassName("imgNb")[0].innerHTML="";
+	reponse2.getElementsByClassName("delImage")[0].style.visibility="hidden";
+	reponse2.getElementsByClassName("bonneInput")[0].checked=false;
 	elmnt.parentNode.parentNode.parentNode.getElementsByTagName("reponses")[0].appendChild(reponse2);
 
 	// Change input id for latex formula (input id and href for latex formula button)
@@ -135,7 +138,7 @@ function chargerQuestionnaire(json){
 		}
 		html+='</span> \
 		</p><reponses>';
-		getImages(json.questions[i].image,document.getElementsByClassName("question"),i);
+		
 		
 		for(j=0;j<json.questions[i].reponses.length;j++){
 			html += '<p class="reponse"> \
@@ -161,11 +164,11 @@ function chargerQuestionnaire(json){
 			html+='"/></span> \
 			<span class="delQ"><input type="button" name="delQ" value="Supprimer reponse" onclick="supprReponse(this)" class="inputButton blueButton"/></span> \
 			</p>';
-			getImages(json.questions[i].reponses[j].image,document.getElementsByClassName("question")[i].getElementsByClassName("reponse"),j);
+			
 		}
 		html += '</reponses> \
 		<options> \
-		<span class="del"><input type="button" name="delQ" value="Supprimer question" onclick="supprQuestion(this)" class="inputButton blueButton"/></span> \
+		<span class="del"><input type="button" name="djson.questions.length;i++)elQ" value="Supprimer question" onclick="supprQuestion(this)" class="inputButton blueButton"/></span> \
 		<span class="addQ"><input type="button" name="addQ" value="Ajouter reponse" onclick="ajoutReponse(this)"  class="inputButton blueButton"/></span> \
 		<span class="checkbox">Reponses horizontales?<input type="checkbox" name="horizontal"'+ (json.questions[i].colonnes?" checked":" ")+'/></span> \
 		<span class="bareme">bareme:<input class="baremeImput inputText" name="bareme" type="number" min="1" max="20" value="'+json.questions[i].bareme+'"/></span> \
@@ -175,9 +178,20 @@ function chargerQuestionnaire(json){
 		
 		
 	}
-	
 	document.getElementById("questionnaire").innerHTML = html;
 	document.getElementById("dureeInput").value=json.duree;
+	
+	for(i=0;i<json.questions.length;i++){
+		if(typeof json.questions[i].image!= "undefined"){
+			getImages(json.questions[i].image,document.getElementsByClassName("blocQR"),i);
+		}
+		for(j=0;j<json.questions[i].reponses.length;j++){
+			if(typeof json.questions[i].reponses[j].image!= "undefined"){
+				getImages(json.questions[i].reponses[j].image,document.getElementsByClassName("blocQR")[i].getElementsByClassName("reponse"),j);
+			}
+		}
+	}
+	
 };
 
 function questionnaireValide(){
@@ -453,21 +467,25 @@ function deleteImageOnServer(element){
 	}
 }
 function getImages(imgName,elementCharge,i){
-	if(imgName!=""){
-		var xhr = new XMLHttpRequest();
-		xhr.open('POST', 'rest/questionnaireTools/getImage', true);
-		xhr.onload = function() {
-		    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-		    	if(i>=0){
-		    		alert(elementCharge[i]);
-		    		elementCharge[i].getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
-		    		elementCharge[i].getElementsByClassName("delImage")[0].style.visibility="visible";
-		    	}else{
-		    		elementCharge.getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
-		    		elementCharge.getElementsByClassName("delImage")[0].style.visibility="visible";
-		    	}
-	        };    
-		};
-		xhr.send(imgName);
-	}
+	console.log(elementCharge[i]);
+
+		if(imgName!=""){
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', 'rest/questionnaireTools/getImage', true);
+			xhr.onload = function() {
+			    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			    	if(i>=0){
+			    		
+			    		elementCharge[i].getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
+			    		elementCharge[i].getElementsByClassName("delImage")[0].style.visibility="visible";
+			    		console.log("FINI");
+			    	}else{
+			    		elementCharge.getElementsByClassName("imageChargee")[0].src="data:image/png;charset=utf-8;base64, "+xhr.responseText;
+			    		elementCharge.getElementsByClassName("delImage")[0].style.visibility="visible";
+			    	}
+		        };    
+			};
+			xhr.send(imgName);
+		}
+	
 }
