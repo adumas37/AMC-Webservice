@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['username'])){
+if (isset($_SESSION['username']) && isset($_COOKIE['AMC_Webservice'])){
 	session_set_cookie_params('0');
 	setcookie("AMC_Webservice","",0);
 	session_regenerate_id(true); 
