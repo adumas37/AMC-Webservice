@@ -111,7 +111,8 @@ public class Correction {
 				try{
 					String line;
 					while((line = buffer.readLine()) != null){
-						listFiles.add(line);
+						String[] s = line.split("/");
+						listFiles.add(s[s.length-1]);
 					}
 					
 				} finally {
@@ -167,7 +168,7 @@ public class Correction {
 	        	fileName=files.get(i).getContentDisposition().getFileName();
 	        	if (!fileName.equals("") && fileName.contains(".pdf")){
 	        		System.out.println("filename: "+fileName);
-	        		pw.println(files.get(i).getContentDisposition().getFileName());
+	        		pw.println(u.getProjectPath()+"copies/"+files.get(i).getContentDisposition().getFileName());
 	        	}
 	        }
 	        pw.close();
@@ -193,7 +194,7 @@ public class Correction {
 	@Produces("text/plain")
 	public String supprimerCopie( @PathParam("name") String name,@CookieParam("AMC_Webservice") String username) {
 		Utilisateur u = Utilisateurs.getUtilisateur(username);
-		File file = new File(u.getProjectPath() + "/copies/"+ name);
+		File file = new File(u.getProjectPath() + "/scans/"+ name);
 		if (file.exists()){
 			file.delete();
 		}
@@ -209,8 +210,8 @@ public class Correction {
 		    String line = null;
 		 
 		    while ((line = br.readLine()) != null) {
-		        
-		    	if (!line.trim().equals(name)) {
+		    	String[] s =  line.trim().split("/");
+		    	if (!s[s.length-1].equals(name)) {
 		 
 		    		pw.println(line);
 		    		pw.flush();
@@ -235,8 +236,7 @@ public class Correction {
 	@Produces(MediaType.APPLICATION_JSON)
     public String getClasses(@CookieParam("AMC_Webservice") String username) {
 		Utilisateur u = Utilisateurs.getUtilisateur(username);
-		File file = new File(u.getProjectPath() +
-							 "/copies/classes.txt");
+		File file = new File(u.getProjectPath() +"/copies/classes.txt");
 		ArrayList<String> listFiles = new ArrayList<String>();
 		String json = null;
 		
@@ -352,7 +352,7 @@ public class Correction {
 	public String lancerCorrection(@CookieParam("AMC_Webservice") String username){
 		Utilisateur u = Utilisateurs.getUtilisateur(username);
 		String projectPath = u.getProjectPath();
-		CommandesAMC.lancerCorrection(projectPath);
+		CommandesAMC.lancerCorrection(projectPath,username);
 		return "1";
 	}
 	
