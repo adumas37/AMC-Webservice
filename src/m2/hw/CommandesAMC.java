@@ -9,7 +9,7 @@ import com.sun.istack.internal.logging.Logger;
 
 public class CommandesAMC {
 
-
+	
 	
 	/**
 	 * Fonction permettant de lancer la phase de preparation d'AMC pour le projet
@@ -34,13 +34,17 @@ public class CommandesAMC {
 	public static void correctionConcatenee(String projectPath){
 		String username = Utilisateurs.getCurrentUser().getUserName();
 		
-		String[] cmd = { "sh", "-c","sleep 5 && auto-multiple-choice meptex --src "+
+		String[] cmd = { "sh", "-c","auto-multiple-choice meptex --src "+
 						 projectPath + "calage.xy --data "+projectPath+"data/ && auto-multiple-choice getimages --copy-to "+
 							 projectPath+"scans/ --list "+
 					projectPath+"copies/listeCopies.txt  && auto-multiple-choice analyse --projet "+
 							 projectPath + " --list "+ projectPath+"copies/listeCopies.txt && auto-multiple-choice note --data "+
-							 projectPath+"data/ "+
-							 projectPath+"cr/"  };
+							 projectPath+"data/ --seuil 0.15  && auto-multiple-choice association-auto --data "+
+							 projectPath+"data/  --notes-id numero --liste "+
+							 projectPath+"student.csv --liste-key numero && auto-multiple-choice export --data "+
+							 projectPath+"data/ --module CSV --fich-nom "+
+							 projectPath+"student.csv --o "+
+							 projectPath+"exports/notes.csv"  };
 		
 		executerCommande(cmd, username);
 	}
@@ -117,7 +121,7 @@ public class CommandesAMC {
 		if (projectPath.contains("/")){
 			String username = projectPath.split("/")[0];
 	
-			String[] cmd = { "sh", "-c","sleep 70 && auto-multiple-choice association-auto --data "+
+			String[] cmd = { "sh", "-c","sleep 90 && auto-multiple-choice association-auto --data "+
 							 projectPath+"data/  --notes-id  numero  --liste "+
 							 projectPath+"student.csv --liste-key  numero" };
 			
@@ -134,11 +138,9 @@ public class CommandesAMC {
 		if (projectPath.contains("/")){
 			String username = projectPath.split("/")[0];
 	
-			String[] cmd = { "auto-multiple-choice", "export", "--data",
-							 projectPath+"data",
-							 "--module", "CSV", "--fich-nom",
-							 projectPath+"student.csv",
-							 "--o",
+			String[] cmd = { "sh", "-c","sleep 110 && auto-multiple-choice export --data "+
+							 projectPath+"data --module CSV --fich-nom "+
+							 projectPath+"student.csv --o "+
 							 projectPath+"exports/notes.csv" };
 			
 			executerCommande(cmd, username);
@@ -152,11 +154,12 @@ public class CommandesAMC {
 	 */
 	private static void executerCommande(String[] amcCmd , String username){
 		try{
+			final String PATH=System.getProperty("user.home")+"/Projets-QCM";
 			ProcessBuilder pb = null;
 	        Process p = null;
 	        //TODO comment this to work with docker    remplacer sae par le nom de là ou est installé le webservice
 	        String[] dockerCmd = { "docker", "run", "-d", "-v", 
-	        					   "/home/sae/Projets-QCM:/home/sae/Projets-QCM", "dockeramc:v1"};
+	        					   PATH+":"+PATH, "dockeramc:v1"};
 	        String[] completeCmd = new String[dockerCmd.length+amcCmd.length];
 	        System.arraycopy(dockerCmd, 0, completeCmd, 0, dockerCmd.length);
 	        System.arraycopy(amcCmd, 0, completeCmd, dockerCmd.length, amcCmd.length);
