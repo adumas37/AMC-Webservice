@@ -12,8 +12,14 @@ if (isset($_POST['username'])){
 	if (($_POST['username']=="AMC"||$_POST['username']=="AMC2") && $_POST['password']=="AMC"){
 			// Utilisateur authentifie sur le serveur LDAP
 			//ldap_close($Liaison_LDAP); Enlever le comment losque le serveur sera sur le réseau ECN
-			session_set_cookie_params('31536000');
-			setcookie('AMC_Webservice',$_POST['username'],time()+2*365*86400);
+			if (isset($_POST['stayLogged'])){
+				session_set_cookie_params('31536000');
+				setcookie('AMC_Webservice',$_POST['username'],time()+2*365*86400);
+			}
+			else {
+				session_set_cookie_params('0');
+				setcookie('AMC_Webservice',$_POST['username'],0);
+			}
 			session_regenerate_id(true); 
 			$_SESSION['username']=$_POST['username'];
 			echo '<script>
@@ -31,11 +37,11 @@ if (isset($_POST['username'])){
 		}
 	
 }
-//Utilisateur déjà authéntifié pendant les dernières 24 heures
-elseif (isset ($_SESSION['username'])){
+//Utilisateur déjà authéntifié auparavant
+elseif (isset ($_SESSION['username']) && isset ($_COOKIE['AMC_Webservice'])){
 	header('location: index.php');
 }
-//Utilisateur qui tente d'accéder à la page sans passer par identification.php
+//Utilisateur qui tente d'accéder à la page sans passer par identification.php ou qui a supprimé un des deux cookies
 else
 {
 			$_SESSION['loginFailed']=true;

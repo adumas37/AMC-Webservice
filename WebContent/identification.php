@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['username'])){
+if (isset($_SESSION['username']) && isset($_COOKIE['AMC_Webservice'])){
 	header('location: index.php');
 }
 ?>
@@ -32,6 +32,7 @@ if (isset($_SESSION['username'])){
 							</p>
 							<p>Nom d'utilisateur <input id="usernameInput" type="text" name="username" value="" class="inputButton inputText"/></p>
 							<p>Mot de passe <input id="passwordInput" type="password" name="password" class="inputButton inputText"/></p>
+							<p><input type="checkbox" name="stayLogged" value="stayLogged"/>M&eacute;moriser mes identifiants</p>
 							<input type="submit" value="submit" value="Connexion" class="orangeButton inputButton"/>
 							</form><p>
 				
