@@ -104,8 +104,15 @@ function verificationClasses(){
 	}
 	return true;
 };
+function verificationCSV(){
+	if(document.getElementById("csvInput").value==""){
+		showMessage("error", "Il faut un fichier CSV comprenant la compositions de la classe !");
+		return false;
+	}
+	return true;
+};
 function uploadFichiers(callback){
-	if(uploadValide() && verificationClasses()){
+	if(uploadValide() && verificationCSV()/*TODO verificationClasses() && */){
 		var form=document.getElementById("uploadCopies");
 		var formData = new FormData(form);
 		var xhr = new XMLHttpRequest();
@@ -156,7 +163,7 @@ function lancerCorrection(callback){
 };
 function getCorrectionStatus(code){
 	if(code=='1'){
-		 document.location.href="Correction.html";
+		 document.location.href="Correction.php";
 	}else{
 		showMessage("error",code);
 	}

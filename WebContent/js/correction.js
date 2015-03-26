@@ -284,7 +284,7 @@ function verificationFichier(){
 
 function changerClasses(){
 
-	var xhr = new XMLHttpRequest();
+	/*var xhr = new XMLHttpRequest();
 	xhr.open("GET","rest/correction/getClasses",true);
 	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	
@@ -308,11 +308,12 @@ function changerClasses(){
 			newNode.appendChild(supprButton);
 			document.getElementById("oldClasses").appendChild(newNode);
 		});
+		*/
 		
 		document.getElementById("classes").style.display="block";
-		
+		/*
 	};
-	xhr.send();
+	xhr.send();*/
 };
 
 
@@ -405,6 +406,25 @@ function uploadCopies(callback){
 		xhr.send(formData);
 	}
 };
+function uploadCsv(callback){
+	if(document.getElementById("csvInput").value!=""){
+		var form=document.getElementById("csvForm");
+		var formData = new FormData(form);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST","rest/correction/csv",true);
+		xhr.onreadystatechange = function (){
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0) ) {
+				callback(xhr.responseText);
+			}
+		};
+		showMessage("wait","Upload du csv en cours...");
+		xhr.send(formData);
+	}
+	else {
+		showMessage("error","Il faut un fichier csv...");
+
+	}
+}
 function lancerCorrection(callback){
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST","rest/correction/LancerCorrection",true);
@@ -419,7 +439,7 @@ function lancerCorrection(callback){
 };
 function getCorrectionStatus(code){
 	if(code=='1'){
-		 document.location.href="Correction.html";
+		 document.location.href="Correction.php";
 	}else{
 		showMessage("error",code);
 	}
@@ -432,6 +452,14 @@ function getUploadStatusThenCorrect(code){
 		showMessage("error",code);
 	}
 };
+function getUploadStatusCSVThenCorrect(code){
+	if(code=='1'){
+		//L'upload s'est bien passé on lance la correction
+		lancerCorrection(getCorrectionStatus);
+	}else{
+		showMessage("error",code);
+	}
+}
 function getUploadStatusThenReload(code){
 	if(code=='1'){
 		//L'upload s'est bien passé on recharge la page

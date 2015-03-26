@@ -16,14 +16,15 @@ public class CommandesAMC {
 	 * @param nom
 	 * @param fileName
 	 */
-	public static void prepareProject(String fileName){
-
-			String filePath = Utilisateurs.getCurrentUser().getProjectPath()+ fileName;
-			String username = Utilisateurs.getCurrentUser().getUserName();
-	        String projectPath = Utilisateurs.getCurrentUser().getProjectPath();
+	public static void prepareProject(String fileName,String username){
+			Utilisateur u = Utilisateurs.getUtilisateur(username);
+			String filePath = u.getProjectPath()+ fileName;
+			String projectPath = u.getProjectPath();
+			String name = u.getUserName();
+	        
 	        String cmd[] = {"auto-multiple-choice", "prepare", "--mode", "s", "--prefix", projectPath, filePath};
 
-	        executerCommande(cmd, username);
+	        executerCommande(cmd, name);
 	}
 	/**
 	 * Fonction permettant de mettre en forme la commande d'AMC afin de creer les Layouts.
@@ -31,9 +32,9 @@ public class CommandesAMC {
 	 * @param projectPath
 	 */
 	
-	public static void correctionConcatenee(String projectPath){
-		String username = Utilisateurs.getCurrentUser().getUserName();
-		
+	public static void correctionConcatenee(String projectPath,String username){
+		Utilisateur u = Utilisateurs.getUtilisateur(username);
+		String name=u.getUserName();
 		String[] cmd = { "sh", "-c","auto-multiple-choice meptex --src "+
 						 projectPath + "calage.xy --data "+projectPath+"data/ && auto-multiple-choice getimages --copy-to "+
 							 projectPath+"scans/ --list "+
@@ -46,17 +47,18 @@ public class CommandesAMC {
 							 projectPath+"student.csv --o "+
 							 projectPath+"exports/notes.csv"  };
 		
-		executerCommande(cmd, username);
+		executerCommande(cmd, name);
 	}
-	public static void creationLayout(String projectPath){
-			String username = Utilisateurs.getCurrentUser().getUserName();
+	public static void creationLayout(String projectPath,String username){
+	    Utilisateur u = Utilisateurs.getUtilisateur(username);
+        String name=u.getUserName();
 	
 			String[] cmd = { "sh", "-c","sleep 5 && auto-multiple-choice meptex --src "+
 							 projectPath + "calage.xy --data "+projectPath+"data/" };
 			
-			executerCommande(cmd, username);
-		
-		
+			executerCommande(cmd, name);
+	
+			
 	}
 	/**
 	 * Fonction permettant de mettre en forme la commande d'AMC afin de generer 
@@ -64,15 +66,16 @@ public class CommandesAMC {
 	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
 	 * @param projectPath
 	 */
-	public static void generationImagesCopies(String projectPath){
+	public static void generationImagesCopies(String projectPath,String username){
 		if (projectPath.contains("/")){
-			String username = Utilisateurs.getCurrentUser().getUserName();
+		    Utilisateur u = Utilisateurs.getUtilisateur(username);
+	        String name=u.getUserName();
 
 			String[] cmd = { "sh", "-c","sleep 15 && auto-multiple-choice getimages --copy-to "+
 							 projectPath+"scans/ --list "+
 					projectPath+"copies/listeCopies.txt"};
 			
-			executerCommande(cmd, username);
+			executerCommande(cmd, name);
 		}
 		
 	}
@@ -81,15 +84,16 @@ public class CommandesAMC {
 	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
 	 * @param projectPath
 	 */
-	public static void analyseReponses(String projectPath){
+	public static void analyseReponses(String projectPath,String username){
 		if (projectPath.contains("/")){
-			String username = Utilisateurs.getCurrentUser().getUserName();
+		    Utilisateur u = Utilisateurs.getUtilisateur(username);
+            String name=u.getUserName();
 
 			String[] cmd = { "sh", "-c","sleep 40 && auto-multiple-choice analyse --projet"+
 							 projectPath + " --list "+ projectPath+"copies/listeCopies.txt"
 							 };
 			
-			executerCommande(cmd, username);
+			executerCommande(cmd, name);
 		}
 		
 	}
@@ -98,15 +102,16 @@ public class CommandesAMC {
 	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
 	 * @param projectPath
 	 */
-	public static void notation(String projectPath){
+	public static void notation(String projectPath,String username){
 		if (projectPath.contains("/")){
-			String username = Utilisateurs.getCurrentUser().getUserName();
-	
+		    Utilisateur u = Utilisateurs.getUtilisateur(username);
+            String name=u.getUserName();
+
 			String[] cmd = { "sh", "-c","sleep 70 && auto-multiple-choice note --data "+
 							 projectPath+"data/ "+
 							 projectPath+"cr/" };
 			
-			executerCommande(cmd, username);
+			executerCommande(cmd, name);
 		}
 		
 	}
@@ -134,16 +139,17 @@ public class CommandesAMC {
 	 * La chaine d'entrée doit etre sous la forme "username/project/path/"
 	 * @param projectPath
 	 */
-	public static void extractionNotesEleves(String projectPath){
+	public static void extractionNotesEleves(String projectPath,String username){
 		if (projectPath.contains("/")){
-			String username = projectPath.split("/")[0];
+		    Utilisateur u = Utilisateurs.getUtilisateur(username);
+            String name=u.getUserName();
 	
 			String[] cmd = { "sh", "-c","sleep 110 && auto-multiple-choice export --data "+
 							 projectPath+"data --module CSV --fich-nom "+
 							 projectPath+"student.csv --o "+
 							 projectPath+"exports/notes.csv" };
 			
-			executerCommande(cmd, username);
+			executerCommande(cmd, name);
 		}
 		
 	}
@@ -171,7 +177,7 @@ public class CommandesAMC {
 	        String[] completeCmd = amcCmd;
 	        pb = new ProcessBuilder(completeCmd);
 	        pb.directory(new File(System.getProperty("user.dir")));//*/
-	
+	        System.out.println(System.getProperty("user.dir"));
 	        try {
 	            p = pb.start();
 	        } catch (IOException ex) {
@@ -199,10 +205,9 @@ public class CommandesAMC {
 	    }
 	}
 	
-	public static void lancerCorrection(String projectPath){
-		
+	public static void lancerCorrection(String projectPath,String username){
 		//TODO recupererClasseCSV(classe);
-		CommandesAMC.correctionConcatenee(projectPath);
+		CommandesAMC.correctionConcatenee(projectPath,username);
 		
 		/* Version non concaténée : non fonctionnelle sans vérification de la bonne terminaison des conteneurs
 		System.out.println("Layout");

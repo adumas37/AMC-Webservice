@@ -1,3 +1,7 @@
+<?php
+session_start();
+if (isset($_SESSION['username'])){
+?>
 <!DOCTYPE html >
 <html lang="fr">
 <head>
@@ -10,7 +14,9 @@
 </head>
 <body onload="chargerNotes(this)">
 	
-	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>	
+	<header class="main-header">AMC Webservice - Correction des copies : <span id="nomProjet"></span></header>
+	<div class="ID">Logg&eacute; en tant que <?php echo $_SESSION['username'] ?></div>		
+	<div class="logout"><a href="logout.php">Se d<?php echo htmlspecialchars("é") ?>connecter</a></div>
 	<div id="content" class="contenu correction">
 	<input type="button" value="Afficher Notes" onclick="afficherNotes(this)" class="inputButton blueButton"/>
 	<div id="resultats"> 
@@ -30,7 +36,7 @@
 			<input type="submit" value="Telecharger les resultats" class="inputButton greenButton"/>
 		</form>		
 		<input type="button" value="Envoi des mails aux eleves" class="inputButton orangeButton"/>
-		<a href="index.html"><input type="button" value="Accueil" class="inputButton orangeButton"/></a>
+		<a href="index.php"><input type="button" value="Accueil" class="inputButton orangeButton"/></a>
 	</div>
 	<div id="baremePopup" style="display: none;">
 		<form id="changerBareme" method="post" action="rest/questionnaireTools/setBareme" enctype="multipart/form-data">
@@ -104,3 +110,9 @@
 
 </body>
 </html>
+<?php 
+}
+else {
+	header('location: identification.php');
+}
+?>
