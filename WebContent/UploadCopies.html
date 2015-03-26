@@ -21,6 +21,7 @@
 					<input type="button" value="Supprimer fichier" onclick="delFile(this)"/>
 				</p>
 			</copies>
+			<!-- TODO  
 			<classes id="classes">
 				<input type="button" value="Ajouter classe" onclick="addClasse()"/>
 				<p class="choixClasse">Classe: <select class="classeInput" name="classe">
@@ -31,6 +32,10 @@
 					<input type="button" value="Supprimer classe" onclick="delClasse(this)"/>
 				</p>
 			</classes>
+			<csv id ="csv">
+			-->
+				<p class="fichierCsv">CSV de la classe (.csv): <input id="csvInput" name="csv" accept=".csv" type="file">
+			</csv>
 		</form>
 		<input id="submit" type="button" value="Correction Copies" class="inputButton orangeButton" onclick="uploadFichiers(getUploadStatusThenCorrect)"/>
 		<p>
